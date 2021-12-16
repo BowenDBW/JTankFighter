@@ -5,24 +5,50 @@ import com.server.ServerUnit.ServerModel;
 import java.awt.*;
 
 public class Bomb implements Actor {
-    public final Rectangle border = new Rectangle(0, 0, 0, 0);
-    public String size;
-    public int inner, middle, outer, jumpDistance;
-    public ServerModel gameModel;
+    private final Rectangle border = new Rectangle(0, 0, 0, 0);
+    private String size;
+    private int inner, middle, outer, jumpDistance;
+    private ServerModel gameModel;
     private int xPos, yPos;
     private int animationTime;
+
+
+
+    public ServerModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(ServerModel gameModel) {
+        this.gameModel = gameModel;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
 
 
     public Bomb(int a, int b, String size, ServerModel gameModel) {
         this.size = size;
         this.gameModel = gameModel;
-        if (size.equals("big")) {
+        if ("big".equals(size)) {
             inner = 6;
             middle = 9;
             outer = 14;
             jumpDistance = 8;
             animationTime = 6;
-        } else if (size.equals("small")) {
+        } else if ("small".equals(size)) {
             inner = 2;
             middle = 4;
             outer = 7;
@@ -34,6 +60,7 @@ public class Bomb implements Actor {
         yPos = b;
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.fillOval(xPos - outer, yPos - outer, 2 * outer, 2 * outer);
@@ -43,8 +70,9 @@ public class Bomb implements Actor {
         g.fillOval(xPos - inner, yPos - inner, 2 * inner, 2 * inner);
     }
 
+    @Override
     public void move() {
-        if (gameModel.gamePaused) {
+        if (gameModel.isGamePaused()) {
             gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
             return;
         }
@@ -61,20 +89,24 @@ public class Bomb implements Actor {
         gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
     }
 
+    @Override
     public Rectangle getBorder() {
         return border;
     }
 
+    @Override
     public String getType() {
         return "bomb";
     }
 
 
     //未使用的方法
+    @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    @Override
     public boolean wallDestroyed() {
         return false;
     }

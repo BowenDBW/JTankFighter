@@ -4,15 +4,47 @@ import javax.swing.*;
 import java.awt.*;
 
 
-//这个类表示服务器的图形界面
+/**
+ * @author chenhong
+ */ //这个类表示服务器的图形界面
 public class ServerView extends JFrame {
 
-    public DrawingPanel mainPanel;
-    public JButton createServer, exit, pauseAndResume, help;
-    public JTextField messageField;
-    public JButton sendMessage;
-    public ServerController controller;
-    public ServerModel model;
+    private DrawingPanel mainPanel;
+    private JButton createServer, exit, pauseAndResume, help;
+    private JTextField messageField;
+    private JButton sendMessage;
+    private ServerController controller;
+    private ServerModel model;
+
+    public DrawingPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public JButton getCreateServer() {
+        return createServer;
+    }
+
+    public JButton getExit() {
+        return exit;
+    }
+
+    public JButton getPauseAndResume() {
+        return pauseAndResume;
+    }
+
+
+    public JButton getHelp() {
+        return help;
+    }
+
+
+    public JTextField getMessageField() {
+        return messageField;
+    }
+
+    public JButton getSendMessage() {
+        return sendMessage;
+    }
 
     public ServerView() {
 

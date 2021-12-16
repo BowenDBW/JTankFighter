@@ -21,89 +21,36 @@ public class DrawingPanel extends JPanel {
     private final Image P1Image;
     private final Image P2Image;
 
-    public int getP1Life() {
-        return P1Life;
-    }
 
-    public int getGreen() {
-        return green;
-    }
-
-    public void setGreen(int green) {
-        this.green = green;
-    }
-
-    public int getRed() {
-        return red;
-    }
-
-    public void setRed(int red) {
-        this.red = red;
-    }
-
-    public int getBlue() {
-        return blue;
-    }
-
-    public void setBlue(int blue) {
-        this.blue = blue;
-    }
-
-    public int getEnemyLeft() {
-        return EnemyLeft;
-    }
 
     public void setEnemyLeft(int enemyLeft) {
         EnemyLeft = enemyLeft;
     }
 
-    public int getLevelIndex() {
-        return LevelIndex;
-    }
 
     public void setLevelIndex(int levelIndex) {
         LevelIndex = levelIndex;
     }
 
-    public Image getP1Image() {
-        return P1Image;
-    }
-
-    public Image getP2Image() {
-        return P2Image;
-    }
 
     public void setP1Life(int p1Life) {
         P1Life = p1Life;
     }
 
-    public int getP2Life() {
-        return P2Life;
-    }
 
     public void setP2Life(int p2Life) {
         P2Life = p2Life;
     }
 
-    public int getP1Score() {
-        return P1Score;
-    }
 
     public void setP1Score(int p1Score) {
         P1Score = p1Score;
-    }
-
-    public int getP2Score() {
-        return P2Score;
     }
 
     public void setP2Score(int p2Score) {
         P2Score = p2Score;
     }
 
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
 
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;

@@ -9,11 +9,40 @@ public class Wall implements Actor {
     private final int yPos;
     private final Rectangle[] border = new Rectangle[4];
     public boolean[] shape = new boolean[16];
-    public boolean wallDestroyed;
-    public boolean bulletDestroyed;
-    public ServerModel gameModel;
-    public Image wall;
-    public Rectangle generalBorder;
+    private boolean wallDestroyed;
+    private boolean bulletDestroyed;
+    private ServerModel gameModel;
+    private Image wall;
+    private Rectangle generalBorder;
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public boolean isWallDestroyed() {
+        return wallDestroyed;
+    }
+
+    public void setWallDestroyed(boolean wallDestroyed) {
+        this.wallDestroyed = wallDestroyed;
+    }
+
+    public boolean isBulletDestroyed() {
+        return bulletDestroyed;
+    }
+
+
+    public ServerModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(ServerModel gameModel) {
+        this.gameModel = gameModel;
+    }
 
 
     public Wall(int a, int b, ServerModel gameModel) {
@@ -38,34 +67,42 @@ public class Wall implements Actor {
         if (orientation == 0) {
             border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);
             border[1] = new Rectangle(xPos + 1, yPos - 11, 11, 11);
-            for (int i = 8; i < 12; i++)
+            for (int i = 8; i < 12; i++) {
                 shape[i] = true;
-            for (int i = 12; i < 16; i++)
+            }
+            for (int i = 12; i < 16; i++) {
                 shape[i] = true;
+            }
         }
         if (orientation == 1) {
             border[2] = new Rectangle(xPos - 11, yPos + 1, 11, 11);
             border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++) {
                 shape[i] = true;
-            for (int i = 4; i < 8; i++)
+            }
+            for (int i = 4; i < 8; i++) {
                 shape[i] = true;
+            }
         }
         if (orientation == 2) {
             border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);
             border[2] = new Rectangle(xPos - 11, yPos + 1, 11, 11);
-            for (int i = 3; i <= 15; i += 4)
+            for (int i = 3; i <= 15; i += 4) {
                 shape[i] = true;
-            for (int i = 2; i <= 14; i += 4)
+            }
+            for (int i = 2; i <= 14; i += 4) {
                 shape[i] = true;
+            }
         }
         if (orientation == 3) {
             border[1] = new Rectangle(xPos + 1, yPos - 11, 11, 11);
             border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
-            for (int i = 1; i <= 13; i += 4)
+            for (int i = 1; i <= 13; i += 4) {
                 shape[i] = true;
-            for (int i = 0; i <= 12; i += 4)
+            }
+            for (int i = 0; i <= 12; i += 4) {
                 shape[i] = true;
+            }
         }
     }
 
@@ -78,14 +115,16 @@ public class Wall implements Actor {
             if (border[0] != null && border[1] != null && bulletDirection == 1) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[1])) {
                     if (shape[1] && shape[2]) {
-                        for (int i = 4; i < 8; i++)
+                        for (int i = 4; i < 8; i++) {
                             shape[i] = true;
+                        }
                         border[0] = null;
                         border[1] = null;
                     }
                     if (!shape[1] || !shape[2]) {
-                        for (int i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -93,14 +132,16 @@ public class Wall implements Actor {
             if (border[0] != null && border[1] != null && bulletDirection == 0) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[1])) {
                     if (shape[5] && shape[6]) {
-                        for (int i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++) {
                             shape[i] = true;
+                        }
                         border[0] = null;
                         border[1] = null;
                     }
                     if (!shape[5] || !shape[6]) {
-                        for (int i = 4; i < 8; i++)
+                        for (int i = 4; i < 8; i++) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -108,14 +149,16 @@ public class Wall implements Actor {
             if (border[2] != null && border[3] != null && bulletDirection == 1) {
                 if (bullet.intersects(border[2]) && bullet.intersects(border[3])) {
                     if (shape[9] && shape[10]) {
-                        for (int i = 12; i < 16; i++)
+                        for (int i = 12; i < 16; i++) {
                             shape[i] = true;
+                        }
                         border[2] = null;
                         border[3] = null;
                     }
                     if (!shape[9] || !shape[10]) {
-                        for (int i = 8; i < 12; i++)
+                        for (int i = 8; i < 12; i++) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -123,14 +166,16 @@ public class Wall implements Actor {
             if (border[2] != null && border[3] != null && bulletDirection == 0) {
                 if (bullet.intersects(border[2]) && bullet.intersects(border[3])) {
                     if (shape[13] && shape[14]) {
-                        for (int i = 8; i < 12; i++)
+                        for (int i = 8; i < 12; i++) {
                             shape[i] = true;
+                        }
                         border[2] = null;
                         border[3] = null;
                     }
                     if (!shape[13] || !shape[14]) {
-                        for (int i = 12; i < 16; i++)
+                        for (int i = 12; i < 16; i++) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -138,14 +183,16 @@ public class Wall implements Actor {
             if (border[0] != null && border[2] != null && bulletDirection == 3) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[2])) {
                     if (shape[4] && shape[8]) {
-                        for (int i = 1; i <= 13; i += 4)
+                        for (int i = 1; i <= 13; i += 4) {
                             shape[i] = true;
+                        }
                         border[0] = null;
                         border[2] = null;
                     }
                     if (!shape[4] || !shape[8]) {
-                        for (int i = 0; i <= 12; i += 4)
+                        for (int i = 0; i <= 12; i += 4) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -153,14 +200,16 @@ public class Wall implements Actor {
             if (border[0] != null && border[2] != null && bulletDirection == 2) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[2])) {
                     if (shape[5] && shape[9]) {
-                        for (int i = 0; i <= 12; i += 4)
+                        for (int i = 0; i <= 12; i += 4) {
                             shape[i] = true;
+                        }
                         border[0] = null;
                         border[2] = null;
                     }
                     if (!shape[5] || !shape[9]) {
-                        for (int i = 1; i <= 13; i += 4)
+                        for (int i = 1; i <= 13; i += 4) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -168,14 +217,16 @@ public class Wall implements Actor {
             if (border[1] != null && border[3] != null && bulletDirection == 3) {
                 if (bullet.intersects(border[1]) && bullet.intersects(border[3])) {
                     if (shape[6] && shape[10]) {
-                        for (int i = 3; i <= 15; i += 4)
+                        for (int i = 3; i <= 15; i += 4) {
                             shape[i] = true;
+                        }
                         border[1] = null;
                         border[3] = null;
                     }
                     if (!shape[6] || !shape[10]) {
-                        for (int i = 2; i <= 14; i += 4)
+                        for (int i = 2; i <= 14; i += 4) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -183,14 +234,16 @@ public class Wall implements Actor {
             if (border[1] != null && border[3] != null && bulletDirection == 2) {
                 if (bullet.intersects(border[1]) && bullet.intersects(border[3])) {
                     if (shape[7] && shape[11]) {
-                        for (int i = 2; i <= 14; i += 4)
+                        for (int i = 2; i <= 14; i += 4) {
                             shape[i] = true;
+                        }
                         border[1] = null;
                         border[3] = null;
                     }
                     if (!shape[7] || !shape[11]) {
-                        for (int i = 3; i <= 15; i += 4)
+                        for (int i = 3; i <= 15; i += 4) {
                             shape[i] = true;
+                        }
                     }
                     bulletDestroyed = true;
                 }
@@ -200,8 +253,9 @@ public class Wall implements Actor {
         if (bulletPower == 2) {
             if (border[0] != null && border[1] != null && (bulletDirection == 0 || bulletDirection == 1)) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[1])) {
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 8; i++) {
                         shape[i] = true;
+                    }
                     border[0] = null;
                     border[1] = null;
                     bulletDestroyed = true;
@@ -209,8 +263,9 @@ public class Wall implements Actor {
             }
             if (border[2] != null && border[3] != null && (bulletDirection == 0 || bulletDirection == 1)) {
                 if (bullet.intersects(border[2]) && bullet.intersects(border[3])) {
-                    for (int i = 8; i < 16; i++)
+                    for (int i = 8; i < 16; i++) {
                         shape[i] = true;
+                    }
                     border[2] = null;
                     border[3] = null;
                     bulletDestroyed = true;
@@ -218,10 +273,12 @@ public class Wall implements Actor {
             }
             if (border[0] != null && border[2] != null && (bulletDirection == 2 || bulletDirection == 3)) {
                 if (bullet.intersects(border[0]) && bullet.intersects(border[2])) {
-                    for (int i = 0; i <= 12; i += 4)
+                    for (int i = 0; i <= 12; i += 4) {
                         shape[i] = true;
-                    for (int i = 1; i <= 13; i += 4)
+                    }
+                    for (int i = 1; i <= 13; i += 4) {
                         shape[i] = true;
+                    }
                     border[0] = null;
                     border[2] = null;
                     bulletDestroyed = true;
@@ -229,10 +286,12 @@ public class Wall implements Actor {
             }
             if (border[1] != null && border[3] != null && (bulletDirection == 2 || bulletDirection == 3)) {
                 if (bullet.intersects(border[1]) && bullet.intersects(border[3])) {
-                    for (int i = 2; i <= 14; i += 4)
+                    for (int i = 2; i <= 14; i += 4) {
                         shape[i] = true;
-                    for (int i = 3; i <= 15; i += 4)
+                    }
+                    for (int i = 3; i <= 15; i += 4) {
                         shape[i] = true;
+                    }
                     border[1] = null;
                     border[3] = null;
                     bulletDestroyed = true;
@@ -273,8 +332,9 @@ public class Wall implements Actor {
                         shape[5] = true;
                     }
                     bulletDestroyed = true;
-                    if (shape[4] && shape[5])
+                    if (shape[4] && shape[5]) {
                         border[0] = null;
+                    }
                 }
                 if (bullet.intersects(b) && !shape[1]) {
                     if (bulletPower == 1) {
@@ -288,8 +348,9 @@ public class Wall implements Actor {
                         shape[5] = true;
                     }
                     bulletDestroyed = true;
-                    if (shape[4] && shape[5])
+                    if (shape[4] && shape[5]) {
                         border[0] = null;
+                    }
                 }
 
             }
@@ -320,8 +381,9 @@ public class Wall implements Actor {
                             shape[0] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[0] && shape[1])
+                        if (shape[0] && shape[1]) {
                             border[0] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[5]) {
                         if (bulletPower == 1) {
@@ -335,8 +397,9 @@ public class Wall implements Actor {
                             shape[0] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[0] && shape[1])
+                        if (shape[0] && shape[1]) {
                             border[0] = null;
+                        }
                     }
                 }
             }
@@ -367,8 +430,9 @@ public class Wall implements Actor {
                             shape[5] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[1] && shape[5])
+                        if (shape[1] && shape[5]) {
                             border[0] = null;
+                        }
                     }
                     if (bullet.intersects(c) && !shape[4]) {
                         if (bulletPower == 1) {
@@ -382,8 +446,9 @@ public class Wall implements Actor {
                             shape[5] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[1] && shape[5])
+                        if (shape[1] && shape[5]) {
                             border[0] = null;
+                        }
                     }
                 }
             }
@@ -414,8 +479,9 @@ public class Wall implements Actor {
                             shape[4] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[0] && shape[4])
+                        if (shape[0] && shape[4]) {
                             border[0] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[5]) {
                         if (bulletPower == 1) {
@@ -429,8 +495,9 @@ public class Wall implements Actor {
                             shape[4] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[0] && shape[4])
+                        if (shape[0] && shape[4]) {
                             border[0] = null;
+                        }
                     }
                 }
             }
@@ -467,8 +534,9 @@ public class Wall implements Actor {
 						shape[7] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[6] && shape[7])
-						border[1] = null;
+					if (shape[6] && shape[7]) {
+                        border[1] = null;
+                    }
 				}
 				if (bullet.intersects(b) && !shape[3]) {
 					if (bulletPower == 1) {
@@ -482,8 +550,9 @@ public class Wall implements Actor {
 						shape[7] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[6] && shape[7])
-						border[1] = null;
+					if (shape[6] && shape[7]) {
+                        border[1] = null;
+                    }
 				}
 			}
 			if (border[1] != null) {
@@ -513,8 +582,9 @@ public class Wall implements Actor {
                             shape[3] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[2] && shape[3])
+                        if (shape[2] && shape[3]) {
                             border[1] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[7]) {
                         if (bulletPower == 1) {
@@ -528,8 +598,9 @@ public class Wall implements Actor {
                             shape[3] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[2] && shape[3])
+                        if (shape[2] && shape[3]) {
                             border[1] = null;
+                        }
                     }
                 }
             }
@@ -560,8 +631,9 @@ public class Wall implements Actor {
                             shape[7] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[3] && shape[7])
+                        if (shape[3] && shape[7]) {
                             border[1] = null;
+                        }
                     }
                     if (bullet.intersects(c) && !shape[6]) {
                         if (bulletPower == 1) {
@@ -575,8 +647,9 @@ public class Wall implements Actor {
                             shape[7] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[3] && shape[7])
+                        if (shape[3] && shape[7]) {
                             border[1] = null;
+                        }
                     }
                 }
             }
@@ -607,8 +680,9 @@ public class Wall implements Actor {
                             shape[6] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[2] && shape[6])
+                        if (shape[2] && shape[6]) {
                             border[1] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[7]) {
                         if (bulletPower == 1) {
@@ -622,8 +696,9 @@ public class Wall implements Actor {
                             shape[6] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[2] && shape[6])
+                        if (shape[2] && shape[6]) {
                             border[1] = null;
+                        }
                     }
                 }
             }
@@ -661,8 +736,9 @@ public class Wall implements Actor {
 						shape[13] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[12] && shape[13])
-						border[2] = null;
+					if (shape[12] && shape[13]) {
+                        border[2] = null;
+                    }
 				}
 				if (bullet.intersects(b) && !shape[9]) {
 					if (bulletPower == 1) {
@@ -676,8 +752,9 @@ public class Wall implements Actor {
 						shape[13] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[12] && shape[13])
-						border[2] = null;
+					if (shape[12] && shape[13]) {
+                        border[2] = null;
+                    }
 				}
 			}
 			if (border[2] != null) {
@@ -707,8 +784,9 @@ public class Wall implements Actor {
                             shape[9] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[8] && shape[9])
+                        if (shape[8] && shape[9]) {
                             border[2] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[13]) {
                         if (bulletPower == 1) {
@@ -722,8 +800,9 @@ public class Wall implements Actor {
                             shape[9] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[8] && shape[9])
+                        if (shape[8] && shape[9]) {
                             border[2] = null;
+                        }
                     }
                 }
             }
@@ -754,8 +833,9 @@ public class Wall implements Actor {
                             shape[13] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[9] && shape[13])
+                        if (shape[9] && shape[13]) {
                             border[2] = null;
+                        }
                     }
                     if (bullet.intersects(c) && !shape[12]) {
                         if (bulletPower == 1) {
@@ -769,8 +849,9 @@ public class Wall implements Actor {
                             shape[13] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[9] && shape[13])
+                        if (shape[9] && shape[13]) {
                             border[2] = null;
+                        }
                     }
                 }
             }
@@ -801,8 +882,9 @@ public class Wall implements Actor {
                             shape[12] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[8] && shape[12])
+                        if (shape[8] && shape[12]) {
                             border[2] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[13]) {
                         if (bulletPower == 1) {
@@ -816,8 +898,9 @@ public class Wall implements Actor {
                             shape[12] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[8] && shape[12])
+                        if (shape[8] && shape[12]) {
                             border[2] = null;
+                        }
                     }
                 }
             }
@@ -855,8 +938,9 @@ public class Wall implements Actor {
 						shape[15] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[14] && shape[15])
-						border[3] = null;
+					if (shape[14] && shape[15]) {
+                        border[3] = null;
+                    }
 				}
 				if (bullet.intersects(b) && !shape[11]) {
 					if (bulletPower == 1) {
@@ -870,8 +954,9 @@ public class Wall implements Actor {
 						shape[15] = true;
 					}
 					bulletDestroyed = true;
-					if (shape[14] && shape[15])
-						border[3] = null;
+					if (shape[14] && shape[15]) {
+                        border[3] = null;
+                    }
 				}
 			}
 			if (border[3] != null) {
@@ -901,8 +986,9 @@ public class Wall implements Actor {
                             shape[11] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[10] && shape[11])
+                        if (shape[10] && shape[11]) {
                             border[3] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[15]) {
                         if (bulletPower == 1) {
@@ -916,8 +1002,9 @@ public class Wall implements Actor {
                             shape[11] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[10] && shape[11])
+                        if (shape[10] && shape[11]) {
                             border[3] = null;
+                        }
                     }
                 }
             }
@@ -948,8 +1035,9 @@ public class Wall implements Actor {
                             shape[15] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[11] && shape[15])
+                        if (shape[11] && shape[15]) {
                             border[3] = null;
+                        }
                     }
                     if (bullet.intersects(c) && !shape[14]) {
                         if (bulletPower == 1) {
@@ -963,8 +1051,9 @@ public class Wall implements Actor {
                             shape[15] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[11] && shape[15])
+                        if (shape[11] && shape[15]) {
                             border[3] = null;
+                        }
                     }
                 }
             }
@@ -995,8 +1084,9 @@ public class Wall implements Actor {
                             shape[14] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[10] && shape[14])
+                        if (shape[10] && shape[14]) {
                             border[3] = null;
+                        }
                     }
                     if (bullet.intersects(d) && !shape[15]) {
                         if (bulletPower == 1) {
@@ -1010,8 +1100,9 @@ public class Wall implements Actor {
                             shape[14] = true;
                         }
                         bulletDestroyed = true;
-                        if (shape[10] && shape[14])
+                        if (shape[10] && shape[14]) {
                             border[3] = null;
+                        }
                     }
                 }
             }
@@ -1020,83 +1111,109 @@ public class Wall implements Actor {
         //write changes to the outputs
         gameModel.outputLine += "w" + xPos + "," + yPos + ",";
         for (boolean b : shape) {
-            if (b)
+            if (b) {
                 gameModel.outputLine += "1";
-            else
+            } else {
                 gameModel.outputLine += "0";
+            }
         }
         gameModel.outputLine += ";";
 
     }
 //===========================================================================================
 
+    @Override
     public boolean wallDestroyed() {
-        if (wallDestroyed)
+        if (wallDestroyed) {
             return true;
+        }
         wallDestroyed = true;
-        for (boolean b : shape)
+        for (boolean b : shape) {
             if (!b) {
                 wallDestroyed = false;
                 break;
             }
+        }
         return wallDestroyed;
     }
 
 
+    @Override
     public Rectangle getBorder() {
         return generalBorder;
     }
 
+    @Override
     public Rectangle[] getDetailedBorder() {
         return border;
     }
 
 
+    @Override
     public void draw(Graphics g) {
-        if (wallDestroyed)
+        if (wallDestroyed) {
             return;
+        }
         g.drawImage(wall, xPos - 12, yPos - 12, null);
         g.setColor(new Color(128, 64, 0));
-        if (shape[0])
+        if (shape[0]) {
             g.fillRect(xPos - 12, yPos - 12, 7, 7);
-        if (shape[1])
+        }
+        if (shape[1]) {
             g.fillRect(xPos - 6, yPos - 12, 7, 7);
-        if (shape[2])
+        }
+        if (shape[2]) {
             g.fillRect(xPos, yPos - 12, 7, 7);
-        if (shape[3])
+        }
+        if (shape[3]) {
             g.fillRect(xPos + 6, yPos - 12, 7, 7);
-        if (shape[4])
+        }
+        if (shape[4]) {
             g.fillRect(xPos - 12, yPos - 6, 7, 7);
-        if (shape[5])
+        }
+        if (shape[5]) {
             g.fillRect(xPos - 6, yPos - 6, 7, 7);
-        if (shape[6])
+        }
+        if (shape[6]) {
             g.fillRect(xPos, yPos - 6, 7, 7);
-        if (shape[7])
+        }
+        if (shape[7]) {
             g.fillRect(xPos + 6, yPos - 6, 7, 7);
-        if (shape[8])
+        }
+        if (shape[8]) {
             g.fillRect(xPos - 12, yPos, 7, 7);
-        if (shape[9])
+        }
+        if (shape[9]) {
             g.fillRect(xPos - 6, yPos, 7, 7);
-        if (shape[10])
+        }
+        if (shape[10]) {
             g.fillRect(xPos, yPos, 7, 7);
-        if (shape[11])
+        }
+        if (shape[11]) {
             g.fillRect(xPos + 6, yPos, 7, 7);
-        if (shape[12])
+        }
+        if (shape[12]) {
             g.fillRect(xPos - 12, yPos + 6, 7, 7);
-        if (shape[13])
+        }
+        if (shape[13]) {
             g.fillRect(xPos - 6, yPos + 6, 7, 7);
-        if (shape[14])
+        }
+        if (shape[14]) {
             g.fillRect(xPos, yPos + 6, 7, 7);
-        if (shape[15])
+        }
+        if (shape[15]) {
             g.fillRect(xPos + 6, yPos + 6, 7, 7);
+        }
     }
 
+    @Override
     public String getType() {
         return "wall";
     }
 
 
     //未使用的方法
+    @Override
     public void move() {
     }
 }

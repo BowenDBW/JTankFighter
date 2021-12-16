@@ -6,9 +6,10 @@ import java.awt.event.KeyEvent;
 
 //这个类处理来自服务器视图的输入
 public class ServerController {
-    public ServerView view;
-    public ServerModel model;
-    public int helpMessageCount = 1;
+    private ServerView view;
+    private ServerModel model;
+    private int helpMessageCount = 1;
+
 
     //一个玩家坦克的参考
 
@@ -17,16 +18,16 @@ public class ServerController {
         model = thisModel;
 
         //操作发送消息按钮的动作
-        view.sendMessage.addActionListener(e -> {
-            if (!model.gameStarted) {
+        view.getSendMessage().addActionListener(e -> {
+            if (!model.isGameStarted()) {
                 model.addMessage("还没有和别的玩家联上, 无法发送对话");
                 return;
             }
 
-            if (!view.messageField.getText().equals("")) {
-                model.addMessage("主机端玩家说：" + view.messageField.getText());
-                model.playerTypedMessage += "m" + view.messageField.getText() + ";";
-                view.messageField.setText("");
+            if (!"".equals(view.getMessageField().getText())) {
+                model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+                view.getMessageField().setText("");
             } else {
                 model.addMessage("对话内容不能为空");
             }
@@ -34,21 +35,22 @@ public class ServerController {
         );
 
         //操作建立主机按钮的动作
-        view.createServer.addActionListener(e -> {
-            if (!model.serverCreated)
-                model.t.start();
+        view.getCreateServer().addActionListener(e -> {
+            if (!model.isServerCreated()) {
+                model.getT().start();
+            }
         }
         );
 
         //操作暂停/继续按钮的动作
-        view.pauseAndResume.addActionListener(e -> {
-            model.pausePressed = true;
-            if (!model.gameOver && model.gameStarted) {
-                if (!model.gamePaused) {
-                    model.gamePaused = true;
+        view.getPauseAndResume().addActionListener(e -> {
+            model.setPausePressed(true);
+            if (!model.isGameOver() && model.isGameStarted()) {
+                if (!model.isGamePaused()) {
+                    model.setGamePaused(true);
                     model.addMessage("主机端玩家暂停了游戏");
                 } else {
-                    model.gamePaused = false;
+                    model.setGamePaused(false);
                     model.addMessage("主机端玩家取消了暂停");
                 }
             }
@@ -56,7 +58,7 @@ public class ServerController {
         );
 
         //操作帮助按钮的动作
-        view.help.addActionListener(e -> {
+        view.getHelp().addActionListener(e -> {
             model.addMessage("-------------------------------坦克大战 1.0-----------------------------------");
             model.addMessage("帮助: 按 s 键开火,  按键盘的方向键来控制坦克的移动");
             model.addMessage("如果按键没有反应请 1. 关闭大写功能; 2. 用 tab键切换 ");
@@ -66,11 +68,12 @@ public class ServerController {
         );
 
         //操作退出按钮的动作
-        view.exit.addActionListener(e -> System.exit(0)
+        view.getExit().addActionListener(e -> System.exit(0)
         );
 
         //操作输入按钮的动作
-        view.messageField.addKeyListener(new KeyAdapter() {
+        view.getMessageField().addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (helpMessageCount > 0) {
                     model.addMessage("提示：用\"tab\"键可以自由切换于控制界面和对话界面");
@@ -79,10 +82,10 @@ public class ServerController {
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (!view.messageField.getText().equals("")) {
-                        model.addMessage("主机端玩家说：" + view.messageField.getText());
-                        model.playerTypedMessage += "m" + view.messageField.getText() + ";";
-                        view.messageField.setText("");
+                    if (!"".equals(view.getMessageField().getText())) {
+                        model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                        model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+                        view.getMessageField().setText("");
                     } else {
                         model.addMessage("对话内容不能为空");
                     }
@@ -90,67 +93,76 @@ public class ServerController {
             }
         });
 
-        JPanel temp = view.mainPanel;
+        JPanel temp = view.getMainPanel();
         temp.addKeyListener(new KeyAdapter() {
+                                @Override
                                 public void keyPressed(KeyEvent e) {
-                                    if (model.P1 != null) {
+                                    if (model.getP1() != null) {
                                         if (e.getKeyCode() == KeyEvent.VK_UP) {
-                                            model.P1.moveUp = true;
-                                            model.P1.moveDown = false;
-                                            model.P1.moveLeft = false;
-                                            model.P1.moveRight = false;
+                                            model.getP1().setMoveUp(true);
+                                            model.getP1().setMoveDown(false);
+                                            model.getP1().setMoveLeft(false);
+                                            model.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                                            model.P1.moveDown = true;
-                                            model.P1.moveUp = false;
-                                            model.P1.moveLeft = false;
-                                            model.P1.moveRight = false;
+                                            model.getP1().setMoveDown(true);
+                                            model.getP1().setMoveUp(false);
+                                            model.getP1().setMoveLeft(false);
+                                            model.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                                            model.P1.moveLeft = true;
-                                            model.P1.moveUp = false;
-                                            model.P1.moveDown = false;
-                                            model.P1.moveRight = false;
+                                            model.getP1().setMoveLeft(true);
+                                            model.getP1().setMoveUp(false);
+                                            model.getP1().setMoveDown(false);
+                                            model.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                                            model.P1.moveLeft = false;
-                                            model.P1.moveUp = false;
-                                            model.P1.moveDown = false;
-                                            model.P1.moveRight = true;
+                                            model.getP1().setMoveLeft(false);
+                                            model.getP1().setMoveUp(false);
+                                            model.getP1().setMoveDown(false);
+                                            model.getP1().setMoveRight(true);
                                         }
-                                        if (e.getKeyChar() == 's')
-                                            model.P1.fire = true;
+                                        if (e.getKeyChar() == 's') {
+                                            model.getP1().setFire(true);
+                                        }
 
                                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                                            if (!view.messageField.getText().equals("")) {
-                                                model.addMessage("主机端玩家说：" + view.messageField.getText());
-                                                model.playerTypedMessage += "m" + view.messageField.getText() + ";";
-                                                view.messageField.setText("");
+                                            if (!"".equals(view.getMessageField().getText())) {
+                                                model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                                                model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+                                                view.getMessageField().setText("");
                                             }
                                         }
 
-                                        if (e.getKeyChar() == 'y' && model.gameOver && !model.serverVoteYes) {
-                                            model.serverVoteYes = true;
+                                        if (e.getKeyChar() == 'y' && model.isGameOver() && !model.isServerVoteYes()) {
+                                            model.setServerVoteYes(true);
                                             model.addMessage("等待用户端玩家的回应...");
                                         }
 
-                                        if (e.getKeyChar() == 'n' && model.gameOver)
-                                            model.serverVoteNo = true;
+                                        if (e.getKeyChar() == 'n' && model.isGameOver()) {
+                                            model.setServerVoteNo(true);
+                                        }
                                     }
                                 }
 
+                                @Override
                                 public void keyReleased(KeyEvent e) {
-                                    if (model.P1 != null) {
-                                        if (e.getKeyCode() == KeyEvent.VK_UP)
-                                            model.P1.moveUp = false;
-                                        if (e.getKeyCode() == KeyEvent.VK_DOWN)
-                                            model.P1.moveDown = false;
-                                        if (e.getKeyCode() == KeyEvent.VK_LEFT)
-                                            model.P1.moveLeft = false;
-                                        if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-                                            model.P1.moveRight = false;
-                                        if (e.getKeyChar() == 's')
-                                            model.P1.fire = false;
+                                    if (model.getP1() != null) {
+                                        if (e.getKeyCode() == KeyEvent.VK_UP) {
+                                            model.getP1().setMoveUp(false);
+                                        }
+                                        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                                            model.getP1().setMoveDown(false);
+                                        }
+                                        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                                            model.getP1().setMoveLeft(false);
+                                        }
+                                        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                                            model.getP1().setMoveRight(false);
+                                        }
+                                        if (e.getKeyChar() == 's') {
+                                            model.getP1().setFire(false);
+                                        }
                                     }
                                 }
                             }

@@ -6,26 +6,75 @@ import com.server.ServerUnit.ServerModel;
 import java.awt.*;
 
 public class Enemy implements Actor {
-    public static int frozenTime;
-    public static int frozenMoment;
-    public final int UP = 0;
-    public final int DOWN = 1;
-    public final int LEFT = 2;
-    public final int size = 12;
-    public final Rectangle map = new Rectangle(35, 35, 452, 452);
-    public int numberOfBullet;
-    public int coolDownTime;
-    public int type;
-    public int speed;
-    public int direction;
-    public int interval;
-    public int health;
-    public int xPos, yPos, xVPos, yVPos;
-    public Rectangle border;
-    public boolean flashing;
-    public double firePossibility;
+    private static int frozenTime;
+    private static int frozenMoment;
+    private final int UP = 0;
+    private final int DOWN = 1;
+    private final int LEFT = 2;
+    private final int size = 12;
+    private final Rectangle map = new Rectangle(35, 35, 452, 452);
+    private int numberOfBullet;
+    private int coolDownTime;
+    private int type;
+    private int speed;
+    private int direction;
+    private int interval;
+    private int health;
+    private int xPos, yPos, xVPos, yVPos;
+    private Rectangle border;
+    private boolean flashing;
+    private double firePossibility;
     public Image[] textures;
-    public ServerModel gameModel;
+    private ServerModel gameModel;
+
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    
+    public int getsType() {
+        return type;
+    }
+
+    public static void setFrozenTime(int frozenTime) {
+        Enemy.frozenTime = frozenTime;
+    }
+
+    public static void setFrozenMoment(int frozenMoment) {
+        Enemy.frozenMoment = frozenMoment;
+    }
+
+
+    public int getNumberOfBullet() {
+        return numberOfBullet;
+    }
+
+    public void setNumberOfBullet(int numberOfBullet) {
+        this.numberOfBullet = numberOfBullet;
+    }
+
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
 
     public Enemy(int type, boolean flashing, int xPos, int yPos, ServerModel gameModel) {
         this.type = type;
@@ -70,13 +119,14 @@ public class Enemy implements Actor {
 
     }
 
+    @Override
     public void move() {
-        if (gameModel.gamePaused) {
+        if (gameModel.isGamePaused()) {
             writeToOutputLine();
             return;
         }
 
-        if (frozenTime > ServerModel.gameFlow - frozenMoment) {
+        if (frozenTime > ServerModel.getGameFlow() - frozenMoment) {
             writeToOutputLine();
             return;
         }
@@ -84,8 +134,9 @@ public class Enemy implements Actor {
 
         //敌方坦克在一个周期内将会朝着相同的方向继续移动（如果不与其他对象相互影响）
         //在每个周期结束时，它将转向新的方向
-        if (interval > 0)
+        if (interval > 0) {
             interval--;
+        }
         if (interval == 0) {
             interval = (int) (Math.random() * 200);
             int newDirection = (int) (Math.random() * 4);
@@ -104,8 +155,9 @@ public class Enemy implements Actor {
 
         //完全随机决定是否要发射一颗子弹，敌方坦克不能开火
         //如果第一个不是摧毁的子弹
-        if (coolDownTime > 0)
+        if (coolDownTime > 0) {
             coolDownTime--;
+        }
         if (Math.random() > firePossibility && coolDownTime == 0 && numberOfBullet > 0) {
             //获得子弹方向
             int c = direction;
@@ -134,8 +186,9 @@ public class Enemy implements Actor {
             //添加子弹
             gameModel.addActor(new Bullet(a, b, c, d, 1, this, gameModel));
             coolDownTime = 7;
-            if (type == 3)
+            if (type == 3) {
                 coolDownTime = 5;
+            }
             numberOfBullet--;
         }
 
@@ -179,14 +232,15 @@ public class Enemy implements Actor {
                 if (this != gameModel.actors[i]) {
                     if (border.intersects(gameModel.actors[i].getBorder())) {
                         //静态对象，例如河流，墙等等
-                        if (gameModel.actors[i].getType().equals("steelWall") ||
-                                gameModel.actors[i].getType().equals("wall")) {
+                        if ("steelWall".equals(gameModel.actors[i].getType()) ||
+                                "wall".equals(gameModel.actors[i].getType())) {
                             if (!gameModel.actors[i].wallDestroyed()) {
                                 for (int j = 0; j < gameModel.actors[i].getDetailedBorder().length; j++) {
                                     if (gameModel.actors[i].getDetailedBorder()[j] != null) {
                                         if (gameModel.actors[i].getDetailedBorder()[j].intersects(border)) {
-                                            if (Math.random() > 0.90)
+                                            if (Math.random() > 0.90) {
                                                 direction = (int) (Math.random() * 4);
+                                            }
                                             xPos = xVPos;
                                             yPos = yVPos;
                                             border.x = xPos - size;
@@ -197,10 +251,11 @@ public class Enemy implements Actor {
                                     }
                                 }
                             }
-                        } else if (gameModel.actors[i].getType().equals("river") ||
-                                gameModel.actors[i].getType().equals("base")) {
-                            if (Math.random() > 0.90)
+                        } else if ("river".equals(gameModel.actors[i].getType()) ||
+                                "base".equals(gameModel.actors[i].getType())) {
+                            if (Math.random() > 0.90) {
                                 direction = (int) (Math.random() * 4);
+                            }
                             xPos = xVPos;
                             yPos = yVPos;
                             border.x = xPos - size;
@@ -209,8 +264,8 @@ public class Enemy implements Actor {
                             return;
                         }
                         //其他对象，其他的坦克
-                        if (gameModel.actors[i].getType().equals("Player") ||
-                                gameModel.actors[i].getType().equals("enemy")) {
+                        if ("Player".equals(gameModel.actors[i].getType()) ||
+                                "enemy".equals(gameModel.actors[i].getType())) {
                             if (!borderTemp.intersects(gameModel.actors[i].getBorder())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
@@ -239,21 +294,27 @@ public class Enemy implements Actor {
         ///当坦克是90度倾斜时，找到坦克的虚拟位置，使用虚拟位置调整坦克的真实位置
         int a = (xPos - 10) / 25;
         int b = (xPos - 10) % 25;
-        if (b < 7)
+        if (b < 7) {
             b = 0;
-        if (b > 18)
+        }
+        if (b > 18) {
             b = 25;
-        if ((b < 19 && b > 6) || xPos < 17 || xPos > 492)
+        }
+        if ((b < 19 && b > 6) || xPos < 17 || xPos > 492) {
             b = 13;
+        }
         xVPos = a * 25 + b + 10;
         int c = (yPos - 10) / 25;
         int d = (yPos - 10) % 25;
-        if (d < 7)
+        if (d < 7) {
             d = 0;
-        if (d > 18)
+        }
+        if (d > 18) {
             d = 25;
-        if ((d < 19 && d > 6) || yPos < 17 || yPos > 492)
+        }
+        if ((d < 19 && d > 6) || yPos < 17 || yPos > 492) {
             d = 13;
+        }
         yVPos = c * 25 + d + 10;
         writeToOutputLine();
     }
@@ -262,31 +323,33 @@ public class Enemy implements Actor {
         //将变化写入输出行
         gameModel.outputLine += "n" + xPos + "," + yPos + ",";
         int textureIndex;
-        if (flashing && ServerModel.gameFlow % 10 > 4) {
-            if (type == 1)
+        if (flashing && ServerModel.getGameFlow() % 10 > 4) {
+            if (type == 1) {
                 textureIndex = 42 + direction;
-            else if (type == 2)
+            } else if (type == 2) {
                 textureIndex = 6 + direction;
-            else if (type == 3)
+            } else if (type == 3) {
                 textureIndex = 14 + direction;
-            else
+            } else {
                 textureIndex = 34 + direction;
+            }
         } else {
-            if (type == 1)
+            if (type == 1) {
                 textureIndex = 38 + direction;
-            else if (type == 2)
+            } else if (type == 2) {
                 textureIndex = 2 + direction;
-            else if (type == 3)
+            } else if (type == 3) {
                 textureIndex = 10 + direction;
-            else {
-                if (health == 3)
+            } else {
+                if (health == 3) {
                     textureIndex = 18 + direction;
-                else if (health == 2)
+                } else if (health == 2) {
                     textureIndex = 22 + direction;
-                else if (health == 1)
+                } else if (health == 1) {
                     textureIndex = 26 + direction;
-                else
+                } else {
                     textureIndex = 30 + direction;
+                }
             }
         }
         gameModel.outputLine += "" + textureIndex + ";";
@@ -295,16 +358,17 @@ public class Enemy implements Actor {
 
     //如果敌方坦克打出一颗子弹，判断会发生什么
     public void hurt() {
-        if (flashing)
+        if (flashing) {
             gameModel.addActor(new PowerUp(gameModel));
+        }
         flashing = false;
         boolean death = false;
-        if (type != 4)
+        if (type != 4) {
             death = true;
-        else {
-            if (health == 0)
+        } else {
+            if (health == 0) {
                 death = true;
-            else {
+            } else {
                 if (health == 3) {
                     System.arraycopy(textures, 4, textures, 0, 4);
                 } else if (health == 2) {
@@ -317,33 +381,45 @@ public class Enemy implements Actor {
         }
 
         if (death) {
-            Level.NoOfEnemy--;
-            Level.deathCount++;
+
+            int noOfEnemy = Level.getNoOfEnemy();
+            noOfEnemy--;
+            Level.setNoOfEnemy(noOfEnemy);
+
+            int deathCount = Level.getDeathCount();
+            deathCount++;
+            Level.setDeathCount(deathCount);
             gameModel.removeActor(this);
             gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
         }
     }
 
+    @Override
     public String getType() {
         return "enemy";
     }
 
+    @Override
     public void draw(Graphics g) {
-        if (flashing && ServerModel.gameFlow % 10 > 4)
+        if (flashing && ServerModel.getGameFlow() % 10 > 4) {
             g.drawImage(textures[textures.length - 4 + direction], xPos - size, yPos - size, null);
-        else
+        } else {
             g.drawImage(textures[direction], xPos - size, yPos - size, null);
+        }
     }
 
+    @Override
     public Rectangle getBorder() {
         return border;
     }
 
     //未使用的方法
+    @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    @Override
     public boolean wallDestroyed() {
         return false;
     }

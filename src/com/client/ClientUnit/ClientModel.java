@@ -48,37 +48,11 @@ public class ClientModel implements ActionListener {
     private boolean moveRight;
     private boolean fire;
 
-    public static int getGameFlow() {
-        return gameFlow;
-    }
 
     public ClientView getView() {
         return view;
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
-
-    public PrintWriter getOut() {
-        return out;
-    }
-
-    public BufferedReader getIn() {
-        return in;
-    }
-
-    public String getFromServer() {
-        return fromServer;
-    }
-
-    public String getFromUser() {
-        return fromUser;
-    }
-
-    public String getServerIP() {
-        return serverIP;
-    }
 
     public boolean isServerConnected() {
         return serverConnected;
@@ -96,33 +70,11 @@ public class ClientModel implements ActionListener {
         return gameOver;
     }
 
-    public boolean isServerVote() {
-        return serverVote;
-    }
 
     public boolean isClientVoteYes() {
         return clientVoteYes;
     }
 
-    public boolean isClientVoteNo() {
-        return clientVoteNo;
-    }
-
-    public boolean isPausePressed() {
-        return pausePressed;
-    }
-
-    public String[] getMessageQueue() {
-        return messageQueue;
-    }
-
-    public int getMessageIndex() {
-        return messageIndex;
-    }
-
-    public String getPlayerTypedMessage() {
-        return playerTypedMessage;
-    }
 
     public Image[] getTextures() {
         return textures;
@@ -140,65 +92,11 @@ public class ClientModel implements ActionListener {
         return drawingList;
     }
 
-    public boolean isMoveUp() {
-        return moveUp;
-    }
-
-    public boolean isMoveDown() {
-        return moveDown;
-    }
-
-    public boolean isMoveLeft() {
-        return moveLeft;
-    }
-
-    public boolean isMoveRight() {
-        return moveRight;
-    }
-
-    public boolean isFire() {
-        return fire;
-    }
-
-    public static void setGameFlow(int gameFlow) {
-        ClientModel.gameFlow = gameFlow;
-    }
-
-    public void setView(ClientView view) {
-        this.view = view;
-    }
-
-    public void setClientSocket(Socket clientSocket) {
-        this.clientSocket = clientSocket;
-    }
-
-    public void setOut(PrintWriter out) {
-        this.out = out;
-    }
-
-    public void setIn(BufferedReader in) {
-        this.in = in;
-    }
-
-    public void setFromServer(String fromServer) {
-        this.fromServer = fromServer;
-    }
-
-    public void setFromUser(String fromUser) {
-        this.fromUser = fromUser;
-    }
 
     public void setServerIP(String serverIP) {
         this.serverIP = serverIP;
     }
 
-    public void setServerConnected(boolean serverConnected) {
-        this.serverConnected = serverConnected;
-    }
-
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
-    }
 
     public void setGamePaused(boolean gamePaused) {
         this.gamePaused = gamePaused;
@@ -224,25 +122,11 @@ public class ClientModel implements ActionListener {
         this.pausePressed = pausePressed;
     }
 
-    public void setMessageQueue(String[] messageQueue) {
-        this.messageQueue = messageQueue;
-    }
-
-    public void setMessageIndex(int messageIndex) {
-        this.messageIndex = messageIndex;
-    }
-
-    public void setPlayerTypedMessage(String playerTypedMessage) {
-        this.playerTypedMessage = playerTypedMessage;
-    }
 
     public void setTextures(Image[] textures) {
         this.textures = textures;
     }
 
-    public void setT(Ticker t) {
-        this.t = t;
-    }
 
     public void setDrawingList(int k, Actor actor) {
         this.drawingList[k] = actor;

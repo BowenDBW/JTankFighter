@@ -4,16 +4,67 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
+/**
+ * @author chenhong
+ */
 public class SteelWall implements Actor {
     public boolean[] shape = new boolean[4];
-    public boolean wallDestroyed;
-    public boolean bulletDestroyed;
-    public ServerModel gameModel;
-    public Image steelWall;
-    public Rectangle generalBorder;
+    private boolean wallDestroyed;
+    private boolean bulletDestroyed;
+    private ServerModel gameModel;
+    private Image steelWall;
+    private Rectangle generalBorder;
     private final int xPos;
     private final int yPos;
     private final Rectangle[] border = new Rectangle[4];
+
+    public boolean isWallDestroyed() {
+        return wallDestroyed;
+    }
+
+    public void setWallDestroyed(boolean wallDestroyed) {
+        this.wallDestroyed = wallDestroyed;
+    }
+
+    public boolean isBulletDestroyed() {
+        return bulletDestroyed;
+    }
+
+    public void setBulletDestroyed(boolean bulletDestroyed) {
+        this.bulletDestroyed = bulletDestroyed;
+    }
+
+    public ServerModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(ServerModel gameModel) {
+        this.gameModel = gameModel;
+    }
+
+    public Image getSteelWall() {
+        return steelWall;
+    }
+
+    public void setSteelWall(Image steelWall) {
+        this.steelWall = steelWall;
+    }
+
+    public Rectangle getGeneralBorder() {
+        return generalBorder;
+    }
+
+    public void setGeneralBorder(Rectangle generalBorder) {
+        this.generalBorder = generalBorder;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
 
     public SteelWall(int a, int b, ServerModel gameModel) {
         this.gameModel = gameModel;
@@ -76,8 +127,9 @@ public class SteelWall implements Actor {
         if (bulletPower == 1) {
             for (int i = 0; i < 4; i++) {
                 if (border[i] != null) {
-                    if (bullet.intersects(border[i]))
+                    if (bullet.intersects(border[i])) {
                         bulletDestroyed = true;
+                    }
                 }
             }
         }
@@ -85,51 +137,64 @@ public class SteelWall implements Actor {
         //将变化写入输出行
         gameModel.outputLine += "s" + xPos + "," + yPos + ",";
         for (boolean b : shape) {
-            if (b)
+            if (b) {
                 gameModel.outputLine += "1";
-            else
+            } else {
                 gameModel.outputLine += "0";
+            }
         }
         gameModel.outputLine += ";";
 
     }
 
+    @Override
     public boolean wallDestroyed() {
-        if (wallDestroyed)
+        if (wallDestroyed) {
             return true;
+        }
         return border[0] == null && border[1] == null && border[2] == null && border[3] == null;
     }
 
+    @Override
     public Rectangle getBorder() {
         return generalBorder;
     }
 
+    @Override
     public Rectangle[] getDetailedBorder() {
         return border;
     }
 
+    @Override
     public void draw(Graphics g) {
-        if (wallDestroyed)
+        if (wallDestroyed) {
             return;
+        }
 
         g.drawImage(steelWall, xPos - 12, yPos - 12, null);
         g.setColor(new Color(128, 64, 0));
-        if (shape[0])
+        if (shape[0]) {
             g.fillRect(xPos - 12, yPos - 12, 13, 13);
-        if (shape[1])
+        }
+        if (shape[1]) {
             g.fillRect(xPos, yPos - 12, 13, 13);
-        if (shape[2])
+        }
+        if (shape[2]) {
             g.fillRect(xPos - 12, yPos, 13, 13);
-        if (shape[3])
+        }
+        if (shape[3]) {
             g.fillRect(xPos, yPos, 13, 13);
+        }
     }
 
+    @Override
     public String getType() {
         return "steelWall";
     }
 
 
     //未使用的方法
+    @Override
     public void move() {
     }
 }

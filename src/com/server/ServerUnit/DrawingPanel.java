@@ -5,19 +5,29 @@ import com.server.ConponentPack.Actor;
 import javax.swing.*;
 import java.awt.*;
 
-//drawingPanel类属于服务器程序
+/**
+ * @author chenhong
+ */ //drawingPanel类属于服务器程序
 public class DrawingPanel extends JPanel {
-    public Image offScreenImage;
+    private Image offScreenImage;
 
     //这些是指出在serverModel都是真实的东西的参考
     public String[] messageQueue;
     public Actor[] actors;
-    public boolean gameStarted;
-    public int green, red, blue;
+    private boolean gameStarted;
+    private int green, red, blue;
 
     public DrawingPanel() {
     }
 
+
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+
+    @Override
     public void paintComponent(Graphics g) {
         Graphics offScreenGraphics;
         if (offScreenImage == null) {
@@ -37,29 +47,34 @@ public class DrawingPanel extends JPanel {
             g.drawRect(10, 10, 501, 501);
 
             //制作坦克等等
-            if (actors != null)
-                for (Actor actor : actors)
-                    if (actor != null)
+            if (actors != null) {
+                for (Actor actor : actors) {
+                    if (actor != null) {
                         actor.draw(g);
+                    }
+                }
+            }
 
             //制作级别关卡
             g.setColor(new Color(81, 111, 230));
-            g.drawString("第  " + Level.currentLevel + "  关", 527, 39);
-            g.drawString("敌人数 =  " + Level.enemyLeft, 527, 79);
+            g.drawString("第  " + Level.getCurrentLevel() + "  关", 527, 39);
+            g.drawString("敌人数 =  " + Level.getEnemyLeft(), 527, 79);
 
             //制作获胜场景
-            if (Level.winningCount > 150) {
-                int temp = Level.winningCount - 150;
-                if (temp * 10 > 300)
+            if (Level.getWinningCount() > 150) {
+                int temp = Level.getWinningCount() - 150;
+                if (temp * 10 > 300) {
                     temp = 30;
-                if (Level.winningCount > 470)
-                    temp = 500 - Level.winningCount;
+                }
+                if (Level.getWinningCount() > 470) {
+                    temp = 500 - Level.getWinningCount();
+                }
                 g.setColor(Color.gray);
                 g.fillRect(11, 11, 500, temp * 10);
                 g.fillRect(11, 500 - temp * 10, 500, (1 + temp) * 10 + 2);
 
-                if (Level.winningCount > 190 && Level.winningCount < 470) {
-                    if (Level.winningCount > 400) {
+                if (Level.getWinningCount() > 190 && Level.getWinningCount() < 470) {
+                    if (Level.getWinningCount() > 400) {
                         red += (int) ((128 - red) * 0.2);
                         green += (int) ((128 - green) * 0.2);
                     }
@@ -78,10 +93,11 @@ public class DrawingPanel extends JPanel {
         g.setColor(new Color(255, 255, 255));
         if (messageQueue != null) {
             for (int i = 0; i < 8; i++) {
-                if (messageQueue[i] != null)
+                if (messageQueue[i] != null) {
                     g.drawString(messageQueue[i], 5, 12 + i * 16);
-                else
+                } else {
                     break;
+                }
             }
         }
     }

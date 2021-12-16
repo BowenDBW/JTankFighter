@@ -2,33 +2,70 @@ package com.server.ServerUnit;
 
 import com.server.ConponentPack.*;
 
-//服务器端的类
+/**
+ * @author chenhong
+ */ //服务器端的类
 //因为只有一层对象,所以在这个类是一个静态变量
 public class Level {
-    public static int currentLevel = 0;
-    public static int enemySpawnTime = 150;
-    public static int enemyLeft = 20;
-    public static int deathCount = 0;
-    public static int maxNoEnemy = 3;
-    public static int NoOfEnemy = 0;
+    private static int currentLevel = 0;
+    private static int enemySpawnTime = 150;
+    private static int enemyLeft = 20;
+    private static int deathCount = 0;
+    private static int maxNoEnemy = 3;
+    private static int NoOfEnemy = 0;
     public static int[] enemySequence;
 
     //制作获胜场景所需的变量
-    public static int winningCount;
+    private static int winningCount;
+
+    public static int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public static int getEnemyLeft() {
+        return enemyLeft;
+    }
+
+    public static int getDeathCount() {
+        return deathCount;
+    }
+
+    public static void setDeathCount(int deathCount) {
+        Level.deathCount = deathCount;
+    }
+
+    public static int getNoOfEnemy() {
+        return NoOfEnemy;
+    }
+
+    public static void setNoOfEnemy(int noOfEnemy) {
+        NoOfEnemy = noOfEnemy;
+    }
+
+    public static int getWinningCount() {
+        return winningCount;
+    }
+
+    public static void setWinningCount(int winningCount) {
+        Level.winningCount = winningCount;
+    }
 
     public static void loadLevel(ServerModel gameModel) {
         //增加关卡数量
         currentLevel++;
 
         //每次加载一个新的关卡将增加难度
-        if (enemySpawnTime > 30)
+        if (enemySpawnTime > 30) {
             enemySpawnTime -= 10;
-        if (maxNoEnemy < 10 && (currentLevel % 2 == 0))
+        }
+        if (maxNoEnemy < 10 && (currentLevel % 2 == 0)) {
             maxNoEnemy++;
+        }
 
         //从上个关卡清除所有东西
-        for (int i = 0; i < 400; i++)
+        for (int i = 0; i < 400; i++) {
             gameModel.actors[i] = null;
+        }
 
         //启动时各关卡共享
         enemyLeft = 20;
@@ -258,33 +295,43 @@ public class Level {
             loadLevel(gameModel, level);
         }
 
-        gameModel.addActor(gameModel.P1);
-        gameModel.addActor(gameModel.P2);
+        gameModel.addActor(gameModel.getP1());
+        gameModel.addActor(gameModel.getP2());
     }
 
     public static void loadLevel(ServerModel gameModel, String[] level) {
         for (int i = 0; i < level.length; i++) {
-            if (level[i].equals("##"))
+            if ("##".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
-            if (level[i].equals("#0"))
+            }
+            if ("#0".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
-            if (level[i].equals("#1"))
+            }
+            if ("#1".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
-            if (level[i].equals("#2"))
+            }
+            if ("#2".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2, gameModel));
-            if (level[i].equals("#3"))
+            }
+            if ("#3".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
-            if (level[i].equals("ss"))
+            }
+            if ("ss".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
-            if (level[i].equals("s0"))
+            }
+            if ("s0".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
-            if (level[i].equals("s1"))
+            }
+            if ("s1".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
-            if (level[i].equals("s2"))
+            }
+            if ("s2".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
-            if (level[i].equals("s3"))
+            }
+            if ("s3".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
-            if (level[i].equals("$$")) {
+            }
+            if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
                     if (gameModel.actors[j] == null) {
                         gameModel.actors[j] = new Grass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
@@ -292,13 +339,14 @@ public class Level {
                     }
                 }
             }
-            if (level[i].equals("=="))
+            if ("==".equals(level[i])) {
                 gameModel.addActor(new River(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
+            }
         }
     }
 
     public static void spawnEnemy(ServerModel gameModel) {
-        if (NoOfEnemy < maxNoEnemy && enemyLeft > 0 && (ServerModel.gameFlow % enemySpawnTime == 0)) {
+        if (NoOfEnemy < maxNoEnemy && enemyLeft > 0 && (ServerModel.getGameFlow() % enemySpawnTime == 0)) {
             int xPos = 23 + (20 - enemyLeft) % 3 * 238;
             boolean flashing = (enemyLeft % 3 == 0);
             gameModel.addActor(new Enemy(enemySequence[20 - enemyLeft], flashing, xPos, 23, gameModel));

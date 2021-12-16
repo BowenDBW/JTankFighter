@@ -6,11 +6,59 @@ import java.awt.*;
 public class Base implements Actor {
 
     private final Rectangle border;
-    public Image base;
-    public int xPos, yPos;
-    public ServerModel gameModel;
-    public int steelWallTime;
-    public boolean baseKilled;
+    private Image base;
+    private int xPos, yPos;
+    private ServerModel gameModel;
+    private int steelWallTime;
+    private boolean baseKilled;
+
+    public Image getBase() {
+        return base;
+    }
+
+    public void setBase(Image base) {
+        this.base = base;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public ServerModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(ServerModel gameModel) {
+        this.gameModel = gameModel;
+    }
+
+    public int getSteelWallTime() {
+        return steelWallTime;
+    }
+
+    public void setSteelWallTime(int steelWallTime) {
+        this.steelWallTime = steelWallTime;
+    }
+
+    public boolean isBaseKilled() {
+        return baseKilled;
+    }
+
+    public void setBaseKilled(boolean baseKilled) {
+        this.baseKilled = baseKilled;
+    }
 
     public Base(ServerModel gameModel) {
         this.gameModel = gameModel;
@@ -21,6 +69,7 @@ public class Base implements Actor {
 
     }
 
+    @Override
     public Rectangle getBorder() {
 
         return border;
@@ -28,8 +77,9 @@ public class Base implements Actor {
 
     public void doom() {
         base = gameModel.textures[1];
-        if (!baseKilled)
+        if (!baseKilled) {
             gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+        }
         baseKilled = true;
 
         //记录变化到输出行
@@ -37,6 +87,7 @@ public class Base implements Actor {
 
     }
 
+    @Override
     public void move() {
         if (steelWallTime == 600) {
             SteelWall temp = new SteelWall(248, 498, 2, gameModel);
@@ -55,7 +106,9 @@ public class Base implements Actor {
             gameModel.actors[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }
-        if (steelWallTime > 0) steelWallTime--;
+        if (steelWallTime > 0) {
+            steelWallTime--;
+        }
         if (steelWallTime == 1) {
             Wall temp = new Wall(248, 498, 2, gameModel);
             gameModel.actors[0] = temp;
@@ -79,27 +132,32 @@ public class Base implements Actor {
         //记录变化到输出行
         gameModel.outputLine += type + xPos + "," + yPos + ",";
 		for (boolean b : shape) {
-			if (b)
-				gameModel.outputLine += "1";
-			else
-				gameModel.outputLine += "0";
+			if (b) {
+                gameModel.outputLine += "1";
+            } else {
+                gameModel.outputLine += "0";
+            }
 		}
         gameModel.outputLine += ";";
     }
 
+    @Override
     public String getType() {
         return "base";
     }
 
+    @Override
     public void draw(Graphics g) {
         g.drawImage(base, xPos - 12, yPos - 12, null);
     }
 
     //未使用的方法
+    @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    @Override
     public boolean wallDestroyed() {
         return false;
     }

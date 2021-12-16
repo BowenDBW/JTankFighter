@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 public class Ticker implements Runnable {
 
-    ActionListener al;
-    Thread t;
-    int delay;
+    private ActionListener al;
+    private Thread t;
+    private int delay;
     private boolean isTicking;
 
     public Ticker(int i) {
