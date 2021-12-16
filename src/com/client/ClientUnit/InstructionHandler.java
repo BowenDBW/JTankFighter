@@ -2,11 +2,15 @@ package com.client.ClientUnit;//该类从服务器程序解码指令字符串,�
 
 import com.client.ConponentPack.*;
 
-//由客户端程序可读
+/**
+ * @author chenhong
+ * 由客户端程序可读
+ */
 public class InstructionHandler {
     public static void handleInstruction(ClientModel gameModel, String instruction) {
-        if (instruction.length() == 0)
+        if (instruction.length() == 0) {
             return;
+        }
 
         int i = 0;
         while (i < instruction.length()) {
@@ -19,20 +23,20 @@ public class InstructionHandler {
             }
 
             //指令“L”开头是负载水平,其次是“L”数量水平指数
-            if (perInstruction.substring(0, 1).equals("L")) {
+            if ("L".equals(perInstruction.substring(0, 1))) {
                 Level.loadLevel(gameModel, Integer.parseInt(perInstruction.substring(1, 2)));
                 return;
             }
 
             //指令“w”开头意味着一些事情改变了在墙上的对象
-            if (perInstruction.substring(0, 1).equals("w")) {
+            if ("w".equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 boolean[] shape = new boolean[16];
                 StringBuilder temp = new StringBuilder();
                 int j = 1;
                 //得到x的位置
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -41,7 +45,7 @@ public class InstructionHandler {
 
                 //得到y的位置
                 temp = new StringBuilder();
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -51,31 +55,31 @@ public class InstructionHandler {
                 //墙的详细的边界
                 for (int k = 0; k < 16; k++) {
 
-                    shape[k] = perInstruction.substring(j, j + 1).equals("1");
+                    shape[k] = "1".equals(perInstruction.substring(j, j + 1));
                     j++;
                 }
 
                 //执行指令
-                for (int k = 0; k < gameModel.drawingList.length; k++) {
-                    if (gameModel.drawingList[k] != null) {
-                        if (gameModel.drawingList[k].getXPos() == xPos && gameModel.drawingList[k].getYPos() == yPos) {
+                for (int k = 0; k < gameModel.getDrawingList().length; k++) {
+                    if (gameModel.getDrawingList(k) != null) {
+                        if (gameModel.getDrawingList(k).getXPos() == xPos && gameModel.getDrawingList(k).getYPos() == yPos) {
                             Wall tempWall = new Wall(xPos, yPos, 4);
                             tempWall.shape = shape;
-                            gameModel.drawingList[k] = tempWall;
+                            gameModel.setDrawingList(k, tempWall);
                         }
                     }
                 }
             }
 
             //指令“s”开头意味着一些事情改变了一个铁墙对象
-            if (perInstruction.substring(0, 1).equals("s")) {
+            if ("s".equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 boolean[] shape = new boolean[4];
                 StringBuilder temp = new StringBuilder();
                 int j = 1;
                 //得到x的位置
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -84,7 +88,7 @@ public class InstructionHandler {
 
                 //得到y的位置
                 temp = new StringBuilder();
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -93,36 +97,37 @@ public class InstructionHandler {
 
                 //详细的钢墙边境
                 for (int k = 0; k < 4; k++) {
-                    shape[k] = perInstruction.substring(j, j + 1).equals("1");
+                    shape[k] = "1".equals(perInstruction.substring(j, j + 1));
                     j++;
                 }
 
                 //执行指令
-                for (int k = 0; k < gameModel.drawingList.length; k++) {
-                    if (gameModel.drawingList[k] != null) {
-                        if (gameModel.drawingList[k].getXPos() == xPos && gameModel.drawingList[k].getYPos() == yPos) {
+                for (int k = 0; k < gameModel.getDrawingList().length; k++) {
+                    if (gameModel.getDrawingList()[k] != null) {
+                        if (gameModel.getDrawingList()[k].getXPos() == xPos && gameModel.getDrawingList()[k].getYPos() == yPos) {
                             SteelWall tempWall = new SteelWall(xPos, yPos, 4, gameModel);
                             tempWall.shape = shape;
-                            gameModel.drawingList[k] = tempWall;
+                            gameModel.getDrawingList()[k] = tempWall;
                         }
                     }
                 }
             }
 
             //指令“b”开头意味着基地已被摧毁
-            if (perInstruction.substring(0, 1).equals("b")) {
-                gameModel.drawingList[4] = new NormalObject(260, 498, gameModel, "base", 1);
+            if ("b".equals(perInstruction.substring(0, 1))) {
+                Actor actor = new NormalObject(260, 498, gameModel, "base", 1);
+                gameModel.setDrawingList(4, actor);
             }
 
             //指令“n”开头显示正常的对象,如坦克、启动符号
-            if (perInstruction.substring(0, 1).equals("n")) {
+            if ("n".equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 int textureIndex;
                 StringBuilder temp = new StringBuilder();
                 int j = 1;
                 //得到x对象的位置
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -131,7 +136,7 @@ public class InstructionHandler {
 
                 //得到y对象的位置
                 temp = new StringBuilder();
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -152,14 +157,14 @@ public class InstructionHandler {
 
 
             //指令“t”开头表明子弹
-            if (perInstruction.substring(0, 1).equals("t")) {
+            if ("t".equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 int direction;
                 StringBuilder temp = new StringBuilder();
                 int j = 1;
                 //得到x子弹的位置
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -168,7 +173,7 @@ public class InstructionHandler {
 
                 //得到y子弹的位置
                 temp = new StringBuilder();
-                while (!perInstruction.substring(j, j + 1).equals(",")) {
+                while (!",".equals(perInstruction.substring(j, j + 1))) {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
@@ -217,10 +222,11 @@ public class InstructionHandler {
                     temp.append(perInstruction.charAt(j));
                     j++;
                 }
-                if (temp.toString().equals("small"))
+                if ("small".equals(temp.toString())) {
                     size = 1;
-                else
+                } else {
                     size = 0;
+                }
                 //执行指令
                 gameModel.addActor(new Bomb(xPos, yPos, size, gameModel));
             }
@@ -261,7 +267,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.view.mainPanel.EnemyLeft = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setEnemyLeft(Integer.parseInt(temp.toString()));
 
                 //得到水平指数
                 temp = new StringBuilder();
@@ -270,7 +276,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.view.mainPanel.LevelIndex = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setLevelIndex(Integer.parseInt(temp.toString()));
 
                 //玩家1的生命量
                 temp = new StringBuilder();
@@ -279,7 +285,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.view.mainPanel.P1Life = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setP1Life(Integer.parseInt(temp.toString()));
 
                 //玩家1的分数
                 temp = new StringBuilder();
@@ -288,7 +294,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.view.mainPanel.P1Score = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setP1Score(Integer.parseInt(temp.toString()));
 
                 //玩家2的生命量
                 temp = new StringBuilder();
@@ -297,7 +303,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.view.mainPanel.P2Life = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setP2Life(Integer.parseInt(temp.toString()));
 
                 //玩家2的分数
                 temp = new StringBuilder();
@@ -306,7 +312,7 @@ public class InstructionHandler {
                     temp.append(perInstruction.charAt(j));
                     j++;
                 }
-                gameModel.view.mainPanel.P2Score = Integer.parseInt(temp.toString());
+                gameModel.getView().getMainPanel().setP2Score(Integer.parseInt(temp.toString()));
             }
 
             //指令“g”开头表明获取胜利的统计数量
@@ -318,7 +324,7 @@ public class InstructionHandler {
                     temp.append(perInstruction.substring(j, j + 1));
                     j++;
                 }
-                Level.winningCount = Integer.parseInt(temp.toString());
+                Level.setWinningCount(Integer.parseInt(temp.toString()));
             }
 
             //指令“m”开头表示服务器玩家的信息
@@ -328,29 +334,30 @@ public class InstructionHandler {
 
             //指令“a”开头表示游戏结束
             if (perInstruction.charAt(0) == 'a') {
-                if (!gameModel.gameOver) {
+                if (!gameModel.isGameOver()) {
                     gameModel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
-                    gameModel.gameOver = true;
+                    gameModel.setGameOver(true);
                 }
             }
             //指令“j”开头表示服务器玩家想在玩一次
             if (perInstruction.charAt(0) == 'j') {
-                if (gameModel.gameOver)
-                    gameModel.serverVote = true;
+                if (gameModel.isGameOver()) {
+                    gameModel.setServerVote(true);
+                }
             }
 
             //指令“x”开头表示服务器玩家暂停游戏
             if (perInstruction.charAt(0) == 'x') {
                 int temp = Integer.parseInt(perInstruction.substring(1, 2));
                 if (temp == 0) {
-                    if (gameModel.gamePaused) {
+                    if (gameModel.isGamePaused()) {
                         gameModel.addMessage("主机端玩家取消了暂停");
-                        gameModel.gamePaused = false;
+                        gameModel.setGamePaused(false);
                     }
                 } else {
-                    if (!gameModel.gamePaused) {
+                    if (!gameModel.isGamePaused()) {
                         gameModel.addMessage("主机端玩家暂停了游戏");
-                        gameModel.gamePaused = true;
+                        gameModel.setGamePaused(true);
                     }
                 }
             }

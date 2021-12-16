@@ -5,20 +5,32 @@ import com.client.ConponentPack.NormalObject;
 import com.client.ConponentPack.SteelWall;
 import com.client.ConponentPack.Wall;
 
+/**
+ * @author chenhong
+ */
 public class Level {
-    public static int winningCount;
+    private static int winningCount;
+
+    public static int getWinningCount() {
+        return winningCount;
+    }
+
+    public static void setWinningCount(int winningCount) {
+        Level.winningCount = winningCount;
+    }
 
     public static void loadLevel(ClientModel gameModel, int levelIndex) {
         //清除所有的东西
-        for (int i = 0; i < 400; i++)
-            gameModel.drawingList[i] = null;
+        for (int i = 0; i < 400; i++) {
+            gameModel.setDrawingList(i, null);
+        }
 
         //加载基地
-        gameModel.drawingList[0] = new Wall(248, 498, 2);
-        gameModel.drawingList[1] = new Wall(273, 498, 3);
-        gameModel.drawingList[2] = new Wall(248, 473, 1);
-        gameModel.drawingList[3] = new Wall(273, 473, 1);
-        gameModel.drawingList[4] = new NormalObject(260, 498, gameModel, "base", 0);
+        gameModel.setDrawingList(0, new Wall(248, 498, 2));
+        gameModel.setDrawingList(1, new Wall(273, 498, 3));
+        gameModel.setDrawingList(2, new Wall(248, 473, 1));
+        gameModel.setDrawingList(3, new Wall(273, 473, 1));
+        gameModel.setDrawingList(4, new NormalObject(260, 498, gameModel, "base", 0));
 
         //加载一个级别
         if (1 + (levelIndex - 1) % 8 == 1) {
@@ -233,37 +245,48 @@ public class Level {
 
     public static void loadLevel(ClientModel gameModel, String[] level) {
         for (int i = 0; i < level.length; i++) {
-            if (level[i].equals("##"))
+            if ("##".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
-            if (level[i].equals("#0"))
+            }
+            if ("#0".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
-            if (level[i].equals("#1"))
+            }
+            if ("#1".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
-            if (level[i].equals("#2"))
+            }
+            if ("#2".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
-            if (level[i].equals("#3"))
+            }
+            if ("#3".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
-            if (level[i].equals("ss"))
+            }
+            if ("ss".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4, gameModel));
-            if (level[i].equals("s0"))
+            }
+            if ("s0".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
-            if (level[i].equals("s1"))
+            }
+            if ("s1".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
-            if (level[i].equals("s2"))
+            }
+            if ("s2".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
-            if (level[i].equals("s3"))
+            }
+            if ("s3".equals(level[i])) {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
+            }
 
-            if (level[i].equals("$$")) {
+            if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (gameModel.drawingList[j] == null) {
-                        gameModel.drawingList[j] = new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel, "grass", -1);
+                    if (gameModel.getDrawingList(j) == null) {
+                        gameModel.setDrawingList(j, new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel, "grass", -1));
                         break;
                     }
                 }
             }
-            if (level[i].equals("=="))
+            if ("==".equals(level[i])) {
                 gameModel.addActor(new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel, "river", 71));
+            }
         }
     }
 }

@@ -20,19 +20,24 @@ public class Bullet implements Actor {
         this.direction = direction;
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.lightGray);
-        if (direction == 0 || direction == 1)
+        if (direction == 0 || direction == 1) {
             g.fillRect(xPos - 1, yPos - 4, 3, 9);
-        if (direction == 2 || direction == 3)
+        }
+        if (direction == 2 || direction == 3) {
             g.fillRect(xPos - 4, yPos - 1, 9, 3);
+        }
         gameModel.removeActor(this);
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

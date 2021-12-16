@@ -15,6 +15,7 @@ public class Shield implements Actor {
         this.gameModel = gameModel;
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.drawRect(xPos - 12, yPos - 12, 25, 25);
@@ -22,10 +23,12 @@ public class Shield implements Actor {
         gameModel.removeActor(this);
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

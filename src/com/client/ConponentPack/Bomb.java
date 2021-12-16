@@ -4,6 +4,9 @@ import com.client.ClientUnit.ClientModel;
 
 import java.awt.*;
 
+/**
+ * @author chenhong
+ */
 public class Bomb implements Actor {
 
     private final int xPos;
@@ -29,6 +32,7 @@ public class Bomb implements Actor {
         }
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.fillOval(xPos - outer, yPos - outer,
@@ -43,10 +47,12 @@ public class Bomb implements Actor {
         gameModel.removeActor(this);
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

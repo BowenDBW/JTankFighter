@@ -17,34 +17,43 @@ public class NormalObject implements Actor {
         this.yPos = yPos;
         this.gameModel = gameModel;
         this.Type = Type;
-        if (imageIndex != -1)
+        if (imageIndex != -1) {
             image = gameModel.textures[imageIndex];
+        }
     }
 
+    @Override
     public void draw(Graphics g) {
-        if (image != null)
+        if (image != null) {
             g.drawImage(image, xPos - 12, yPos - 12, null);
-        else {
+        } else {
             g.setColor(new Color(0, 225, 0));
-            for (int i = yPos - 11; i <= yPos + 12; i += 5)
+            for (int i = yPos - 11; i <= yPos + 12; i += 5) {
                 g.drawLine(xPos - 12, i, xPos + 12, i);
-            for (int i = xPos - 11; i <= xPos + 12; i += 5)
+            }
+            for (int i = xPos - 11; i <= xPos + 12; i += 5) {
                 g.drawLine(i, yPos - 12, i, yPos + 12);
+            }
             g.setColor(new Color(0, 128, 0));
-            for (int i = yPos - 10; i <= yPos + 12; i += 5)
+            for (int i = yPos - 10; i <= yPos + 12; i += 5) {
                 g.drawLine(xPos - 12, i, xPos + 12, i);
-            for (int i = xPos - 10; i <= xPos + 12; i += 5)
+            }
+            for (int i = xPos - 10; i <= xPos + 12; i += 5) {
                 g.drawLine(i, yPos - 12, i, yPos + 12);
+            }
         }
 
-        if (!Type.equals("river") && !Type.equals("grass") && !Type.equals("base"))
+        if (!"river".equals(Type) && !"grass".equals(Type) && !"base".equals(Type)) {
             gameModel.removeActor(this);
+        }
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

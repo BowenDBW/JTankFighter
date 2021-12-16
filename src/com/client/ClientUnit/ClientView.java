@@ -5,14 +5,102 @@ import java.awt.*;
 
 //这个类代表服务器的图形界面
 public class ClientView extends JFrame {
-    public DrawingPanel mainPanel;
-    public JButton sendMessage, connectServer, exit, pauseAndResume, help;
-    public JTextField messageField, IPField;
-    public JLabel enterIP;
+    private DrawingPanel mainPanel;
+    private JButton sendMessage, connectServer, exit, pauseAndResume, help;
+    private JTextField messageField, IPField;
+    private JLabel enterIP;
 
-    public ClientController controller;
-    public ClientModel model;
+    private ClientController controller;
+    private ClientModel model;
 
+
+    public DrawingPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(DrawingPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JButton getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(JButton sendMessage) {
+        this.sendMessage = sendMessage;
+    }
+
+    public JButton getConnectServer() {
+        return connectServer;
+    }
+
+    public void setConnectServer(JButton connectServer) {
+        this.connectServer = connectServer;
+    }
+
+    public JButton getExit() {
+        return exit;
+    }
+
+    public void setExit(JButton exit) {
+        this.exit = exit;
+    }
+
+    public JButton getPauseAndResume() {
+        return pauseAndResume;
+    }
+
+    public void setPauseAndResume(JButton pauseAndResume) {
+        this.pauseAndResume = pauseAndResume;
+    }
+
+    public JButton getHelp() {
+        return help;
+    }
+
+    public void setHelp(JButton help) {
+        this.help = help;
+    }
+
+    public JTextField getMessageField() {
+        return messageField;
+    }
+
+    public void setMessageField(JTextField messageField) {
+        this.messageField = messageField;
+    }
+
+    public JTextField getIPField() {
+        return IPField;
+    }
+
+    public void setIPField(JTextField IPField) {
+        this.IPField = IPField;
+    }
+
+    public JLabel getEnterIP() {
+        return enterIP;
+    }
+
+    public void setEnterIP(JLabel enterIP) {
+        this.enterIP = enterIP;
+    }
+
+    public ClientController getController() {
+        return controller;
+    }
+
+    public void setController(ClientController controller) {
+        this.controller = controller;
+    }
+
+    public ClientModel getModel() {
+        return model;
+    }
+
+    public void setModel(ClientModel model) {
+        this.model = model;
+    }
 
     public ClientView() {
         super("坦克大战");
