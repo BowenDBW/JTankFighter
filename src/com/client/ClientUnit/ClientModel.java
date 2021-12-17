@@ -15,66 +15,48 @@ import java.net.Socket;
 public class ClientModel implements ActionListener {
     //游戏变量
     private static int gameFlow;
-    private ClientView view;
-    //连接变量
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
-    private String fromServer, fromUser;
-    private String serverIP;
-    //客户端状态
-    private boolean serverConnected;
-    private boolean gameStarted;
-    private boolean gamePaused;
-    private boolean gameOver;
-    private boolean serverVote;
-    private boolean clientVoteYes, clientVoteNo;
-    private boolean pausePressed;
-    //图像信息
-    public String[] messageQueue;
-    private int messageIndex;
+    private static ClientView view;
 
-    public String playerTypedMessage = "";
+    private static String serverIP;
+
+    private static ClientCommunication clientCommunication = new ClientCommunication();
+
+    //图像信息
+    public static String[] messageQueue;
+    private static int messageIndex;
+
+    public static String playerTypedMessage = "";
 
     //textures
-    public Image[] textures;
+    public static Image[] textures;
     //实际的游戏运行在这个线程,而主线程听用户的输入
-    private Ticker t;
+    private static Ticker t;
+    private static Actor[] drawingList;
 
-    private Actor[] drawingList;
-    private boolean moveUp;
-    private boolean moveDown;
-    private boolean moveLeft;
-    private boolean moveRight;
-    private boolean fire;
+    public static ClientCommunication getClientCommunication() {
+        return clientCommunication;
+    }
 
 
-    public ClientView getView() {
+    public static void setGameFlow(int gameFlow) {
+        ClientModel.gameFlow = gameFlow;
+    }
+
+    public static String getPlayerTypedMessage() {
+        return playerTypedMessage;
+    }
+
+    public static void setPlayerTypedMessage(String playerTypedMessage) {
+        ClientModel.playerTypedMessage = playerTypedMessage;
+    }
+
+    public static int getGameFlow() {
+        return gameFlow;
+    }
+
+    public static ClientView getView() {
         return view;
     }
-
-
-    public boolean isServerConnected() {
-        return serverConnected;
-    }
-
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
-
-    public boolean isGamePaused() {
-        return gamePaused;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-
-    public boolean isClientVoteYes() {
-        return clientVoteYes;
-    }
-
 
     public Image[] getTextures() {
         return textures;
@@ -92,64 +74,21 @@ public class ClientModel implements ActionListener {
         return drawingList;
     }
 
-
-    public void setServerIP(String serverIP) {
-        this.serverIP = serverIP;
-    }
-
-
-    public void setGamePaused(boolean gamePaused) {
-        this.gamePaused = gamePaused;
-    }
-
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-    }
-
-    public void setServerVote(boolean serverVote) {
-        this.serverVote = serverVote;
-    }
-
-    public void setClientVoteYes(boolean clientVoteYes) {
-        this.clientVoteYes = clientVoteYes;
-    }
-
-    public void setClientVoteNo(boolean clientVoteNo) {
-        this.clientVoteNo = clientVoteNo;
-    }
-
-    public void setPausePressed(boolean pausePressed) {
-        this.pausePressed = pausePressed;
-    }
-
-
     public void setTextures(Image[] textures) {
         this.textures = textures;
     }
-
 
     public void setDrawingList(int k, Actor actor) {
         this.drawingList[k] = actor;
     }
 
-    public void setMoveUp(boolean moveUp) {
-        this.moveUp = moveUp;
+
+    public static String getServerIP() {
+        return serverIP;
     }
 
-    public void setMoveDown(boolean moveDown) {
-        this.moveDown = moveDown;
-    }
-
-    public void setMoveLeft(boolean moveLeft) {
-        this.moveLeft = moveLeft;
-    }
-
-    public void setMoveRight(boolean moveRight) {
-        this.moveRight = moveRight;
-    }
-
-    public void setFire(boolean fire) {
-        this.fire = fire;
+    public  void setServerIP(String initserverIP) {
+        this.serverIP = initserverIP;
     }
 
     public ClientModel(ClientView thisView) {
@@ -163,18 +102,13 @@ public class ClientModel implements ActionListener {
 
     }
 
-    public void connectServer() {
+    public static void connectServer() {
+
         addMessage("正在连接主机");
-
+        serverIP = view.getIPField().getText();
         try {
-            serverIP = view.getIPField().getText();
-            InetAddress address = InetAddress.getByName(serverIP);
-            clientSocket = new Socket(address, 9999);
-
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader
-                    (clientSocket.getInputStream()));
-
+           //连接主机并初始化流
+           clientCommunication.connectServer(serverIP);
         } catch (Exception e) {
             t.stop();
             e.printStackTrace();
@@ -182,8 +116,11 @@ public class ClientModel implements ActionListener {
             return;
         }
 
-        serverConnected = true;
+        //主机连接成功
+        Status.setServerConnected(true);
+
         addMessage("已成功连接到主机，开始载入游戏");
+
         view.getIPField().setFocusable(false);
         view.getIPField().setEnabled(false);
 
@@ -193,10 +130,10 @@ public class ClientModel implements ActionListener {
             textures[i - 1] = Toolkit.getDefaultToolkit().
                     getImage("image\\" + i + ".jpg");
         }
-
         drawingList = new Actor[400];
 
-        gameStarted = true;
+        Status.setGameStarted((true));
+
         view.getMainPanel().setGameStarted(true);
         view.getMainPanel().drawingList = drawingList;
         view.getMessageField().setEnabled(true);
@@ -208,121 +145,15 @@ public class ClientModel implements ActionListener {
         connectServer();
 
         //如果程序不能连接到服务器然后什么都不做
-        if (!serverConnected) {
+        if (!Status.isServerConnected()) {
             return;
         }
 
-        //游戏逻辑循环,客户端程序实际不执行任何逻辑计算,它只接受drawing-instructions
-        try {
-            while ((fromServer = in.readLine()) != null) {
-                fromUser = "";
-
-                gameFlow++;
-
-                if (pausePressed) {
-                    fromUser += "x;";
-                    pausePressed = false;
-                }
-
-                if (gameOver) {
-                    if (clientVoteNo) {
-                        System.exit(0);
-                    }
-
-                    if (clientVoteYes) {
-                        fromUser += "j;";
-                        if (serverVote) {
-                            addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
-                            gameOver = false;
-                            clientVoteYes = false;
-                            serverVote = false;
-                        }
-                    }
-                }
-
-                //指令字符串做出反馈,告诉服务器客户端在做什么
-                fromUser += "m";
-                if (moveUp) {
-                    fromUser += "1";
-                } else {
-                    fromUser += "0";
-                }
-                if (moveDown) {
-                    fromUser += "1";
-                } else {
-                    fromUser += "0";
-                }
-                if (moveLeft) {
-                    fromUser += "1";
-                } else {
-                    fromUser += "0";
-                }
-                if (moveRight) {
-                    fromUser += "1";
-                } else {
-                    fromUser += "0";
-                }
-                if (fire) {
-                    fromUser += "1";
-                } else {
-                    fromUser += "0";
-                }
-                fromUser += ";";
-
-                //来自服务器的进程指令
-                InstructionHandler.handleInstruction(this, fromServer);
-
-                //从消息队列中删除一个消息每10秒,(如果有)
-                if (gameFlow % 300 == 0) {
-                    removeMessage();
-                }
-
-                //输出玩家坦克信息
-                if (!"".equals(playerTypedMessage)) {
-                    fromUser += playerTypedMessage;
-                    playerTypedMessage = "";
-                }
-
-                //发送反馈指令
-                out.println(fromUser);
-
-                //调用视图重新绘制它自己
-                view.getMainPanel().repaint();
-
-                //如果切换到对话模式的玩家,那么停止所有坦克行动
-                if (!view.getMainPanel().hasFocus()) {
-                    moveLeft = false;
-                    moveUp = false;
-                    moveDown = false;
-                    moveRight = false;
-                    fire = false;
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            t.stop();
-            view.getMessageField().setEnabled(false);
-            serverConnected = false;
-            gameStarted = false;
-            view.getMainPanel().setGameStarted(false);
-            gameOver = false;
-            addMessage("主机端退出了");
-            view.getIPField().setFocusable(true);
-            view.getIPField().setEnabled(true);
-
-            //当有错误发生时,关闭创建的任何事情
-            try {
-                out.close();
-                in.close();
-                clientSocket.close();
-            } catch (Exception exc) {
-                exc.printStackTrace();
-            }
-        }
+        LogicalLoop.logic();
     }
 
     //在屏幕上显示一条消息
-    public void addMessage(String message) {
+    public static void addMessage(String message) {
         if (messageIndex < 8) {
             messageQueue[messageIndex] = message;
             messageIndex++;
@@ -333,7 +164,7 @@ public class ClientModel implements ActionListener {
         }
 
         //调用视图来重新绘制屏幕，如果没有开始游戏
-        if (!gameStarted) {
+        if (!Status.isGameStarted()) {
             view.getMainPanel().repaint();
         }
     }
@@ -352,7 +183,7 @@ public class ClientModel implements ActionListener {
         messageQueue[messageIndex] = null;
 
         //调用视图来重新绘制屏幕如果没有开始游戏
-        if (!gameStarted) {
+        if (!Status.isGameStarted()) {
             view.getMainPanel().repaint();
         }
     }

@@ -334,15 +334,15 @@ public class InstructionHandler {
 
             //指令“a”开头表示游戏结束
             if (perInstruction.charAt(0) == 'a') {
-                if (!gameModel.isGameOver()) {
+                if (!Status.isGameOver()) {
                     gameModel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
-                    gameModel.setGameOver(true);
+                    Status.setGameOver(true);
                 }
             }
             //指令“j”开头表示服务器玩家想在玩一次
             if (perInstruction.charAt(0) == 'j') {
-                if (gameModel.isGameOver()) {
-                    gameModel.setServerVote(true);
+                if (Status.isGameOver()) {
+                    Status.setServerVote(true);
                 }
             }
 
@@ -350,14 +350,14 @@ public class InstructionHandler {
             if (perInstruction.charAt(0) == 'x') {
                 int temp = Integer.parseInt(perInstruction.substring(1, 2));
                 if (temp == 0) {
-                    if (gameModel.isGamePaused()) {
+                    if (Status.isGamePaused()) {
                         gameModel.addMessage("主机端玩家取消了暂停");
-                        gameModel.setGamePaused(false);
+                        Status.setGamePaused(false);
                     }
                 } else {
-                    if (!gameModel.isGamePaused()) {
+                    if (!Status.isGamePaused()) {
                         gameModel.addMessage("主机端玩家暂停了游戏");
-                        gameModel.setGamePaused(true);
+                        Status.setGamePaused(true);
                     }
                 }
             }

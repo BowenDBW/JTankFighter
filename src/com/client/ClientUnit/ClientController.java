@@ -20,7 +20,7 @@ public class ClientController {
 
         //发送消息按钮操作
         view.getSendMessage().addActionListener(e -> {
-                    if (!model.isGameStarted()) {
+                    if (!Status.isGameStarted()) {
                         model.addMessage("还没有和主机端玩家联上, 无法发送对话");
                         return;
                     }
@@ -39,9 +39,9 @@ public class ClientController {
                 }
         );
 
-        //handle connectServer按钮操作
+        //handle connectServer按钮操作  点击连接主机的按钮
         view.getConnectServer().addActionListener(e -> {
-                    if (!model.isServerConnected()) {
+                    if (!Status.isServerConnected()) {
                         model.setServerIP(view.getIPField().getText());
                         model.getT().start();
                     }
@@ -50,13 +50,13 @@ public class ClientController {
 
         //handle pauseAndResume 按钮操作
         view.getPauseAndResume().addActionListener(e -> {
-                    if (!model.isGameOver() && model.isGameStarted()) {
-                        model.setPausePressed(true);
-                        if (!model.isGamePaused()) {
-                            model.setGamePaused(true);
+                    if (!Status.isGameOver() && Status.isGameStarted()) {
+                        Status.setPausePressed(true);
+                        if (!Status.isGamePaused()) {
+                            Status.setGamePaused(true);
                             model.addMessage("用户端玩家暂停了游戏");
                         } else {
-                            model.setGamePaused(false);
+                            Status.setGamePaused(false);
                             model.addMessage("用户端玩家取消了暂停");
                         }
                     }
@@ -107,32 +107,32 @@ public class ClientController {
                     @Override
                     public void keyPressed(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_UP) {
-                            model.setMoveUp(true);
-                            model.setMoveDown(false);
-                            model.setMoveLeft(false);
-                            model.setMoveRight(false);
+                            Status.setMoveUp(true);
+                            Status.setMoveDown(false);
+                            Status.setMoveLeft(false);
+                            Status.setMoveRight(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                            model.setMoveDown(true);
-                            model.setMoveUp(false);
-                            model.setMoveLeft(false);
-                            model.setMoveRight(false);
+                            Status.setMoveDown(true);
+                            Status.setMoveUp(false);
+                            Status.setMoveLeft(false);
+                            Status.setMoveRight(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                            model.setMoveLeft(true);
-                            model.setMoveUp(false);
-                            model.setMoveDown(false);
-                            model.setMoveRight(false);
+                            Status.setMoveLeft(true);
+                            Status.setMoveUp(false);
+                            Status.setMoveDown(false);
+                            Status.setMoveRight(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                            model.setMoveLeft(false);
-                            model.setMoveUp(false);
-                            model.setMoveDown(false);
-                            model.setMoveRight(true);
+                            Status.setMoveLeft(false);
+                            Status.setMoveUp(false);
+                            Status.setMoveDown(false);
+                            Status.setMoveRight(true);
                         }
 
                         if (e.getKeyChar() == 's') {
-                            model.setFire(true);
+                            Status.setFire(true);
                         }
 
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -145,33 +145,33 @@ public class ClientController {
                             }
                         }
 
-                        if (e.getKeyChar() == 'y' && model.isGameOver()
-                                && !model.isClientVoteYes()) {
-                            model.setClientVoteYes(true);
+                        if (e.getKeyChar() == 'y' && Status.isGameOver()
+                                && !Status.isClientVoteYes()) {
+                            Status.setClientVoteYes(true);
                             model.addMessage("等待主机端玩家回应...");
                         }
 
-                        if (e.getKeyChar() == 'n' && model.isGameOver()) {
-                            model.setClientVoteNo(true);
+                        if (e.getKeyChar() == 'n' && Status.isGameOver()) {
+                            Status.setClientVoteNo(true);
                         }
                     }
 
                     @Override
                     public void keyReleased(KeyEvent e) {
                         if (e.getKeyCode() == KeyEvent.VK_UP) {
-                            model.setMoveUp(false);
+                            Status.setMoveUp(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                            model.setMoveDown(false);
+                            Status.setMoveDown(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                            model.setMoveLeft(false);
+                            Status.setMoveLeft(false);
                         }
                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                            model.setMoveRight(false);
+                            Status.setMoveRight(false);
                         }
                         if (e.getKeyChar() == 's') {
-                            model.setFire(false);
+                            Status.setFire(false);
                         }
                     }
                 }
