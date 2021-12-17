@@ -23,12 +23,10 @@ public class Shield implements Actor {
         gameModel.removeActor(this);
     }
 
-    @Override
     public int getXPos() {
         return xPos;
     }
 
-    @Override
     public int getYPos() {
         return yPos;
     }

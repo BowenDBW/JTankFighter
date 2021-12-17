@@ -1,19 +1,22 @@
 package com.client.ClientUnit;//	坦克大战连线版用户端
 
+import com.client.ClientUnit.DrawingPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * @author chenhong
- */ //这个类代表服务器的图形界面
+ */
 public class ClientView extends JFrame {
-    private DrawingPanel mainPanel;
-    private JButton sendMessage, connectServer, exit, pauseAndResume, help;
-    private JTextField messageField, IPField;
-    private JLabel enterIP;
-
-    private ClientController controller;
-    private ClientModel model;
+    private final DrawingPanel mainPanel;
+    private final JButton sendMessage;
+    private final JButton connectServer;
+    private final JButton exit;
+    private final JButton pauseAndResume;
+    private JButton help;
+    private final JTextField messageField;
+    private final JTextField ipField;
 
 
     public DrawingPanel getMainPanel() {
@@ -57,8 +60,8 @@ public class ClientView extends JFrame {
     }
 
 
-    public JTextField getIPField() {
-        return IPField;
+    public JTextField getIpField() {
+        return ipField;
     }
 
 
@@ -93,13 +96,13 @@ public class ClientView extends JFrame {
         mainPanel.setFocusable(true);
 
         //设置选项按钮和IP文本字段
-        enterIP = new JLabel("输入主机IP");
-        enterIP.setBounds(10, 0, 60, 22);
-        getContentPane().add(enterIP);
+        JLabel enterIp = new JLabel("输入主机IP");
+        enterIp.setBounds(10, 0, 60, 22);
+        getContentPane().add(enterIp);
 
-        IPField = new JTextField();
-        IPField.setBounds(65, 0, 90, 22);
-        getContentPane().add(IPField);
+        ipField = new JTextField();
+        ipField.setBounds(65, 0, 90, 22);
+        getContentPane().add(ipField);
 
         connectServer = new JButton("连接主机");
         connectServer.setBounds(160, 0, 100, 22);
@@ -128,9 +131,9 @@ public class ClientView extends JFrame {
         setResizable(false);
 
         //设置客户端模型
-        model = new ClientModel(this);
+        ClientModel model = new ClientModel(this);
 
         //设置客户端控制器
-        controller = new ClientController(this, model);
+        ClientController controller = new ClientController(this, model);
     }
 }

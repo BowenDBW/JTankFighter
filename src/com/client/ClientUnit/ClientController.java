@@ -42,7 +42,7 @@ public class ClientController {
         //handle connectServer按钮操作
         view.getConnectServer().addActionListener(e -> {
                     if (!model.isServerConnected()) {
-                        model.setServerIP(view.getIPField().getText());
+                        model.setServerIP(view.getIpField().getText());
                         model.getT().start();
                     }
                 }

@@ -1,10 +1,9 @@
 package com.server.ConponentPack;
 
+import com.client.ConponentPack.NormalObject;
+
 import java.awt.*;
 
-/**
- * @author chenhong
- */
 public class Grass implements Actor {
     private Rectangle border;
     private final int xPos;
@@ -30,20 +29,21 @@ public class Grass implements Actor {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(new Color(0, 225, 0));
-        for (int i = yPos - 11; i <= yPos + 12; i += 5) {
-            g.drawLine(xPos - 12, i, xPos + 12, i);
-        }
-        for (int i = xPos - 11; i <= xPos + 12; i += 5) {
-            g.drawLine(i, yPos - 12, i, yPos + 12);
-        }
-        g.setColor(new Color(0, 128, 0));
-        for (int i = yPos - 10; i <= yPos + 12; i += 5) {
-            g.drawLine(xPos - 12, i, xPos + 12, i);
-        }
-        for (int i = xPos - 10; i <= xPos + 12; i += 5) {
-            g.drawLine(i, yPos - 12, i, yPos + 12);
-        }
+
+            g.setColor(new Color(0, 225, 0));
+            for (int i = yPos - 11; i <= yPos + 12; i += 5) {
+                g.drawLine(xPos - 12, i, xPos + 12, i);
+            }
+            for (int i = xPos - 11; i <= xPos + 12; i += 5) {
+                g.drawLine(i, yPos - 12, i, yPos + 12);
+            }
+            g.setColor(new Color(0, 128, 0));
+            for (int i = yPos - 10; i <= yPos + 12; i += 5) {
+                g.drawLine(xPos - 12, i, xPos + 12, i);
+            }
+            for (int i = xPos - 10; i <= xPos + 12; i += 5) {
+                g.drawLine(i, yPos - 12, i, yPos + 12);
+            }
     }
 
     @Override

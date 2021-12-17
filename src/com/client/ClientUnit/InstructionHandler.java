@@ -63,9 +63,9 @@ public class InstructionHandler {
                 for (int k = 0; k < gameModel.getDrawingList().length; k++) {
                     if (gameModel.getDrawingList(k) != null) {
                         if (gameModel.getDrawingList(k).getXPos() == xPos && gameModel.getDrawingList(k).getYPos() == yPos) {
-                            Wall tempWall = new Wall(xPos, yPos, 4);
-                            tempWall.shape = shape;
-                            gameModel.setDrawingList(k, tempWall);
+                            BrickWall tempBrickWall = new BrickWall(xPos, yPos, 4);
+                            tempBrickWall.shape = shape;
+                            gameModel.setDrawingList(k, tempBrickWall);
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public class InstructionHandler {
                 for (int k = 0; k < gameModel.getDrawingList().length; k++) {
                     if (gameModel.getDrawingList()[k] != null) {
                         if (gameModel.getDrawingList()[k].getXPos() == xPos && gameModel.getDrawingList()[k].getYPos() == yPos) {
-                            SteelWall tempWall = new SteelWall(xPos, yPos, 4, gameModel);
+                            SteelWall tempWall = new SteelWall(xPos, yPos, 4);
                             tempWall.shape = shape;
                             gameModel.getDrawingList()[k] = tempWall;
                         }

@@ -1,5 +1,6 @@
 package com.server.ServerUnit;
 
+import com.ProcessUnit.Ticker;
 import com.server.ConponentPack.Actor;
 import com.server.ConponentPack.Enemy;
 import com.server.ConponentPack.Player;
@@ -16,7 +17,7 @@ public class ServerModel implements ActionListener {
     //游戏变量
     private static int gameFlow;
     //视图参考
-    private ServerView view;
+    private final ServerView view;
     //连接变量
     private ServerSocket serverSocket;
     private Socket clientSocket;
@@ -25,7 +26,6 @@ public class ServerModel implements ActionListener {
     public String inputLine, outputLine;
     //服务器状态
     private boolean serverCreated;
-    private boolean clientConnected;
     private boolean gameStarted;
     private boolean gamePaused;
     private boolean gameOver;
@@ -144,6 +144,7 @@ public class ServerModel implements ActionListener {
 
         addMessage("建立完成，等待玩家连接");
 
+        boolean clientConnected;
         try {
             clientSocket = serverSocket.accept();
             clientConnected = true;

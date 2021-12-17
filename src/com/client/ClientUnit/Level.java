@@ -3,7 +3,7 @@ package com.client.ClientUnit;//服务器端的level类
 
 import com.client.ConponentPack.NormalObject;
 import com.client.ConponentPack.SteelWall;
-import com.client.ConponentPack.Wall;
+import com.client.ConponentPack.BrickWall;
 
 /**
  * @author chenhong
@@ -26,10 +26,10 @@ public class Level {
         }
 
         //加载基地
-        gameModel.setDrawingList(0, new Wall(248, 498, 2));
-        gameModel.setDrawingList(1, new Wall(273, 498, 3));
-        gameModel.setDrawingList(2, new Wall(248, 473, 1));
-        gameModel.setDrawingList(3, new Wall(273, 473, 1));
+        gameModel.setDrawingList(0, new BrickWall(248, 498, 2));
+        gameModel.setDrawingList(1, new BrickWall(273, 498, 3));
+        gameModel.setDrawingList(2, new BrickWall(248, 473, 1));
+        gameModel.setDrawingList(3, new BrickWall(273, 473, 1));
         gameModel.setDrawingList(4, new NormalObject(260, 498, gameModel, "base", 0));
 
         //加载一个级别
@@ -246,34 +246,34 @@ public class Level {
     public static void loadLevel(ClientModel gameModel, String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("#0".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("#1".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("#2".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
+                gameModel.addActor(new BrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("#3".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("ss".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("s0".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("s1".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("s2".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("s3".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
 
             if ("$$".equals(level[i])) {

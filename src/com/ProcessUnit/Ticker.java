@@ -1,4 +1,4 @@
-package com.server.ServerUnit;
+package com.ProcessUnit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,14 +6,13 @@ import java.awt.event.ActionListener;
 public class Ticker implements Runnable {
 
     private ActionListener al;
-    private Thread t;
-    private int delay;
+    private final int delay;
     private boolean isTicking;
 
     public Ticker(int i) {
 
         delay = i;
-        t = new Thread(this);
+        Thread t = new Thread(this);
         t.start();
         isTicking = false;
     }

@@ -8,19 +8,11 @@ import java.awt.*;
  * @author chenhong
  */
 public class River implements Actor {
-    private Image river;
+    private final Image river;
     private ServerModel gameModel;
     private final int xPos;
     private final int yPos;
     private final Rectangle Border;
-
-    public Image getRiver() {
-        return river;
-    }
-
-    public void setRiver(Image river) {
-        this.river = river;
-    }
 
     public ServerModel getGameModel() {
         return gameModel;

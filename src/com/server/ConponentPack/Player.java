@@ -30,32 +30,16 @@ public class Player implements Actor {
     private int health;
     private int xPos, yPos, xVPos, yVPos;
     private Rectangle border;
-    private Image standardImage;
+    private final Image standardImage;
     public Image[] textures;
-    private ServerModel gameModel;
-
-    public int getUP() {
-        return UP;
-    }
-
-    public boolean isMoveLeft() {
-        return moveLeft;
-    }
+    private final ServerModel gameModel;
 
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
     }
 
-    public boolean isMoveRight() {
-        return moveRight;
-    }
-
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
-    }
-
-    public boolean isFire() {
-        return fire;
     }
 
     public void setFire(boolean fire) {
@@ -68,30 +52,6 @@ public class Player implements Actor {
 
     public void setNumberOfBullet(int numberOfBullet) {
         this.numberOfBullet = numberOfBullet;
-    }
-
-    public int getCoolDownTime() {
-        return coolDownTime;
-    }
-
-    public void setCoolDownTime(int coolDownTime) {
-        this.coolDownTime = coolDownTime;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public int getxPos() {
@@ -110,96 +70,12 @@ public class Player implements Actor {
         this.yPos = yPos;
     }
 
-    public int getxVPos() {
-        return xVPos;
-    }
-
-    public void setxVPos(int xVPos) {
-        this.xVPos = xVPos;
-    }
-
-    public int getyVPos() {
-        return yVPos;
-    }
-
-    public void setyVPos(int yVPos) {
-        this.yVPos = yVPos;
-    }
-
-    public void setBorder(Rectangle border) {
-        this.border = border;
-    }
-
-    public Image getStandardImage() {
-        return standardImage;
-    }
-
-    public void setStandardImage(Image standardImage) {
-        this.standardImage = standardImage;
-    }
-
-    public int getDOWN() {
-        return DOWN;
-    }
-
-    public int getLEFT() {
-        return LEFT;
-    }
-
-    public int getRIGHT() {
-        return RIGHT;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public Rectangle getMap() {
-        return map;
-    }
-
-    public int getScores() {
-        return scores;
-    }
-
-    public void setScores(int scores) {
-        this.scores = scores;
-    }
-
     public void setType(String type) {
         this.type = type;
     }
 
     public int getLife() {
         return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
-    public int getInvulnerableTime() {
-        return InvulnerableTime;
-    }
-
-    public void setInvulnerableTime(int invulnerableTime) {
-        InvulnerableTime = invulnerableTime;
     }
 
     public int getFrozen() {
@@ -210,16 +86,8 @@ public class Player implements Actor {
         this.frozen = frozen;
     }
 
-    public boolean isMoveUp() {
-        return moveUp;
-    }
-
     public void setMoveUp(boolean moveUp) {
         this.moveUp = moveUp;
-    }
-
-    public boolean isMoveDown() {
-        return moveDown;
     }
 
     public void setMoveDown(boolean moveDown) {

@@ -6,19 +6,11 @@ import java.awt.*;
 public class Base implements Actor {
 
     private final Rectangle border;
-    private Image base;
+    private Image base = Toolkit.getDefaultToolkit().getImage("image\\1.jpg");
     private int xPos, yPos;
     private ServerModel gameModel;
     private int steelWallTime;
     private boolean baseKilled;
-
-    public Image getBase() {
-        return base;
-    }
-
-    public void setBase(Image base) {
-        this.base = base;
-    }
 
     public int getxPos() {
         return xPos;
@@ -44,27 +36,13 @@ public class Base implements Actor {
         this.gameModel = gameModel;
     }
 
-    public int getSteelWallTime() {
-        return steelWallTime;
-    }
-
     public void setSteelWallTime(int steelWallTime) {
         this.steelWallTime = steelWallTime;
     }
 
-    public boolean isBaseKilled() {
-        return baseKilled;
-    }
-
-    public void setBaseKilled(boolean baseKilled) {
-        this.baseKilled = baseKilled;
-    }
-
-    public Base(ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public Base() {
         xPos = 260;
         yPos = 498;
-        base = gameModel.textures[0];
         border = new Rectangle(xPos - 11, yPos - 11, 23, 23);
 
     }
@@ -90,19 +68,19 @@ public class Base implements Actor {
     @Override
     public void move() {
         if (steelWallTime == 600) {
-            SteelWall temp = new SteelWall(248, 498, 2, gameModel);
+            SteelWall temp = new SteelWall(248, 498, 2);
             gameModel.actors[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
-            temp = new SteelWall(273, 498, 3, gameModel);
+            temp = new SteelWall(273, 498, 3);
             gameModel.actors[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
-            temp = new SteelWall(248, 473, 1, gameModel);
+            temp = new SteelWall(248, 473, 1);
             gameModel.actors[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
-            temp = new SteelWall(273, 473, 1, gameModel);
+            temp = new SteelWall(273, 473, 1);
             gameModel.actors[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }

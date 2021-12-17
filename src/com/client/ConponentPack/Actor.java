@@ -2,8 +2,11 @@ package com.client.ConponentPack;
 
 import java.awt.*;
 
-//创建接口
+/**
+ * @author 26317
+ */
 public interface Actor {
+
     void draw(Graphics g);
 
     int getXPos();

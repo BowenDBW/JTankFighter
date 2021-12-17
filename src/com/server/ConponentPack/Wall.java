@@ -12,8 +12,8 @@ public class Wall implements Actor {
     private boolean wallDestroyed;
     private boolean bulletDestroyed;
     private ServerModel gameModel;
-    private Image wall;
-    private Rectangle generalBorder;
+    private final Image wall = Toolkit.getDefaultToolkit().getImage("image\\71.jpg");
+    private final Rectangle generalBorder;
 
     public int getxPos() {
         return xPos;
@@ -45,11 +45,9 @@ public class Wall implements Actor {
     }
 
 
-    public Wall(int a, int b, ServerModel gameModel) {
+    public Wall(int a, int b) {
         xPos = a;
         yPos = b;
-        this.gameModel = gameModel;
-        wall = gameModel.textures[70];
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
         border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);
         border[1] = new Rectangle(xPos + 1, yPos - 11, 11, 11);
@@ -62,7 +60,6 @@ public class Wall implements Actor {
         xPos = a;
         yPos = b;
         this.gameModel = gameModel;
-        wall = gameModel.textures[70];
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
         if (orientation == 0) {
             border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);

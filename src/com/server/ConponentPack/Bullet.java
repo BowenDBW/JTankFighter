@@ -12,7 +12,7 @@ public class Bullet implements Actor {
     private final int Speed;
     private final int bulletPower;
     private int xPos, yPos;
-    private Actor owner;
+    private final Actor owner;
     private ServerModel gameModel;
     private boolean hitTarget;
 

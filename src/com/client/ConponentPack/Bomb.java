@@ -12,11 +12,9 @@ public class Bomb implements Actor {
     private final int xPos;
     private final int yPos;
     private final ClientModel gameModel;
-    private final int size;
     private int inner, middle, outer;
 
     public Bomb(int a, int b, int size, ClientModel gameModel) {
-        this.size = size;
         this.gameModel = gameModel;
         xPos = a;
         yPos = b;
@@ -47,12 +45,10 @@ public class Bomb implements Actor {
         gameModel.removeActor(this);
     }
 
-    @Override
     public int getXPos() {
         return xPos;
     }
 
-    @Override
     public int getYPos() {
         return yPos;
     }

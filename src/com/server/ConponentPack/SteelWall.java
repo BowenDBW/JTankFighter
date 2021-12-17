@@ -12,8 +12,8 @@ public class SteelWall implements Actor {
     private boolean wallDestroyed;
     private boolean bulletDestroyed;
     private ServerModel gameModel;
-    private Image steelWall;
-    private Rectangle generalBorder;
+    private Image steelWall = Toolkit.getDefaultToolkit().getImage("image\\54.jpg");
+    private final Rectangle generalBorder;
     private final int xPos;
     private final int yPos;
     private final Rectangle[] border = new Rectangle[4];
@@ -30,32 +30,12 @@ public class SteelWall implements Actor {
         return bulletDestroyed;
     }
 
-    public void setBulletDestroyed(boolean bulletDestroyed) {
-        this.bulletDestroyed = bulletDestroyed;
-    }
-
     public ServerModel getGameModel() {
         return gameModel;
     }
 
     public void setGameModel(ServerModel gameModel) {
         this.gameModel = gameModel;
-    }
-
-    public Image getSteelWall() {
-        return steelWall;
-    }
-
-    public void setSteelWall(Image steelWall) {
-        this.steelWall = steelWall;
-    }
-
-    public Rectangle getGeneralBorder() {
-        return generalBorder;
-    }
-
-    public void setGeneralBorder(Rectangle generalBorder) {
-        this.generalBorder = generalBorder;
     }
 
     public int getxPos() {
@@ -78,11 +58,9 @@ public class SteelWall implements Actor {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
-    public SteelWall(int a, int b, int orientation, ServerModel gameModel) {
+    public SteelWall(int a, int b, int orientation) {
         xPos = a;
         yPos = b;
-        this.gameModel = gameModel;
-        steelWall = gameModel.textures[53];
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
         if (orientation == 0) {
             border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);

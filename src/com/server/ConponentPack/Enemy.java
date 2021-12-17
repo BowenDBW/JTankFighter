@@ -8,24 +8,21 @@ import java.awt.*;
 public class Enemy implements Actor {
     private static int frozenTime;
     private static int frozenMoment;
-    private final int UP = 0;
-    private final int DOWN = 1;
-    private final int LEFT = 2;
     private final int size = 12;
     private final Rectangle map = new Rectangle(35, 35, 452, 452);
     private int numberOfBullet;
     private int coolDownTime;
     private int type;
-    private int speed;
+    private final int speed;
     private int direction;
     private int interval;
     private int health;
     private int xPos, yPos, xVPos, yVPos;
-    private Rectangle border;
+    private final Rectangle border;
     private boolean flashing;
-    private double firePossibility;
+    private final double firePossibility;
     public Image[] textures;
-    private ServerModel gameModel;
+    private final ServerModel gameModel;
 
 
     public int getyPos() {
@@ -158,6 +155,9 @@ public class Enemy implements Actor {
         if (coolDownTime > 0) {
             coolDownTime--;
         }
+        int DOWN = 1;
+        int UP = 0;
+        int LEFT = 2;
         if (Math.random() > firePossibility && coolDownTime == 0 && numberOfBullet > 0) {
             //获得子弹方向
             int c = direction;

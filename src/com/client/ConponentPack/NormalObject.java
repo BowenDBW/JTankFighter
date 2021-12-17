@@ -4,26 +4,29 @@ import com.client.ClientUnit.ClientModel;
 
 import java.awt.*;
 
-//这个类代表除了墙和钢墙外所有其他对象
+/**
+ * 这个类代表除了墙和钢墙外所有其他对象
+ * @author 26317
+ */
 public class NormalObject implements Actor {
-    private final String Type;
+    private final String type;
     private Image image;
     private final int xPos;
     private final int yPos;
     private final ClientModel gameModel;
 
-    public NormalObject(int xPos, int yPos, ClientModel gameModel, String Type, int imageIndex) {
+    public NormalObject(int xPos, int yPos, ClientModel gameModel, String type, int imageIndex) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.gameModel = gameModel;
-        this.Type = Type;
+        this.type = type;
         if (imageIndex != -1) {
             image = gameModel.textures[imageIndex];
         }
     }
 
     @Override
-    public void draw(Graphics g) {
+    public  void draw(Graphics g) {
         if (image != null) {
             g.drawImage(image, xPos - 12, yPos - 12, null);
         } else {
@@ -43,22 +46,21 @@ public class NormalObject implements Actor {
             }
         }
 
-        if (!"river".equals(Type) && !"grass".equals(Type) && !"base".equals(Type)) {
+        if (!"river".equals(type) && !"grass".equals(type) && !"base".equals(type)) {
+
             gameModel.removeActor(this);
         }
     }
 
-    @Override
     public int getXPos() {
         return xPos;
     }
 
-    @Override
     public int getYPos() {
         return yPos;
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 }

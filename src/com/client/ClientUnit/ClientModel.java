@@ -1,7 +1,7 @@
 package com.client.ClientUnit;
 
+import com.ProcessUnit.Ticker;
 import com.client.ConponentPack.Actor;
-import com.client.ConponentPack.Ticker;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,12 +15,11 @@ import java.net.Socket;
 public class ClientModel implements ActionListener {
     //游戏变量
     private static int gameFlow;
-    private ClientView view;
+    private final ClientView view;
     //连接变量
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private String fromServer, fromUser;
     private String serverIP;
     //客户端状态
     private boolean serverConnected;
@@ -39,7 +38,7 @@ public class ClientModel implements ActionListener {
     //textures
     public Image[] textures;
     //实际的游戏运行在这个线程,而主线程听用户的输入
-    private Ticker t;
+    private final Ticker t;
 
     private Actor[] drawingList;
     private boolean moveUp;
@@ -122,12 +121,6 @@ public class ClientModel implements ActionListener {
         this.pausePressed = pausePressed;
     }
 
-
-    public void setTextures(Image[] textures) {
-        this.textures = textures;
-    }
-
-
     public void setDrawingList(int k, Actor actor) {
         this.drawingList[k] = actor;
     }
@@ -167,7 +160,7 @@ public class ClientModel implements ActionListener {
         addMessage("正在连接主机");
 
         try {
-            serverIP = view.getIPField().getText();
+            serverIP = view.getIpField().getText();
             InetAddress address = InetAddress.getByName(serverIP);
             clientSocket = new Socket(address, 9999);
 
@@ -184,8 +177,8 @@ public class ClientModel implements ActionListener {
 
         serverConnected = true;
         addMessage("已成功连接到主机，开始载入游戏");
-        view.getIPField().setFocusable(false);
-        view.getIPField().setEnabled(false);
+        view.getIpField().setFocusable(false);
+        view.getIpField().setEnabled(false);
 
         //加载游戏 texture
         textures = new Image[88];
@@ -214,8 +207,9 @@ public class ClientModel implements ActionListener {
 
         //游戏逻辑循环,客户端程序实际不执行任何逻辑计算,它只接受drawing-instructions
         try {
+            String fromServer;
             while ((fromServer = in.readLine()) != null) {
-                fromUser = "";
+                String fromUser = "";
 
                 gameFlow++;
 
@@ -307,8 +301,8 @@ public class ClientModel implements ActionListener {
             view.getMainPanel().setGameStarted(false);
             gameOver = false;
             addMessage("主机端退出了");
-            view.getIPField().setFocusable(true);
-            view.getIPField().setEnabled(true);
+            view.getIpField().setFocusable(true);
+            view.getIpField().setEnabled(true);
 
             //当有错误发生时,关闭创建的任何事情
             try {

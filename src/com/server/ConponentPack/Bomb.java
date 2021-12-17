@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Bomb implements Actor {
     private final Rectangle border = new Rectangle(0, 0, 0, 0);
-    private String size;
+    private final String size;
     private int inner, middle, outer, jumpDistance;
     private ServerModel gameModel;
     private int xPos, yPos;

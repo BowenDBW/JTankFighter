@@ -75,7 +75,7 @@ public class Level {
         gameModel.actors[1] = new Wall(273, 498, 3, gameModel);
         gameModel.actors[2] = new Wall(248, 473, 1, gameModel);
         gameModel.actors[3] = new Wall(273, 473, 1, gameModel);
-        gameModel.actors[4] = new Base(gameModel);
+        gameModel.actors[4] = new Base();
 
         //加载一个关卡
         if (1 + (currentLevel - 1) % 8 == 1) {
@@ -302,7 +302,7 @@ public class Level {
     public static void loadLevel(ServerModel gameModel, String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
+                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25));
             }
             if ("#0".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
@@ -320,16 +320,16 @@ public class Level {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
             }
             if ("s0".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("s1".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("s2".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("s3".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {

@@ -4,22 +4,12 @@ import com.client.ClientUnit.ClientModel;
 import java.awt.*;
 
 public class SteelWall implements Actor {
-    private final String Type = "steelWall";
-    private Image steelWall;
+
+    private final Image steelWall = Toolkit.getDefaultToolkit().getImage("image\\54.jpg");
     private int xPos;
     private int yPos;
 
     public boolean[] shape;
-
-    private ClientModel gameModel;
-
-    public Image getSteelWall() {
-        return steelWall;
-    }
-
-    public void setSteelWall(Image steelWall) {
-        this.steelWall = steelWall;
-    }
 
     public int getxPos() {
         return xPos;
@@ -37,20 +27,11 @@ public class SteelWall implements Actor {
         this.yPos = yPos;
     }
 
-    public ClientModel getGameModel() {
-        return gameModel;
-    }
 
-    public void setGameModel(ClientModel gameModel) {
-        this.gameModel = gameModel;
-    }
-
-    public SteelWall(int xPos, int yPos, int orientation, ClientModel gameModel) {
+    public SteelWall(int xPos, int yPos, int orientation) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.gameModel = gameModel;
         shape = new boolean[4];
-        steelWall = gameModel.textures[53];
 
         if (orientation == 0) {
             shape[2] = true;
@@ -110,7 +91,7 @@ public class SteelWall implements Actor {
     }
 
     public String getType() {
-        return Type;
+        return "steelWall";
     }
 
 }
