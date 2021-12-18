@@ -45,7 +45,8 @@ public class Wall implements Actor {
     }
 
 
-    public Wall(int a, int b) {
+    public Wall(int a, int b, ServerModel gameModel) {
+        this.gameModel = gameModel;
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
@@ -53,7 +54,6 @@ public class Wall implements Actor {
         border[1] = new Rectangle(xPos + 1, yPos - 11, 11, 11);
         border[2] = new Rectangle(xPos - 11, yPos + 1, 11, 11);
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
-
     }
 
     public Wall(int a, int b, int orientation, ServerModel gameModel) {

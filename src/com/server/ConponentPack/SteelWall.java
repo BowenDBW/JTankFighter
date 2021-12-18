@@ -58,7 +58,7 @@ public class SteelWall implements Actor {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
-    public SteelWall(int a, int b, int orientation) {
+    public SteelWall(int a, int b, int orientation, ServerModel gameModel) {
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);

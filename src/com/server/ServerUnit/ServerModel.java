@@ -37,11 +37,11 @@ public class ServerModel implements ActionListener {
     private int messageIndex;
     public String playerTypedMessage = "";
     //实际的游戏在这个线程上运行，而主线程监听用户的输入
-    private Ticker t;
+    private final Ticker t;
     public Image[] textures;
     public Actor[] actors;
-    private Player P1;   //由服务器玩家控制的坦克
-    private Player P2;   //有客户端玩家控制的坦克
+    private Player p1;   //由服务器玩家控制的坦克
+    private Player p2;   //有客户端玩家控制的坦克
 
     public static int getGameFlow() {
         return gameFlow;
@@ -98,21 +98,12 @@ public class ServerModel implements ActionListener {
         return t;
     }
 
-
-    public Image[] getTextures() {
-        return textures;
-    }
-
-    public void setTextures(Image[] textures) {
-        this.textures = textures;
-    }
-
     public Player getP1() {
-        return P1;
+        return p1;
     }
 
     public Player getP2() {
-        return P2;
+        return p2;
     }
 
     public ServerModel(ServerView thisView) {
@@ -190,10 +181,10 @@ public class ServerModel implements ActionListener {
         actors = new Actor[400];
         Level.loadLevel(this);
 
-        P1 = new Player("1P", this);
-        addActor(P1);
-        P2 = new Player("2P", this);
-        addActor(P2);
+        p1 = new Player("1P", this);
+        addActor(p1);
+        p2 = new Player("2P", this);
+        addActor(p2);
 
         gameStarted = true;
         view.getMainPanel().actors = actors;
@@ -235,24 +226,24 @@ public class ServerModel implements ActionListener {
                     pausePressed = false;
                 }
 
-                if (gameOver || (P1.getLife() == 0 && P2.getLife() == 0)) {
+                if (gameOver || (p1.getLife() == 0 && p2.getLife() == 0)) {
 
-                    if (P1.getFrozen() != 1) {
+                    if (p1.getFrozen() != 1) {
 
                         outputLine += "a;";
                     };
 
-                    if ((P1.getFrozen() != 1 || messageIndex == 1) && serverVoteYes) {
+                    if ((p1.getFrozen() != 1 || messageIndex == 1) && serverVoteYes) {
 
                         addMessage("等待用户端玩家的回应...");
                     }
-                    if (P1.getFrozen() != 1 || messageIndex == 0) {
+                    if (p1.getFrozen() != 1 || messageIndex == 0) {
 
                         addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     }
                     gameOver = true;
-                    P1.setFrozen(1);
-                    P2.setFrozen(1);
+                    p1.setFrozen(1);
+                    p2.setFrozen(1);
 
                     if (serverVoteNo && !serverVoteYes){
 
@@ -267,8 +258,8 @@ public class ServerModel implements ActionListener {
                             addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
 
                             //重新启动游戏
-                            P1 = new Player("1P", this);
-                            P2 = new Player("2P", this);
+                            p1 = new Player("1P", this);
+                            p2 = new Player("2P", this);
                             Level.reset();
                             Level.loadLevel(this);
                             gameOver = false;
@@ -290,23 +281,23 @@ public class ServerModel implements ActionListener {
                     winningCount++;
                     Level.setWinningCount(winningCount);
                     if (Level.getWinningCount() == 120) {
-                        P1.setFrozen(1);
-                        P2.setFrozen(1);
+                        p1.setFrozen(1);
+                        p2.setFrozen(1);
                     }
                     if (Level.getWinningCount() == 470) {
-                        if (P1.getLife() > 0) {
-                            P1.reset();
+                        if (p1.getLife() > 0) {
+                            p1.reset();
                         }
-                        if (P2.getLife() > 0) {
-                            P2.reset();
+                        if (p2.getLife() > 0) {
+                            p2.reset();
                         }
                         Level.loadLevel(this);
                         //告诉客户端程序加载下一关
                         outputLine += "L" + (1 + (Level.getCurrentLevel() - 1) % 8) + ";";
                     }
                     if (Level.getWinningCount() == 500) {
-                        P1.setFrozen(0);
-                        P2.setFrozen(0);
+                        p1.setFrozen(0);
+                        p2.setFrozen(0);
                         Level.setDeathCount(0);
                         Level.setWinningCount(0);
                     }
@@ -330,7 +321,7 @@ public class ServerModel implements ActionListener {
                 }
 
                 //将玩家、关卡的信息写入输出行
-                outputLine += "p" + Level.getEnemyLeft() + "," + Level.getCurrentLevel() + "," + P1.getLife() + "," + P1.scores + "," + P2.getLife() + "," + P2.scores + ";";
+                outputLine += "p" + Level.getEnemyLeft() + "," + Level.getCurrentLevel() + "," + p1.getLife() + "," + p1.scores + "," + p2.getLife() + "," + p2.scores + ";";
                 outputLine += "g" + Level.getWinningCount() + ";";
 
                 //将玩家类型信息写入输出行
@@ -347,11 +338,11 @@ public class ServerModel implements ActionListener {
 
                 //如果玩家切换到对话框模式，则停止所有坦克动作
                 if (!view.getMainPanel().hasFocus()) {
-                    P1.setMoveLeft(false);
-                    P1.setMoveUp(false);
-                    P1.setMoveDown(false);
-                    P1.setMoveRight(false);
-                    P1.setFire(false);
+                    p1.setMoveLeft(false);
+                    p1.setMoveUp(false);
+                    p1.setMoveDown(false);
+                    p1.setMoveRight(false);
+                    p1.setFire(false);
                 }
 
                 Thread.sleep(30);
@@ -386,8 +377,8 @@ public class ServerModel implements ActionListener {
             }
 
             //破坏游戏数据
-            P1 = null;
-            P2 = null;
+            p1 = null;
+            p2 = null;
             Level.reset();
         }
     }

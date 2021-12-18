@@ -68,19 +68,19 @@ public class Base implements Actor {
     @Override
     public void move() {
         if (steelWallTime == 600) {
-            SteelWall temp = new SteelWall(248, 498, 2);
+            SteelWall temp = new SteelWall(248, 498, 2, gameModel);
             gameModel.actors[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
-            temp = new SteelWall(273, 498, 3);
+            temp = new SteelWall(273, 498, 3, gameModel);
             gameModel.actors[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
-            temp = new SteelWall(248, 473, 1);
+            temp = new SteelWall(248, 473, 1, gameModel);
             gameModel.actors[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
-            temp = new SteelWall(273, 473, 1);
+            temp = new SteelWall(273, 473, 1, gameModel);
             gameModel.actors[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }

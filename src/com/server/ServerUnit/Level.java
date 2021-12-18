@@ -302,7 +302,7 @@ public class Level {
     public static void loadLevel(ServerModel gameModel, String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25));
+                gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
             }
             if ("#0".equals(level[i])) {
                 gameModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
@@ -320,16 +320,16 @@ public class Level {
                 gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
             }
             if ("s0".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
             }
             if ("s1".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
             }
             if ("s2".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
             }
             if ("s3".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
             }
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
