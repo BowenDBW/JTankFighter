@@ -8,17 +8,13 @@ import java.awt.*;
 public class BrickWall implements Actor {
 
     private final Image wall = Toolkit.getDefaultToolkit().getImage("image\\71.jpg");
-    private int xPos;
-    private int yPos;
+    private final int xPos;
+    private final int yPos;
 
     public boolean[] shape;
 
     public int getyPos() {
         return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
     }
 
     public BrickWall(int xPos, int yPos, int orientation) {
@@ -124,11 +120,13 @@ public class BrickWall implements Actor {
         }
     }
 
-    public int getXPos() {
+    @Override
+    public int getX() {
         return xPos;
     }
 
-    public int getYPos() {
+    @Override
+    public int getY() {
         return yPos;
     }
 

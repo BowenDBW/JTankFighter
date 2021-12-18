@@ -9,7 +9,7 @@ public interface Actor {
 
     void draw(Graphics g);
 
-    int getXPos();
+    int getX();
 
-    int getYPos();
+    int getY();
 }

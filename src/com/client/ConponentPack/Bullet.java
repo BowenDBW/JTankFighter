@@ -10,13 +10,11 @@ import java.awt.*;
 public class Bullet implements Actor {
     private final int xPos;
     private final int yPos;
-    private final ClientModel gameModel;
     private final int direction;
 
-    public Bullet(int xPos, int yPos, ClientModel gameModel, int direction) {
+    public Bullet(int xPos, int yPos, int direction) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.gameModel = gameModel;
         this.direction = direction;
     }
 
@@ -29,14 +27,16 @@ public class Bullet implements Actor {
         if (direction == 2 || direction == 3) {
             g.fillRect(xPos - 4, yPos - 1, 9, 3);
         }
-        gameModel.removeActor(this);
+        ClientModel.removeActor(this);
     }
 
-    public int getXPos() {
+    @Override
+    public int getX() {
         return xPos;
     }
     
-    public int getYPos() {
+    @Override
+    public int getY() {
         return yPos;
     }
 

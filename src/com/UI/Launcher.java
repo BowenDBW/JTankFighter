@@ -17,10 +17,10 @@ import java.awt.event.ActionListener;
  **/
 public class Launcher {
 
-    private static final int width
+    private static final int WIDTH
             = GraphicsEnvironment.getLocalGraphicsEnvironment().
             getDefaultScreenDevice().getDisplayMode().getWidth();
-    private static final int height
+    private static final int HEIGHT
             = GraphicsEnvironment.getLocalGraphicsEnvironment().
             getDefaultScreenDevice().getDisplayMode().getHeight();
 
@@ -28,24 +28,12 @@ public class Launcher {
 
         JFrame jf = new JFrame();
         jf.setLayout(new GridLayout(3, 1, 10, 10));
-        jf.setBounds((int)(0.5D * (double)width - 400.0D),
-                (int)(0.5D * (double)height - 300.0D), 400, 900);
+        jf.setBounds((int)(0.5D * (double)WIDTH - 400.0D),
+                (int)(0.5D * (double)HEIGHT - 300.0D), 400, 900);
         JButton setup = new JButton("建立主机");
-        setup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                new ServerView();
-            }
-        });
+        setup.addActionListener(e -> new ServerView());
         JButton connect = new JButton("连接主机");
-        connect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                new ClientView();
-            }
-        });
+        connect.addActionListener(e -> new ClientView());
         JButton quit = new JButton("退出");
 
         jf.add(setup);

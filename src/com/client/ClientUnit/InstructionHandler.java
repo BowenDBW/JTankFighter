@@ -7,7 +7,7 @@ import com.client.ConponentPack.*;
  * 由客户端程序可读
  */
 public class InstructionHandler {
-    public static void handleInstruction(ClientModel gameModel, String instruction) {
+    public static void handleInstruction(String instruction) {
         if (instruction.length() == 0) {
             return;
         }
@@ -24,7 +24,7 @@ public class InstructionHandler {
 
             //指令“L”开头是负载水平,其次是“L”数量水平指数
             if ("L".equals(perInstruction.substring(0, 1))) {
-                Level.loadLevel(gameModel, Integer.parseInt(perInstruction.substring(1, 2)));
+                Level.loadLevel(Integer.parseInt(perInstruction.substring(1, 2)));
                 return;
             }
 
@@ -60,12 +60,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < gameModel.getDrawingList().length; k++) {
-                    if (gameModel.getDrawingList(k) != null) {
-                        if (gameModel.getDrawingList(k).getXPos() == xPos && gameModel.getDrawingList(k).getYPos() == yPos) {
+                for (int k = 0; k < ClientModel.getDrawingList().length; k++) {
+                    if (ClientModel.getDrawingList(k) != null) {
+                        if (ClientModel.getDrawingList(k).getX() == xPos && ClientModel.getDrawingList(k).getY() == yPos) {
                             BrickWall tempBrickWall = new BrickWall(xPos, yPos, 4);
                             tempBrickWall.shape = shape;
-                            gameModel.setDrawingList(k, tempBrickWall);
+                            ClientModel.setDrawingList(k, tempBrickWall);
                         }
                     }
                 }
@@ -102,12 +102,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < gameModel.getDrawingList().length; k++) {
-                    if (gameModel.getDrawingList()[k] != null) {
-                        if (gameModel.getDrawingList()[k].getXPos() == xPos && gameModel.getDrawingList()[k].getYPos() == yPos) {
+                for (int k = 0; k < ClientModel.getDrawingList().length; k++) {
+                    if (ClientModel.getDrawingList()[k] != null) {
+                        if (ClientModel.getDrawingList()[k].getX() == xPos && ClientModel.getDrawingList()[k].getY() == yPos) {
                             SteelWall tempWall = new SteelWall(xPos, yPos, 4);
                             tempWall.shape = shape;
-                            gameModel.getDrawingList()[k] = tempWall;
+                            ClientModel.getDrawingList()[k] = tempWall;
                         }
                     }
                 }
@@ -115,8 +115,8 @@ public class InstructionHandler {
 
             //指令“b”开头意味着基地已被摧毁
             if ("b".equals(perInstruction.substring(0, 1))) {
-                Actor actor = new NormalObject(260, 498, gameModel, "base", 1);
-                gameModel.setDrawingList(4, actor);
+                Actor actor = new NormalObject(260, 498,  "base", 1);
+                ClientModel.setDrawingList(4, actor);
             }
 
             //指令“n”开头显示正常的对象,如坦克、启动符号
@@ -152,7 +152,7 @@ public class InstructionHandler {
                 textureIndex = Integer.parseInt(temp.toString());
 
                 //执行指令
-                gameModel.addActor(new NormalObject(xPos, yPos, gameModel, "normal", textureIndex));
+                ClientModel.addActor(new NormalObject(xPos, yPos,"normal", textureIndex));
             }
 
 
@@ -189,7 +189,7 @@ public class InstructionHandler {
                 direction = Integer.parseInt(temp.toString());
 
                 //执行指令
-                gameModel.addActor(new Bullet(xPos, yPos, gameModel, direction));
+                ClientModel.addActor(new Bullet(xPos, yPos, direction));
             }
 
             //指令“o”开头表示一个炸弹
@@ -228,7 +228,7 @@ public class InstructionHandler {
                     size = 0;
                 }
                 //执行指令
-                gameModel.addActor(new Bomb(xPos, yPos, size, gameModel));
+                ClientModel.addActor(new Bomb(xPos, yPos, size));
             }
 
             //指令“i”开头表明坦克盾牌
@@ -254,7 +254,7 @@ public class InstructionHandler {
                 yPos = Integer.parseInt(temp.toString());
 
                 //执行指令
-                gameModel.addActor(new Shield(xPos, yPos, gameModel));
+                ClientModel.addActor(new Shield(xPos, yPos));
             }
 
             //指令“p”开头表示水平和玩家信息
@@ -267,7 +267,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.getView().getMainPanel().setEnemyLeft(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setEnemyLeft(Integer.parseInt(temp.toString()));
 
                 //得到水平指数
                 temp = new StringBuilder();
@@ -276,7 +276,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.getView().getMainPanel().setLevelIndex(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setLevelIndex(Integer.parseInt(temp.toString()));
 
                 //玩家1的生命量
                 temp = new StringBuilder();
@@ -285,7 +285,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.getView().getMainPanel().setP1Life(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setP1Life(Integer.parseInt(temp.toString()));
 
                 //玩家1的分数
                 temp = new StringBuilder();
@@ -294,7 +294,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.getView().getMainPanel().setP1Score(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setP1Score(Integer.parseInt(temp.toString()));
 
                 //玩家2的生命量
                 temp = new StringBuilder();
@@ -303,7 +303,7 @@ public class InstructionHandler {
                     j++;
                 }
                 j++;
-                gameModel.getView().getMainPanel().setP2Life(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setP2Life(Integer.parseInt(temp.toString()));
 
                 //玩家2的分数
                 temp = new StringBuilder();
@@ -312,7 +312,7 @@ public class InstructionHandler {
                     temp.append(perInstruction.charAt(j));
                     j++;
                 }
-                gameModel.getView().getMainPanel().setP2Score(Integer.parseInt(temp.toString()));
+                ClientModel.getView().getMainPanel().setP2Score(Integer.parseInt(temp.toString()));
             }
 
             //指令“g”开头表明获取胜利的统计数量
@@ -329,13 +329,13 @@ public class InstructionHandler {
 
             //指令“m”开头表示服务器玩家的信息
             if (perInstruction.charAt(0) == 'm') {
-                gameModel.addMessage("主机端玩家说：" + perInstruction.substring(1, perInstruction.length()));
+                ClientModel.addMessage("主机端玩家说：" + perInstruction.substring(1, perInstruction.length()));
             }
 
             //指令“a”开头表示游戏结束
             if (perInstruction.charAt(0) == 'a') {
                 if (!Status.isGameOver()) {
-                    gameModel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
+                    ClientModel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     Status.setGameOver(true);
                 }
             }
@@ -351,12 +351,12 @@ public class InstructionHandler {
                 int temp = Integer.parseInt(perInstruction.substring(1, 2));
                 if (temp == 0) {
                     if (Status.isGamePaused()) {
-                        gameModel.addMessage("主机端玩家取消了暂停");
+                        ClientModel.addMessage("主机端玩家取消了暂停");
                         Status.setGamePaused(false);
                     }
                 } else {
                     if (!Status.isGamePaused()) {
-                        gameModel.addMessage("主机端玩家暂停了游戏");
+                        ClientModel.addMessage("主机端玩家暂停了游戏");
                         Status.setGamePaused(true);
                     }
                 }

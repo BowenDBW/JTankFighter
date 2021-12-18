@@ -11,11 +11,9 @@ public class Bomb implements Actor {
 
     private final int xPos;
     private final int yPos;
-    private final ClientModel gameModel;
     private int inner, middle, outer;
 
-    public Bomb(int a, int b, int size, ClientModel gameModel) {
-        this.gameModel = gameModel;
+    public Bomb(int a, int b, int size) {
         xPos = a;
         yPos = b;
 
@@ -42,14 +40,16 @@ public class Bomb implements Actor {
         g.fillOval(xPos - inner, yPos - inner,
                 2 * inner, 2 * inner);
 
-        gameModel.removeActor(this);
+        ClientModel.removeActor(this);
     }
 
-    public int getXPos() {
+    @Override
+    public int getX() {
         return xPos;
     }
 
-    public int getYPos() {
+    @Override
+    public int getY() {
         return yPos;
     }
 }

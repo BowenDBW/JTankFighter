@@ -13,15 +13,13 @@ public class NormalObject implements Actor {
     private Image image;
     private final int xPos;
     private final int yPos;
-    private final ClientModel gameModel;
 
-    public NormalObject(int xPos, int yPos, ClientModel gameModel, String type, int imageIndex) {
+    public NormalObject(int xPos, int yPos, String type, int imageIndex) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.gameModel = gameModel;
         this.type = type;
         if (imageIndex != -1) {
-            image = gameModel.textures[imageIndex];
+            image = ClientModel.textures[imageIndex];
         }
     }
 
@@ -48,15 +46,17 @@ public class NormalObject implements Actor {
 
         if (!"river".equals(type) && !"grass".equals(type) && !"base".equals(type)) {
 
-            gameModel.removeActor(this);
+            ClientModel.removeActor(this);
         }
     }
 
-    public int getXPos() {
+    @Override
+    public int getX() {
         return xPos;
     }
 
-    public int getYPos() {
+    @Override
+    public int getY() {
         return yPos;
     }
 

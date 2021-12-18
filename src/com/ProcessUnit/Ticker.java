@@ -3,7 +3,7 @@ package com.ProcessUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Ticker implements Runnable {
+public class Ticker implements Runnable{
 
     private ActionListener al;
     private final int delay;

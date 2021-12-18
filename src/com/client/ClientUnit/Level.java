@@ -19,18 +19,18 @@ public class Level {
         Level.winningCount = winningCount;
     }
 
-    public static void loadLevel(ClientModel gameModel, int levelIndex) {
+    public static void loadLevel( int levelIndex) {
         //清除所有的东西
         for (int i = 0; i < 400; i++) {
-            gameModel.setDrawingList(i, null);
+            ClientModel.setDrawingList(i, null);
         }
 
         //加载基地
-        gameModel.setDrawingList(0, new BrickWall(248, 498, 2));
-        gameModel.setDrawingList(1, new BrickWall(273, 498, 3));
-        gameModel.setDrawingList(2, new BrickWall(248, 473, 1));
-        gameModel.setDrawingList(3, new BrickWall(273, 473, 1));
-        gameModel.setDrawingList(4, new NormalObject(260, 498, gameModel, "base", 0));
+        ClientModel.setDrawingList(0, new BrickWall(248, 498, 2));
+        ClientModel.setDrawingList(1, new BrickWall(273, 498, 3));
+        ClientModel.setDrawingList(2, new BrickWall(248, 473, 1));
+        ClientModel.setDrawingList(3, new BrickWall(273, 473, 1));
+        ClientModel.setDrawingList(4, new NormalObject(260, 498, "base", 0));
 
         //加载一个级别
         if (1 + (levelIndex - 1) % 8 == 1) {
@@ -56,7 +56,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 2) {
@@ -82,7 +82,7 @@ public class Level {
                     "__", "$$", "$$", "$$", "$$", "$$", "##", "__", "__", "__", "__", "__", "__", "##", "==", "==", "==", "==", "==", "__",
                     "__", "$$", "$$", "$$", "$$", "$$", "##", "__", "__", "__", "__", "__", "__", "##", "==", "==", "==", "==", "==", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 3) {
@@ -108,7 +108,7 @@ public class Level {
                     "__", "__", "__", "##", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "##", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 4) {
@@ -134,7 +134,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 5) {
@@ -160,7 +160,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "==", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "==", "__",
                     "__", "__", "__", "__", "__", "__", "==", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "==", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 6) {
@@ -187,7 +187,7 @@ public class Level {
                     "__", "__", "__", "$$", "__", "__", "__", "__", "__", "__", "__", "__", "$$", "$$", "$$", "$$", "__", "__", "__", "__"
 
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 7) {
@@ -213,7 +213,7 @@ public class Level {
                     "__", "__", "__", "__", "##", "##", "##", "__", "__", "__", "__", "__", "__", "__", "__", "==", "==", "==", "__", "__",
                     "__", "__", "__", "__", "##", "##", "##", "__", "__", "__", "__", "__", "__", "__", "__", "==", "==", "==", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (levelIndex - 1) % 8 == 8) {
@@ -239,53 +239,53 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
     }
 
-    public static void loadLevel(ClientModel gameModel, String[] level) {
+    public static void loadLevel(String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("#0".equals(level[i])) {
-                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("#1".equals(level[i])) {
-                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("#2".equals(level[i])) {
-                gameModel.addActor(new BrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
+                ClientModel.addActor(new BrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("#3".equals(level[i])) {
-                gameModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("ss".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("s0".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("s1".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("s2".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
+                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("s3".equals(level[i])) {
-                gameModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
 
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (gameModel.getDrawingList(j) == null) {
-                        gameModel.setDrawingList(j, new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel, "grass", -1));
+                    if (ClientModel.getDrawingList(j) == null) {
+                        ClientModel.setDrawingList(j, new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25,  "grass", -1));
                         break;
                     }
                 }
             }
             if ("==".equals(level[i])) {
-                gameModel.addActor(new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel, "river", 71));
+                ClientModel.addActor(new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, "river", 71));
             }
         }
     }

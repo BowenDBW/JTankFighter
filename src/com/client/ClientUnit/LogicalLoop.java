@@ -7,19 +7,16 @@ package com.client.ClientUnit;
  * @date 2021/12/17 21:48
  */
 public class LogicalLoop {
-    private static ClientModel clientModel = new ClientModel(ClientModel.getView());
-
-    private static int gameFlow;
 
     public static void logic() {
         //游戏逻辑循环,客户端程序实际不执行任何逻辑计算,它只接受drawing-instructions
         try {
             String fromServer;
-            while ((fromServer = clientModel.getClientCommunication().getIn().readLine()) != null) {
+            while ((fromServer = ClientModel.getClientCommunication().getIn().readLine()) != null) {
 
-                gameFlow = clientModel.getGameFlow();
+                int gameFlow = ClientModel.getGameFlow();
                 gameFlow++;
-                clientModel.setGameFlow(gameFlow);
+                ClientModel.setGameFlow(gameFlow);
 
                 if (Status.isPausePressed()) {
                     Instruction.getFromUser().append("x;");
@@ -34,7 +31,7 @@ public class LogicalLoop {
                     if (Status.isClientVoteYes()) {
                         Instruction.getFromUser().append("j;");
                         if (Status.isServerVote()) {
-                            clientModel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
+                            ClientModel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
                             Status.setGameOver(false);
                             Status.setClientVoteYes(false);
                             Status.setServerVote(false);
@@ -72,27 +69,27 @@ public class LogicalLoop {
                 Instruction.getFromUser().append(";");
 
                 //来自服务器的进程指令
-                InstructionHandler.handleInstruction(clientModel, fromServer);
+                InstructionHandler.handleInstruction(fromServer);
 
                 //从消息队列中删除一个消息每10秒,(如果有)
                 if (gameFlow % 300 == 0) {
-                    clientModel.removeMessage();
+                    ClientModel.removeMessage();
                 }
 
                 //输出玩家坦克信息
-                if (!"".equals(clientModel.getPlayerTypedMessage())) {
-                    Instruction.getFromUser().append(clientModel.getPlayerTypedMessage());
-                    clientModel.setPlayerTypedMessage("");
+                if (!"".equals(ClientModel.getPlayerTypedMessage())) {
+                    Instruction.getFromUser().append(ClientModel.getPlayerTypedMessage());
+                    ClientModel.setPlayerTypedMessage("");
                 }
 
                 //发送反馈指令
-                clientModel.getClientCommunication().getOut().println(Instruction.getFromUser().toString());
+                ClientModel.getClientCommunication().getOut().println(Instruction.getFromUser().toString());
 
                 //调用视图重新绘制它自己
-                clientModel.getView().getMainPanel().repaint();
+                ClientModel.getView().getMainPanel().repaint();
 
                 //如果切换到对话模式的玩家,那么停止所有坦克行动
-                if (!clientModel.getView().getMainPanel().hasFocus()) {
+                if (!ClientModel.getView().getMainPanel().hasFocus()) {
                     Status.setMoveLeft(false);
                     Status.setMoveUp(false);
                     Status.setMoveDown(false);
@@ -102,21 +99,21 @@ public class LogicalLoop {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            clientModel.getT().stop();
-            clientModel.getView().getMessageField().setEnabled(false);
+            ClientModel.getT().stop();
+            ClientModel.getView().getMessageField().setEnabled(false);
             Status.setServerConnected(false);
             Status.setGameStarted(false);
-            clientModel.getView().getMainPanel().setGameStarted(false);
+            ClientModel.getView().getMainPanel().setGameStarted(false);
             Status.setGameOver(false);
-            clientModel.addMessage("主机端退出了");
-            clientModel.getView().getIPField().setFocusable(true);
-            clientModel.getView().getIPField().setEnabled(true);
+            ClientModel.addMessage("主机端退出了");
+            ClientModel.getView().getIpField().setFocusable(true);
+            ClientModel.getView().getIpField().setEnabled(true);
 
             //当有错误发生时,关闭创建的任何事情
             try {
-                clientModel.getClientCommunication().getOut().close();
-                clientModel.getClientCommunication().getIn().close();
-                clientModel.getClientCommunication().getClientSocket().close();
+                ClientModel.getClientCommunication().getOut().close();
+                ClientModel.getClientCommunication().getIn().close();
+                ClientModel.getClientCommunication().getClientSocket().close();
             } catch (Exception exc) {
                 exc.printStackTrace();
             }

@@ -1,25 +1,19 @@
 package com.client.ClientUnit;
 
+import com.ProcessUnit.Ticker;
 import com.client.ConponentPack.Actor;
-import com.client.ConponentPack.Ticker;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
 
-public class ClientModel implements ActionListener {
+public class ClientModel implements ActionListener{
     //游戏变量
     private static int gameFlow;
     private static ClientView view;
 
     private static String serverIP;
 
-    private static ClientCommunication clientCommunication = new ClientCommunication();
+    private static final ClientCommunication CLIENT_COMMUNICATION = new ClientCommunication();
 
     //图像信息
     public static String[] messageQueue;
@@ -34,7 +28,7 @@ public class ClientModel implements ActionListener {
     private static Actor[] drawingList;
 
     public static ClientCommunication getClientCommunication() {
-        return clientCommunication;
+        return CLIENT_COMMUNICATION;
     }
 
 
@@ -58,37 +52,24 @@ public class ClientModel implements ActionListener {
         return view;
     }
 
-    public Image[] getTextures() {
-        return textures;
-    }
-
-    public Ticker getT() {
+    public static Ticker getT() {
         return t;
     }
 
-    public Actor getDrawingList(int k) {
+    public static Actor getDrawingList(int k) {
         return drawingList[k];
     }
 
-    public Actor[] getDrawingList() {
+    public static Actor[] getDrawingList() {
         return drawingList;
     }
 
-    public void setTextures(Image[] textures) {
-        this.textures = textures;
+    public static void setDrawingList(int k, Actor actor) {
+        drawingList[k] = actor;
     }
 
-    public void setDrawingList(int k, Actor actor) {
-        this.drawingList[k] = actor;
-    }
-
-
-    public static String getServerIP() {
-        return serverIP;
-    }
-
-    public  void setServerIP(String initserverIP) {
-        this.serverIP = initserverIP;
+    public static void setServerIp(String initserverIP) {
+        serverIP = initserverIP;
     }
 
     public ClientModel(ClientView thisView) {
@@ -105,10 +86,10 @@ public class ClientModel implements ActionListener {
     public static void connectServer() {
 
         addMessage("正在连接主机");
-        serverIP = view.getIPField().getText();
+        serverIP = view.getIpField().getText();
         try {
            //连接主机并初始化流
-           clientCommunication.connectServer(serverIP);
+            CLIENT_COMMUNICATION.connectServer(serverIP);
         } catch (Exception e) {
             t.stop();
             e.printStackTrace();
@@ -121,8 +102,8 @@ public class ClientModel implements ActionListener {
 
         addMessage("已成功连接到主机，开始载入游戏");
 
-        view.getIPField().setFocusable(false);
-        view.getIPField().setEnabled(false);
+        view.getIpField().setFocusable(false);
+        view.getIpField().setEnabled(false);
 
         //加载游戏 texture
         textures = new Image[88];
@@ -145,7 +126,7 @@ public class ClientModel implements ActionListener {
         connectServer();
 
         //如果程序不能连接到服务器然后什么都不做
-        if (!Status.isServerConnected()) {
+        if (Status.isServerConnected()) {
             return;
         }
 
@@ -170,7 +151,7 @@ public class ClientModel implements ActionListener {
     }
 
     //删除最早的消息在屏幕上
-    public void removeMessage() {
+    public static void removeMessage() {
         if (messageIndex == 0) {
             return;
         }
@@ -189,7 +170,7 @@ public class ClientModel implements ActionListener {
     }
 
     //添加一个游戏对象(如坦克、子弹等)图纸清单
-    public void addActor(Actor actor) {
+    public static void addActor(Actor actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == null) {
                 drawingList[i] = actor;
@@ -199,7 +180,7 @@ public class ClientModel implements ActionListener {
     }
 
     //删除一个游戏对象从图纸清单
-    public void removeActor(Actor actor) {
+    public static void removeActor(Actor actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == actor) {
                 drawingList[i] = null;

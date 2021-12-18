@@ -16,24 +16,6 @@ public class Bullet implements Actor {
     private ServerModel gameModel;
     private boolean hitTarget;
 
-
-    public int getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
-    }
-
-
     public ServerModel getGameModel() {
         return gameModel;
     }

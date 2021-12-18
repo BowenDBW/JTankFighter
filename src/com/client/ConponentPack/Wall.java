@@ -17,12 +17,14 @@ public class Wall implements Actor{
     }
 
 
-    public int getXPos() {
+    @Override
+    public int getX() {
         return 0;
     }
 
 
-    public int getYPos() {
+    @Override
+    public int getY() {
         return 0;
     }
 }

@@ -9,12 +9,14 @@ import java.awt.*;
  */ //这个类表示服务器的图形界面
 public class ServerView extends JFrame {
 
-    private DrawingPanel mainPanel;
-    private JButton createServer, exit, pauseAndResume, help;
-    private JTextField messageField;
-    private JButton sendMessage;
-    private ServerController controller;
-    private ServerModel model;
+    private final DrawingPanel mainPanel;
+    private final JButton createServer;
+    private final JButton exit;
+    private final JButton pauseAndResume;
+    private final JButton help;
+    private final JTextField messageField;
+    private final JButton sendMessage;
+    private final ServerModel model;
 
     public DrawingPanel getMainPanel() {
         return mainPanel;
@@ -106,6 +108,6 @@ public class ServerView extends JFrame {
         model = new ServerModel(this);
 
         //设置服务器控制器
-        controller = new ServerController(this, model);
+        ServerController controller = new ServerController(this, model);
     }
 }

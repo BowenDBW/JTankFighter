@@ -1,32 +1,14 @@
 package com.client.ConponentPack;
 
-import com.client.ClientUnit.ClientModel;
 import java.awt.*;
 
 public class SteelWall implements Actor {
 
     private final Image steelWall = Toolkit.getDefaultToolkit().getImage("image\\54.jpg");
-    private int xPos;
-    private int yPos;
+    private final int xPos;
+    private final int yPos;
 
     public boolean[] shape;
-
-    public int getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
-    }
-
 
     public SteelWall(int xPos, int yPos, int orientation) {
         this.xPos = xPos;
@@ -81,12 +63,12 @@ public class SteelWall implements Actor {
     }
 
     @Override
-    public int getXPos() {
+    public int getX() {
         return xPos;
     }
 
     @Override
-    public int getYPos() {
+    public int getY() {
         return yPos;
     }
 

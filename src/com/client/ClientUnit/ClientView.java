@@ -1,7 +1,5 @@
 package com.client.ClientUnit;//	坦克大战连线版用户端
 
-import com.client.ClientUnit.DrawingPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,7 @@ public class ClientView extends JFrame {
     private final JButton connectServer;
     private final JButton exit;
     private final JButton pauseAndResume;
-    private JButton help;
+    private final JButton help;
     private final JTextField messageField;
     private final JTextField ipField;
 
@@ -49,10 +47,6 @@ public class ClientView extends JFrame {
 
     public JButton getHelp() {
         return help;
-    }
-
-    public void setHelp(JButton help) {
-        this.help = help;
     }
 
     public JTextField getMessageField() {
@@ -134,6 +128,6 @@ public class ClientView extends JFrame {
         ClientModel model = new ClientModel(this);
 
         //设置客户端控制器
-        ClientController controller = new ClientController(this, model);
+        new ClientController(this);
     }
 }

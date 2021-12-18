@@ -23,7 +23,7 @@ public class Status {
     private static boolean fire;
 
     public static boolean isServerConnected() {
-        return serverConnected;
+        return !serverConnected;
     }
 
     public static void setServerConnected(boolean serverConnected) {

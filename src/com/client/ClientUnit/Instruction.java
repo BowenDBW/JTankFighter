@@ -7,10 +7,10 @@ package com.client.ClientUnit;
  * @date 2021/12/17 21:52
  */
 public class Instruction {
-    private static StringBuffer fromUser = new StringBuffer();
+    private static final StringBuffer FROM_USER = new StringBuffer();
 
     public static StringBuffer getFromUser() {
-        return fromUser;
+        return FROM_USER;
     }
 
 }

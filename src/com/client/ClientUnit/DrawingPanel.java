@@ -17,50 +17,43 @@ public class DrawingPanel extends JPanel {
 
     private boolean gameStarted;
     private int green, red, blue;
-    private int P1Life, P2Life, P1Score, P2Score, EnemyLeft, LevelIndex;
-    private final Image P1Image;
-    private final Image P2Image;
+    private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
+    private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
+    private final Image P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
 
 
 
-    public void setEnemyLeft(int enemyLeft) {
-        EnemyLeft = enemyLeft;
+    public void setEnemyLeft(int newEnemyLeft) {
+        enemyLeft = newEnemyLeft;
     }
 
 
-    public void setLevelIndex(int levelIndex) {
-        LevelIndex = levelIndex;
+    public void setLevelIndex(int newLevelIndex) {
+        levelIndex = newLevelIndex;
     }
 
 
-    public void setP1Life(int p1Life) {
-        P1Life = p1Life;
+    public void setP1Life(int newP1Life) {
+        p1Life = newP1Life;
     }
 
 
-    public void setP2Life(int p2Life) {
-        P2Life = p2Life;
+    public void setP2Life(int newP2Life) {
+        p2Life = newP2Life;
     }
 
 
-    public void setP1Score(int p1Score) {
-        P1Score = p1Score;
+    public void setP1Score(int newP1Score) {
+        p1Score = newP1Score;
     }
 
-    public void setP2Score(int p2Score) {
-        P2Score = p2Score;
+    public void setP2Score(int newP2Score) {
+        p2Score = newP2Score;
     }
-
 
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
     }
-
-    public DrawingPanel() {
-        P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");
-        P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
-    }
-
 
     @Override
     public void paintComponent(Graphics g) {
@@ -81,24 +74,24 @@ public class DrawingPanel extends JPanel {
         if (gameStarted) {
             //画游戏信息
             g.setColor(new Color(81, 111, 230));
-            g.drawString("第  " + LevelIndex + "  关", 527, 39);
-            g.drawString("敌人数 =  " + EnemyLeft, 527, 79);
+            g.drawString("第  " + levelIndex + "  关", 527, 39);
+            g.drawString("敌人数 =  " + enemyLeft, 527, 79);
 
             g.setColor(Color.yellow);
             g.drawImage(P1Image, 520, 380, null);
             g.drawString("x", 555, 395);
-            g.drawString(P1Life + "", 565, 396);
-            String SCORE = "000000000" + P1Score;
+            g.drawString(p1Life  + "", 565, 396);
+            String score = "000000000" + p1Score;
             g.drawString("P1" + " 得分:" + "", 515, 370);
-            g.drawString(SCORE.substring(SCORE.length() - 7) + "", 566, 370);
+            g.drawString(score.substring(score.length() - 7) + "", 566, 370);
 
             g.setColor(Color.green);
             g.drawImage(P2Image, 520, 460, null);
             g.drawString("x", 555, 475);
-            g.drawString(P2Life + "", 565, 476);
-            SCORE = "000000000" + P2Score;
+            g.drawString(p2Life + "", 565, 476);
+            score = "000000000" + p2Score;
             g.drawString("P2" + " 得分:" + "", 515, 450);
-            g.drawString(SCORE.substring(SCORE.length() - 7) + "", 566, 450);
+            g.drawString(score.substring(score.length() - 7) + "", 566, 450);
 
 
             //绘制背景

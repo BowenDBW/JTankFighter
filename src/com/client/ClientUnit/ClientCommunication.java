@@ -35,11 +35,11 @@ public class ClientCommunication {
 
     /**
      * 连接主机并初始化流
-     * @param serverIP
+     * @param serverIp
      * @throws IOException
      */
-    public void connectServer(String serverIP) throws IOException {
-        InetAddress address = InetAddress.getByName(serverIP);
+    public void connectServer(String serverIp) throws IOException {
+        InetAddress address = InetAddress.getByName(serverIp);
         clientSocket = new Socket(address, 9999);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
