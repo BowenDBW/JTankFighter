@@ -1,4 +1,4 @@
-package com.server.ConponentPack;
+package com.server.ComponentPack;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;

@@ -1,6 +1,6 @@
 package com.server.ServerUnit;
 
-import com.server.ConponentPack.*;
+import com.server.ComponentPack.*;
 
 /**
  * @author chenhong

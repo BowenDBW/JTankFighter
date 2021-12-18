@@ -1,6 +1,4 @@
-package com.server.ConponentPack;
-
-import com.client.ConponentPack.NormalObject;
+package com.server.ComponentPack;
 
 import java.awt.*;
 

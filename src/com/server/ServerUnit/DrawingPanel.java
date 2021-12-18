@@ -1,6 +1,6 @@
 package com.server.ServerUnit;
 
-import com.server.ConponentPack.Actor;
+import com.server.ComponentPack.Actor;
 
 import javax.swing.*;
 import java.awt.*;

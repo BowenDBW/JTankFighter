@@ -1,9 +1,9 @@
 package com.server.ServerUnit;
 
 import com.ProcessUnit.Ticker;
-import com.server.ConponentPack.Actor;
-import com.server.ConponentPack.Enemy;
-import com.server.ConponentPack.Player;
+import com.server.ComponentPack.Actor;
+import com.server.ComponentPack.Enemy;
+import com.server.ComponentPack.Player;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package com.server.ConponentPack;
+package com.server.ComponentPack;
 
 import com.server.ServerUnit.ServerModel;
 
@@ -59,6 +59,7 @@ public class SteelWall implements Actor {
     }
 
     public SteelWall(int a, int b, int orientation, ServerModel gameModel) {
+        this.gameModel = gameModel;
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
