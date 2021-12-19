@@ -59,19 +59,19 @@ public class FeedbackHandler {
 
             //指令是“j”表示客户端玩家想在玩一次
             if ("j".equals(perInstruction.substring(0, 1))) {
-                if (gameModel.isGameOver()) {
-                    gameModel.setClientVoteYes(true);
+                if (Status.isGameOver()) {
+                    Status.setClientVoteYes(true);
                 }
             }
 
             //指令是“x”表示服务器玩家暂停游戏
             if ("x".equals(perInstruction.substring(0, 1))) {
-                if (gameModel.isGamePaused()) {
+                if (Status.isGamePaused()) {
                     gameModel.addMessage("用户端玩家取消了暂停");
-                    gameModel.setGamePaused(false);
+                    Status.setGamePaused(false);
                 } else {
                     gameModel.addMessage("用户端玩家暂停了游戏");
-                    gameModel.setGamePaused(true);
+                    Status.setGamePaused(true);
                 }
             }
             i++;

@@ -16,7 +16,6 @@ public class ServerView extends JFrame {
     private final JButton help;
     private final JTextField messageField;
     private final JButton sendMessage;
-    private final ServerModel model;
 
     public DrawingPanel getMainPanel() {
         return mainPanel;
@@ -105,9 +104,9 @@ public class ServerView extends JFrame {
         setResizable(false);
 
         //设置服务器模式
-        model = new ServerModel(this);
+        ServerModel model = new ServerModel(this);
 
         //设置服务器控制器
-        ServerController controller = new ServerController(this, model);
+        new ServerController(this, model);
     }
 }

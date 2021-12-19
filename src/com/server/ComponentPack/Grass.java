@@ -3,7 +3,7 @@ package com.server.ComponentPack;
 import java.awt.*;
 
 public class Grass implements GameComponent {
-    private Rectangle border;
+    private final Rectangle border;
     private final int xPos;
     private final int yPos;
 

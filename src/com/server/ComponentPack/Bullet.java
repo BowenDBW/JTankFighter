@@ -1,6 +1,7 @@
 package com.server.ComponentPack;
 
 import com.server.ServerUnit.ServerModel;
+import com.server.ServerUnit.Status;
 
 import java.awt.*;
 
@@ -53,7 +54,7 @@ public class Bullet implements GameComponent {
 
     @Override
     public void move() {
-        if (gameModel.isGamePaused()) {
+        if (Status.isGamePaused()) {
             writeToOutputLine();
             return;
         }
@@ -114,7 +115,7 @@ public class Bullet implements GameComponent {
                             Base temp = (Base) gameModel.gameComponents[i];
                             temp.doom();
                             hitTarget = true;
-                            gameModel.setGameOver(true);
+                            Status.setGameOver(true);
                         }
                     }
                 }

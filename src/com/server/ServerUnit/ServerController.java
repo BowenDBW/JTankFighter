@@ -6,11 +6,9 @@ import java.awt.event.KeyEvent;
 
 //这个类处理来自服务器视图的输入
 public class ServerController {
-    private ServerView view;
-    private ServerModel model;
+    private final ServerView view;
+    private final ServerModel model;
     private int helpMessageCount = 1;
-
-
     //一个玩家坦克的参考
 
     public ServerController(ServerView thisView, ServerModel thisModel) {
@@ -19,7 +17,7 @@ public class ServerController {
 
         //操作发送消息按钮的动作
         view.getSendMessage().addActionListener(e -> {
-            if (!model.isGameStarted()) {
+            if (!Status.isGameStarted()) {
                 model.addMessage("还没有和别的玩家联上, 无法发送对话");
                 return;
             }
@@ -36,7 +34,7 @@ public class ServerController {
 
         //操作建立主机按钮的动作
         view.getCreateServer().addActionListener(e -> {
-            if (!model.isServerCreated()) {
+            if (!Status.isServerCreated()) {
                 model.getT().start();
             }
         }
@@ -44,13 +42,13 @@ public class ServerController {
 
         //操作暂停/继续按钮的动作
         view.getPauseAndResume().addActionListener(e -> {
-            model.setPausePressed(true);
-            if (!model.isGameOver() && model.isGameStarted()) {
-                if (!model.isGamePaused()) {
-                    model.setGamePaused(true);
+            Status.setPausePressed(true);
+            if (!Status.isGameOver() && Status.isGameStarted()) {
+                if (!Status.isGamePaused()) {
+                    Status.setGamePaused(true);
                     model.addMessage("主机端玩家暂停了游戏");
                 } else {
-                    model.setGamePaused(false);
+                    Status.setGamePaused(false);
                     model.addMessage("主机端玩家取消了暂停");
                 }
             }
@@ -134,13 +132,13 @@ public class ServerController {
                                             }
                                         }
 
-                                        if (e.getKeyChar() == 'y' && model.isGameOver() && !model.isServerVoteYes()) {
-                                            model.setServerVoteYes(true);
+                                        if (e.getKeyChar() == 'y' && Status.isGameOver() && !Status.isServerVoteYes()) {
+                                            Status.setServerVoteYes(true);
                                             model.addMessage("等待用户端玩家的回应...");
                                         }
 
-                                        if (e.getKeyChar() == 'n' && model.isGameOver()) {
-                                            model.setServerVoteNo(true);
+                                        if (e.getKeyChar() == 'n' && Status.isGameOver()) {
+                                            Status.setServerVoteNo(true);
                                         }
                                     }
                                 }

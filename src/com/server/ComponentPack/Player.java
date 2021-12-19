@@ -2,6 +2,7 @@ package com.server.ComponentPack;
 
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
+import com.server.ServerUnit.Status;
 
 import java.awt.*;
 
@@ -125,7 +126,7 @@ public class Player implements GameComponent {
 
     @Override
     public void move() {
-        if (gameModel.isGamePaused()) {
+        if (Status.isGamePaused()) {
             writeToOutputLine();
             return;
         }

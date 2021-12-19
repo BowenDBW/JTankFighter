@@ -25,13 +25,6 @@ public class ServerModel implements ActionListener {
     private BufferedReader in;
     public String inputLine, outputLine;
     //服务器状态
-    private boolean serverCreated;
-    private boolean gameStarted;
-    private boolean gamePaused;
-    private boolean gameOver;
-    private boolean serverVoteYes, serverVoteNo;
-    private boolean clientVoteYes;
-    private boolean pausePressed;
     //游戏消息
     private final String[] messageQueue;
     private int messageIndex;
@@ -47,51 +40,6 @@ public class ServerModel implements ActionListener {
         return gameFlow;
     }
 
-    public boolean isServerCreated() {
-        return serverCreated;
-    }
-
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
-
-
-    public boolean isGamePaused() {
-        return gamePaused;
-    }
-
-    public void setGamePaused(boolean gamePaused) {
-        this.gamePaused = gamePaused;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-    }
-
-    public boolean isServerVoteYes() {
-        return serverVoteYes;
-    }
-
-    public void setServerVoteYes(boolean serverVoteYes) {
-        this.serverVoteYes = serverVoteYes;
-    }
-
-    public void setServerVoteNo(boolean serverVoteNo) {
-        this.serverVoteNo = serverVoteNo;
-    }
-
-    public void setClientVoteYes(boolean clientVoteYes) {
-        this.clientVoteYes = clientVoteYes;
-    }
-
-
-    public void setPausePressed(boolean pausePressed) {
-        this.pausePressed = pausePressed;
-    }
 
 
     public Ticker getT() {
@@ -125,7 +73,7 @@ public class ServerModel implements ActionListener {
 
         try {
             serverSocket = new ServerSocket(9999);
-            serverCreated = true;
+            Status.setServerCreated(true);
         } catch (Exception e) {
             addMessage("无法建立主机，请确认端口9999没有被别的程序使用");
             e.printStackTrace();
@@ -135,10 +83,10 @@ public class ServerModel implements ActionListener {
 
         addMessage("建立完成，等待玩家连接");
 
-        boolean clientConnected;
+
         try {
             clientSocket = serverSocket.accept();
-            clientConnected = true;
+
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
@@ -146,8 +94,8 @@ public class ServerModel implements ActionListener {
 
         } catch (Exception e) {
             addMessage("连接中出现错误，请重新建立主机");
-            serverCreated = false;
-            clientConnected = false;
+            Status.setServerCreated(false);
+
             t.stop();
 
             //当发生错误，摧毁一切已创建的
@@ -186,7 +134,7 @@ public class ServerModel implements ActionListener {
         p2 = new Player("2P", this);
         addActor(p2);
 
-        gameStarted = true;
+        Status.setGameStarted(true);
         view.getMainPanel().gameComponents = gameComponents;
         view.getMainPanel().setGameStarted(true);
 
@@ -198,7 +146,7 @@ public class ServerModel implements ActionListener {
         createServer();
 
         //如果程序未能创建服务器，则什么也不做
-        if (!serverCreated) {
+        if (!Status.isServerCreated()) {
             return;
         }
 
@@ -210,30 +158,30 @@ public class ServerModel implements ActionListener {
 
                 outputLine = "";
 
-                if (!gamePaused) {
+                if (!Status.isGamePaused()) {
                     gameFlow++;
                 }
 
-                if (pausePressed) {
+                if (!Status.isPausePressed()) {
 
-                    if (!gamePaused) {
+                    if (!Status.isGamePaused()) {
 
                         outputLine += "x0;";
                     } else {
 
                         outputLine += "x1;";
                     }
-                    pausePressed = false;
+                    Status.setPausePressed(false);
                 }
 
-                if (gameOver || (p1.getLife() == 0 && p2.getLife() == 0)) {
+                if (Status.isGameOver() || (p1.getLife() == 0 && p2.getLife() == 0)) {
 
                     if (p1.getFrozen() != 1) {
 
                         outputLine += "a;";
                     };
 
-                    if ((p1.getFrozen() != 1 || messageIndex == 1) && serverVoteYes) {
+                    if ((p1.getFrozen() != 1 || messageIndex == 1) && Status.isServerVoteYes()) {
 
                         addMessage("等待用户端玩家的回应...");
                     }
@@ -241,19 +189,19 @@ public class ServerModel implements ActionListener {
 
                         addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     }
-                    gameOver = true;
+                    Status.setGameOver(true);
                     p1.setFrozen(1);
                     p2.setFrozen(1);
 
-                    if (serverVoteNo && !serverVoteYes){
+                    if (Status.isServerVoteNo() && !Status.isServerVoteYes()){
 
                         System.exit(0);
                     }
 
-                    if (serverVoteYes) {
+                    if (Status.isServerVoteYes()) {
 
                         outputLine += "j;";
-                        if (clientVoteYes) {
+                        if (Status.isClientVoteYes()) {
 
                             addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
 
@@ -262,10 +210,10 @@ public class ServerModel implements ActionListener {
                             p2 = new Player("2P", this);
                             Level.reset();
                             Level.loadLevel(this);
-                            gameOver = false;
-                            serverVoteYes = false;
-                            clientVoteYes = false;
-                            serverVoteNo = false;
+                            Status.setGameOver(false);
+                            Status.setServerVoteYes(false);
+                            Status.setClientVoteYes(false);
+                            Status.setServerVoteNo(false);
                             Enemy.setFrozenMoment(0);
                             Enemy.setFrozenTime(0);
                             gameFlow = 0;
@@ -276,7 +224,7 @@ public class ServerModel implements ActionListener {
                     }
                 }
 
-                if (Level.getDeathCount() == 20 && !gameOver) {
+                if (Level.getDeathCount() == 20 && !Status.isGameOver()) {
                     int winningCount = Level.getWinningCount();
                     winningCount++;
                     Level.setWinningCount(winningCount);
@@ -305,7 +253,7 @@ public class ServerModel implements ActionListener {
                 }
 
                 //大量生产敌人坦克
-                if (!gamePaused) {
+                if (!Status.isGamePaused()) {
                     Level.spawnEnemy(this);
                 }
 
@@ -351,12 +299,12 @@ public class ServerModel implements ActionListener {
 
             ex.printStackTrace();
             view.getMessageField().setEnabled(false);
-            serverVoteYes = false;
-            serverVoteNo = false;
-            clientVoteYes = false;
-            serverCreated = false;
-            gameStarted = false;
-            gameOver = false;
+            Status.setServerVoteYes(false);
+            Status.setServerVoteNo (false);
+            Status.setClientVoteYes(false);
+            Status.setServerCreated(false);
+            Status.setGameStarted(false);
+            Status.setGameOver(false);
             gameFlow = 0;
             Enemy.setFrozenTime(0);
             Enemy.setFrozenMoment(0);
@@ -415,7 +363,7 @@ public class ServerModel implements ActionListener {
         }
 
         //调用视图重绘屏幕如果游戏有没有开始
-        if (!gameStarted) {
+        if (!Status.isGameStarted()) {
             view.getMainPanel().repaint();
         }
     }
@@ -434,7 +382,7 @@ public class ServerModel implements ActionListener {
         messageQueue[messageIndex] = null;
 
         //调用视图重绘屏幕如果比赛还没开始
-        if (!gameStarted) {
+        if (!Status.isGameStarted()) {
             view.getMainPanel().repaint();
         }
     }
