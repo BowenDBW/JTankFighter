@@ -1,5 +1,6 @@
-package com.client.ClientUnit;
+package com.client.ConponentPack;
 
+import com.client.ClientUnit.ClientModel;
 import com.client.ConponentPack.Actor;
 
 import java.awt.*;

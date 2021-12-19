@@ -31,7 +31,7 @@ public class LogicalLoop {
                     if (Status.isClientVoteYes()) {
                         Instruction.getFromUser().append("j;");
                         if (Status.isServerVote()) {
-                            ClientModel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
+                            DrawingPanel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
                             Status.setGameOver(false);
                             Status.setClientVoteYes(false);
                             Status.setServerVote(false);
@@ -73,7 +73,7 @@ public class LogicalLoop {
 
                 //从消息队列中删除一个消息每10秒,(如果有)
                 if (gameFlow % 300 == 0) {
-                    ClientModel.removeMessage();
+                    DrawingPanel.removeMessage();
                 }
 
                 //输出玩家坦克信息
@@ -103,9 +103,9 @@ public class LogicalLoop {
             ClientModel.getView().getMessageField().setEnabled(false);
             Status.setServerConnected(false);
             Status.setGameStarted(false);
-            ClientModel.getView().getMainPanel().setGameStarted(false);
+
             Status.setGameOver(false);
-            ClientModel.addMessage("主机端退出了");
+            DrawingPanel.addMessage("主机端退出了");
             ClientModel.getView().getIpField().setFocusable(true);
             ClientModel.getView().getIpField().setEnabled(true);
 

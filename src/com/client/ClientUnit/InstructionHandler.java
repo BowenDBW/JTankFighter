@@ -60,12 +60,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < ClientModel.getDrawingList().length; k++) {
-                    if (ClientModel.getDrawingList(k) != null) {
-                        if (ClientModel.getDrawingList(k).getX() == xPos && ClientModel.getDrawingList(k).getY() == yPos) {
+                for (int k = 0; k < ClientModel.drawingList.length; k++) {
+                    if (ClientModel.drawingList[k] != null) {
+                        if (ClientModel.drawingList[k].getX() == xPos && ClientModel.drawingList[k].getY() == yPos) {
                             BrickWall tempBrickWall = new BrickWall(xPos, yPos, 4);
                             tempBrickWall.shape = shape;
-                            ClientModel.setDrawingList(k, tempBrickWall);
+                            ClientModel.drawingList[k] = tempBrickWall;
                         }
                     }
                 }
@@ -102,12 +102,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < ClientModel.getDrawingList().length; k++) {
-                    if (ClientModel.getDrawingList()[k] != null) {
-                        if (ClientModel.getDrawingList()[k].getX() == xPos && ClientModel.getDrawingList()[k].getY() == yPos) {
+                for (int k = 0; k < ClientModel.drawingList.length; k++) {
+                    if (ClientModel.drawingList[k] != null) {
+                        if (ClientModel.drawingList[k].getX() == xPos && ClientModel.drawingList[k].getY() == yPos) {
                             SteelWall tempWall = new SteelWall(xPos, yPos, 4);
                             tempWall.shape = shape;
-                            ClientModel.getDrawingList()[k] = tempWall;
+                            ClientModel.drawingList[k] = tempWall;
                         }
                     }
                 }
@@ -116,7 +116,7 @@ public class InstructionHandler {
             //指令“b”开头意味着基地已被摧毁
             if ("b".equals(perInstruction.substring(0, 1))) {
                 Actor actor = new NormalObject(260, 498,  "base", 1);
-                ClientModel.setDrawingList(4, actor);
+                ClientModel.drawingList[4] = actor;
             }
 
             //指令“n”开头显示正常的对象,如坦克、启动符号
@@ -329,13 +329,13 @@ public class InstructionHandler {
 
             //指令“m”开头表示服务器玩家的信息
             if (perInstruction.charAt(0) == 'm') {
-                ClientModel.addMessage("主机端玩家说：" + perInstruction.substring(1, perInstruction.length()));
+                DrawingPanel.addMessage("主机端玩家说：" + perInstruction.substring(1, perInstruction.length()));
             }
 
             //指令“a”开头表示游戏结束
             if (perInstruction.charAt(0) == 'a') {
                 if (!Status.isGameOver()) {
-                    ClientModel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
+                    DrawingPanel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     Status.setGameOver(true);
                 }
             }
@@ -351,12 +351,12 @@ public class InstructionHandler {
                 int temp = Integer.parseInt(perInstruction.substring(1, 2));
                 if (temp == 0) {
                     if (Status.isGamePaused()) {
-                        ClientModel.addMessage("主机端玩家取消了暂停");
+                        DrawingPanel.addMessage("主机端玩家取消了暂停");
                         Status.setGamePaused(false);
                     }
                 } else {
                     if (!Status.isGamePaused()) {
-                        ClientModel.addMessage("主机端玩家暂停了游戏");
+                        DrawingPanel.addMessage("主机端玩家暂停了游戏");
                         Status.setGamePaused(true);
                     }
                 }

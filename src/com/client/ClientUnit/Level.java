@@ -22,15 +22,15 @@ public class Level {
     public static void loadLevel( int levelIndex) {
         //清除所有的东西
         for (int i = 0; i < 400; i++) {
-            ClientModel.setDrawingList(i, null);
+            ClientModel.drawingList[i] = null;
         }
 
         //加载基地
-        ClientModel.setDrawingList(0, new BrickWall(248, 498, 2));
-        ClientModel.setDrawingList(1, new BrickWall(273, 498, 3));
-        ClientModel.setDrawingList(2, new BrickWall(248, 473, 1));
-        ClientModel.setDrawingList(3, new BrickWall(273, 473, 1));
-        ClientModel.setDrawingList(4, new NormalObject(260, 498, "base", 0));
+        ClientModel.drawingList[0] = new BrickWall(248, 498, 2);
+        ClientModel.drawingList[1] = new BrickWall(273, 498, 3);
+        ClientModel.drawingList[2] = new BrickWall(248, 473, 1);
+        ClientModel.drawingList[3] = new BrickWall(273, 473, 1);
+        ClientModel.drawingList[4] = new NormalObject(260, 498, "base", 0);
 
         //加载一个级别
         if (1 + (levelIndex - 1) % 8 == 1) {
@@ -278,8 +278,8 @@ public class Level {
 
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (ClientModel.getDrawingList(j) == null) {
-                        ClientModel.setDrawingList(j, new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25,  "grass", -1));
+                    if (ClientModel.drawingList[j] == null) {
+                        ClientModel.drawingList[j] = new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25,  "grass", -1);
                         break;
                     }
                 }

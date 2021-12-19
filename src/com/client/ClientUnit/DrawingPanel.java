@@ -12,16 +12,26 @@ import java.awt.*;
 public class DrawingPanel extends JPanel {
     private Image offScreenImage;
 
-    public String[] messageQueue;
+    public static String[] messageQueue;
+    private static int messageIndex;
+
     public Actor[] drawingList;
 
-    private boolean gameStarted;
     private int green, red, blue;
     private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
     private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
     private final Image P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
 
 
+
+
+    public static int getMessageIndex() {
+        return messageIndex;
+    }
+
+    public static void setMessageIndex(int messageIndex) {
+        DrawingPanel.messageIndex = messageIndex;
+    }
 
     public void setEnemyLeft(int newEnemyLeft) {
         enemyLeft = newEnemyLeft;
@@ -51,9 +61,7 @@ public class DrawingPanel extends JPanel {
         p2Score = newP2Score;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
-    }
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -71,7 +79,7 @@ public class DrawingPanel extends JPanel {
     public void myPaint(Graphics g) {
         super.paintComponent(g);
 
-        if (gameStarted) {
+        if (Status.isGameStarted()) {
             //画游戏信息
             g.setColor(new Color(81, 111, 230));
             g.drawString("第  " + levelIndex + "  关", 527, 39);
@@ -153,6 +161,41 @@ public class DrawingPanel extends JPanel {
                 }
             }
         }
+    }
 
+    //在屏幕上显示一条消息
+    public static void addMessage(String message) {
+        if (messageIndex < 8) {
+            messageQueue[messageIndex] = message;
+            messageIndex++;
+        } else {
+            System.arraycopy
+                    (messageQueue, 1, messageQueue, 0, 7);
+            messageQueue[7] = message;
+        }
+
+        //调用视图来重新绘制屏幕，如果没有开始游戏
+        if (!Status.isGameStarted()) {
+            ClientModel.getView().getMainPanel().repaint();
+        }
+    }
+
+    //删除最早的消息在屏幕上
+    public static void removeMessage() {
+        if (messageIndex == 0) {
+            return;
+        }
+
+        messageIndex--;
+        if (messageIndex >= 0) {
+            System.arraycopy
+                    (messageQueue, 1, messageQueue, 0, messageIndex);
+        }
+        messageQueue[messageIndex] = null;
+
+        //调用视图来重新绘制屏幕如果没有开始游戏
+        if (!Status.isGameStarted()) {
+            ClientModel.getView().getMainPanel().repaint();
+        }
     }
 }
