@@ -3,7 +3,7 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Base implements Actor {
+public class Base implements GameComponent {
 
     private final Rectangle border;
     private Image base = Toolkit.getDefaultToolkit().getImage("image\\1.jpg");
@@ -69,19 +69,19 @@ public class Base implements Actor {
     public void move() {
         if (steelWallTime == 600) {
             SteelWall temp = new SteelWall(248, 498, 2, gameModel);
-            gameModel.actors[0] = temp;
+            gameModel.gameComponents[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
             temp = new SteelWall(273, 498, 3, gameModel);
-            gameModel.actors[1] = temp;
+            gameModel.gameComponents[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
             temp = new SteelWall(248, 473, 1, gameModel);
-            gameModel.actors[2] = temp;
+            gameModel.gameComponents[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
             temp = new SteelWall(273, 473, 1, gameModel);
-            gameModel.actors[3] = temp;
+            gameModel.gameComponents[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }
         if (steelWallTime > 0) {
@@ -89,19 +89,19 @@ public class Base implements Actor {
         }
         if (steelWallTime == 1) {
             Wall temp = new Wall(248, 498, 2, gameModel);
-            gameModel.actors[0] = temp;
+            gameModel.gameComponents[0] = temp;
             writeToOutputLine("w", temp.shape, 248, 498);
 
             temp = new Wall(273, 498, 3, gameModel);
-            gameModel.actors[1] = temp;
+            gameModel.gameComponents[1] = temp;
             writeToOutputLine("w", temp.shape, 273, 498);
 
             temp = new Wall(248, 473, 1, gameModel);
-            gameModel.actors[2] = temp;
+            gameModel.gameComponents[2] = temp;
             writeToOutputLine("w", temp.shape, 248, 473);
 
             temp = new Wall(273, 473, 1, gameModel);
-            gameModel.actors[3] = temp;
+            gameModel.gameComponents[3] = temp;
             writeToOutputLine("w", temp.shape, 273, 473);
         }
     }

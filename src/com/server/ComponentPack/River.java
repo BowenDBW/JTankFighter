@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * @author chenhong
  */
-public class River implements Actor {
+public class River implements GameComponent {
     private final Image river;
     private ServerModel gameModel;
     private final int xPos;
@@ -52,7 +52,6 @@ public class River implements Actor {
     public void draw(Graphics g) {
         g.drawImage(river, xPos - 12, yPos - 12, null);
     }
-
 
     //未使用的方法
     @Override

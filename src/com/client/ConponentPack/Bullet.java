@@ -7,7 +7,8 @@ import java.awt.*;
 /**
  *  record类 是java14之后的产物，本项目理想状态是使用java8，故可以将其看作记录类，但不这么优化
  */
-public class Bullet implements Actor {
+public class Bullet implements GameComponent {
+
     private final int xPos;
     private final int yPos;
     private final int direction;

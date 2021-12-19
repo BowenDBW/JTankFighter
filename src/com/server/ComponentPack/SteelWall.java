@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * @author chenhong
  */
-public class SteelWall implements Actor {
+public class SteelWall implements GameComponent {
     public boolean[] shape = new boolean[4];
     private boolean wallDestroyed;
     private boolean bulletDestroyed;
@@ -170,7 +170,6 @@ public class SteelWall implements Actor {
     public String getType() {
         return "steelWall";
     }
-
 
     //未使用的方法
     @Override

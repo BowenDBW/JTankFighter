@@ -1,7 +1,7 @@
 package com.server.ServerUnit;
 
 import com.ProcessUnit.Ticker;
-import com.server.ComponentPack.Actor;
+import com.server.ComponentPack.GameComponent;
 import com.server.ComponentPack.Enemy;
 import com.server.ComponentPack.Player;
 import java.awt.*;
@@ -39,7 +39,7 @@ public class ServerModel implements ActionListener {
     //实际的游戏在这个线程上运行，而主线程监听用户的输入
     private final Ticker t;
     public Image[] textures;
-    public Actor[] actors;
+    public GameComponent[] gameComponents;
     private Player p1;   //由服务器玩家控制的坦克
     private Player p2;   //有客户端玩家控制的坦克
 
@@ -178,7 +178,7 @@ public class ServerModel implements ActionListener {
 
 
         //设置第一关
-        actors = new Actor[400];
+        gameComponents = new GameComponent[400];
         Level.loadLevel(this);
 
         p1 = new Player("1P", this);
@@ -187,7 +187,7 @@ public class ServerModel implements ActionListener {
         addActor(p2);
 
         gameStarted = true;
-        view.getMainPanel().actors = actors;
+        view.getMainPanel().gameComponents = gameComponents;
         view.getMainPanel().setGameStarted(true);
 
         addMessage("载入完毕，游戏开始了！");
@@ -309,9 +309,9 @@ public class ServerModel implements ActionListener {
                     Level.spawnEnemy(this);
                 }
 
-                for (Actor actor : actors) {
-                    if (actor != null) {
-                        actor.move();
+                for (GameComponent gameComponent : gameComponents) {
+                    if (gameComponent != null) {
+                        gameComponent.move();
                     }
                 }
 
@@ -384,20 +384,20 @@ public class ServerModel implements ActionListener {
     }
 
     //添加游戏对象（如坦克，子弹等..）到游戏系统
-    public void addActor(Actor actor) {
-        for (int i = 0; i < actors.length; i++) {
-            if (actors[i] == null) {
-                actors[i] = actor;
+    public void addActor(GameComponent gameComponent) {
+        for (int i = 0; i < gameComponents.length; i++) {
+            if (gameComponents[i] == null) {
+                gameComponents[i] = gameComponent;
                 break;
             }
         }
     }
 
     //从游戏系统中移除游戏对象
-    public void removeActor(Actor actor) {
-        for (int i = 0; i < actors.length; i++) {
-            if (actors[i] == actor) {
-                actors[i] = null;
+    public void removeActor(GameComponent gameComponent) {
+        for (int i = 0; i < gameComponents.length; i++) {
+            if (gameComponents[i] == gameComponent) {
+                gameComponents[i] = null;
                 break;
             }
         }

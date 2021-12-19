@@ -64,18 +64,18 @@ public class Level {
 
         //从上个关卡清除所有东西
         for (int i = 0; i < 400; i++) {
-            gameModel.actors[i] = null;
+            gameModel.gameComponents[i] = null;
         }
 
         //启动时各关卡共享
         enemyLeft = 20;
 
         //加载基地，每个关卡都一样
-        gameModel.actors[0] = new Wall(248, 498, 2, gameModel);
-        gameModel.actors[1] = new Wall(273, 498, 3, gameModel);
-        gameModel.actors[2] = new Wall(248, 473, 1, gameModel);
-        gameModel.actors[3] = new Wall(273, 473, 1, gameModel);
-        gameModel.actors[4] = new Base();
+        gameModel.gameComponents[0] = new Wall(248, 498, 2, gameModel);
+        gameModel.gameComponents[1] = new Wall(273, 498, 3, gameModel);
+        gameModel.gameComponents[2] = new Wall(248, 473, 1, gameModel);
+        gameModel.gameComponents[3] = new Wall(273, 473, 1, gameModel);
+        gameModel.gameComponents[4] = new Base();
 
         //加载一个关卡
         if (1 + (currentLevel - 1) % 8 == 1) {
@@ -333,8 +333,8 @@ public class Level {
             }
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (gameModel.actors[j] == null) {
-                        gameModel.actors[j] = new Grass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
+                    if (gameModel.gameComponents[j] == null) {
+                        gameModel.gameComponents[j] = new Grass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
                         break;
                     }
                 }

@@ -2,7 +2,8 @@ package com.server.ComponentPack;
 
 import java.awt.*;
 
-public interface Actor {
+public interface GameComponent {
+
 	void draw(Graphics g);
 
 	void move();

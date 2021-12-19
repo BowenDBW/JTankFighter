@@ -5,7 +5,7 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Enemy implements Actor {
+public class Enemy implements GameComponent {
     private static int frozenTime;
     private static int frozenMoment;
     private final int size = 12;
@@ -227,17 +227,17 @@ public class Enemy implements Actor {
         }
 
         //检查下一个边界是否与其他对象相交，例如玩家控制的坦克，墙等等
-        for (int i = 0; i < gameModel.actors.length; i++) {
-            if (gameModel.actors[i] != null) {
-                if (this != gameModel.actors[i]) {
-                    if (border.intersects(gameModel.actors[i].getBorder())) {
+        for (int i = 0; i < gameModel.gameComponents.length; i++) {
+            if (gameModel.gameComponents[i] != null) {
+                if (this != gameModel.gameComponents[i]) {
+                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
                         //静态对象，例如河流，墙等等
-                        if ("steelWall".equals(gameModel.actors[i].getType()) ||
-                                "wall".equals(gameModel.actors[i].getType())) {
-                            if (!gameModel.actors[i].wallDestroyed()) {
-                                for (int j = 0; j < gameModel.actors[i].getDetailedBorder().length; j++) {
-                                    if (gameModel.actors[i].getDetailedBorder()[j] != null) {
-                                        if (gameModel.actors[i].getDetailedBorder()[j].intersects(border)) {
+                        if ("steelWall".equals(gameModel.gameComponents[i].getType()) ||
+                                "wall".equals(gameModel.gameComponents[i].getType())) {
+                            if (!gameModel.gameComponents[i].wallDestroyed()) {
+                                for (int j = 0; j < gameModel.gameComponents[i].getDetailedBorder().length; j++) {
+                                    if (gameModel.gameComponents[i].getDetailedBorder()[j] != null) {
+                                        if (gameModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
                                             if (Math.random() > 0.90) {
                                                 direction = (int) (Math.random() * 4);
                                             }
@@ -251,8 +251,8 @@ public class Enemy implements Actor {
                                     }
                                 }
                             }
-                        } else if ("river".equals(gameModel.actors[i].getType()) ||
-                                "base".equals(gameModel.actors[i].getType())) {
+                        } else if ("river".equals(gameModel.gameComponents[i].getType()) ||
+                                "base".equals(gameModel.gameComponents[i].getType())) {
                             if (Math.random() > 0.90) {
                                 direction = (int) (Math.random() * 4);
                             }
@@ -264,9 +264,9 @@ public class Enemy implements Actor {
                             return;
                         }
                         //其他对象，其他的坦克
-                        if ("Player".equals(gameModel.actors[i].getType()) ||
-                                "enemy".equals(gameModel.actors[i].getType())) {
-                            if (!borderTemp.intersects(gameModel.actors[i].getBorder())) {
+                        if ("Player".equals(gameModel.gameComponents[i].getType()) ||
+                                "enemy".equals(gameModel.gameComponents[i].getType())) {
+                            if (!borderTemp.intersects(gameModel.gameComponents[i].getBorder())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
                                 border.x = xPos - size;

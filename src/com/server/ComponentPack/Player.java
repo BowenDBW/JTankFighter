@@ -5,11 +5,8 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Player implements Actor {
+public class Player implements GameComponent {
     private final int UP = 0;
-    private final int DOWN = 1;
-    private final int LEFT = 2;
-    private final int RIGHT = 3;
     private final int size = 12;
     private final Rectangle map = new Rectangle(35, 35, 452, 452);
     public int scores;
@@ -17,7 +14,7 @@ public class Player implements Actor {
     private int life;
     private int speed;
     private int direction;
-    private int InvulnerableTime;
+    private int invulnerableTime;
     private int frozen;
     private boolean moveUp;
     private boolean moveDown;
@@ -101,7 +98,7 @@ public class Player implements Actor {
         status = 1;
         health = 1;
         numberOfBullet = 1;
-        InvulnerableTime = 150;
+        invulnerableTime = 150;
         this.gameModel = gameModel;
 
         textures = new Image[4];
@@ -136,8 +133,8 @@ public class Player implements Actor {
         if (coolDownTime > 0) {
             coolDownTime--;
         }
-        if (InvulnerableTime > 0) {
-            InvulnerableTime--;
+        if (invulnerableTime > 0) {
+            invulnerableTime--;
         }
 
         if (frozen == 1) {
@@ -146,6 +143,8 @@ public class Player implements Actor {
         }
 
         //如果玩家点击“开火”键，并且满足条件，则创建一个子弹目标（即发射子弹）
+        int DOWN = 1;
+        int LEFT = 2;
         if (fire && coolDownTime == 0 && numberOfBullet > 0) {
             //子弹方向
             int c = direction;
@@ -201,6 +200,7 @@ public class Player implements Actor {
 
         //根据玩家坦克的移动定义玩家坦克的下一个边界，假设它的下一个移动是有效的；
         boolean notMoving = false;
+        int RIGHT = 3;
         if (moveUp) {
             if (direction != UP && direction != DOWN) {
                 xPos = xVPos;
@@ -254,33 +254,33 @@ public class Player implements Actor {
 
 
         //检查下个边界是否与其他对象相交，如玩家控制的坦克，墙等等
-        for (int i = 0; i < gameModel.actors.length; i++) {
-            if (gameModel.actors[i] != null) {
-                if (this != gameModel.actors[i]) {
-                    if (border.intersects(gameModel.actors[i].getBorder())) {
-                        if ("powerUp".equals(gameModel.actors[i].getType())) {
+        for (int i = 0; i < gameModel.gameComponents.length; i++) {
+            if (gameModel.gameComponents[i] != null) {
+                if (this != gameModel.gameComponents[i]) {
+                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
+                        if ("powerUp".equals(gameModel.gameComponents[i].getType())) {
                             scores += 50;
-                            PowerUp temp = (PowerUp) gameModel.actors[i];
+                            PowerUp temp = (PowerUp) gameModel.gameComponents[i];
                             int function = temp.getFunction();
                             if (function == 0) {  //普通星星，增加速度
                                 upgrade();
                             } else if (function == 1) {  //钢墙保护基地
-                                Base tempe = (Base) gameModel.actors[4];
+                                Base tempe = (Base) gameModel.gameComponents[4];
                                 tempe.setSteelWallTime(600);
                             } else if (function == 2) {   // 杀死所有的敌方坦克
-                                for (int j = 0; j < gameModel.actors.length; j++) {
-                                    if (gameModel.actors[j] != null) {
-                                        if ("enemy".equals(gameModel.actors[j].getType())) {
-                                            Enemy tempe = (Enemy) gameModel.actors[j];
+                                for (int j = 0; j < gameModel.gameComponents.length; j++) {
+                                    if (gameModel.gameComponents[j] != null) {
+                                        if ("enemy".equals(gameModel.gameComponents[j].getType())) {
+                                            Enemy tempe = (Enemy) gameModel.gameComponents[j];
                                             gameModel.addActor(new Bomb(tempe.getxPos(), tempe.getyPos(), "big", gameModel));
-                                            gameModel.removeActor(gameModel.actors[j]);
+                                            gameModel.removeActor(gameModel.gameComponents[j]);
                                         }
                                     }
                                 }
                                 Level.setNoOfEnemy(0);;
                                 Level.setDeathCount(20 - Level.getEnemyLeft());
                             } else if (function == 3) {   //防护盾，刀枪不入
-                                InvulnerableTime = 300 + (int) (Math.random() * 400);
+                                invulnerableTime = 300 + (int) (Math.random() * 400);
                             } else if (function == 4) {  //冻结所有敌人
                                 Enemy.setFrozenTime(300 + (int) (Math.random() * 400));
                                 Enemy.setFrozenMoment(ServerModel.getGameFlow());
@@ -299,15 +299,15 @@ public class Player implements Actor {
                                 life++;
                             }
 
-                            gameModel.removeActor(gameModel.actors[i]);
+                            gameModel.removeActor(gameModel.gameComponents[i]);
 
                         }
                         //静态对象，如墙壁，河流
-                        else if ("steelWall".equals(gameModel.actors[i].getType()) || "wall".equals(gameModel.actors[i].getType())) {
-                            if (!gameModel.actors[i].wallDestroyed()) {
-                                for (int j = 0; j < gameModel.actors[i].getDetailedBorder().length; j++) {
-                                    if (gameModel.actors[i].getDetailedBorder()[j] != null) {
-                                        if (gameModel.actors[i].getDetailedBorder()[j].intersects(border)) {
+                        else if ("steelWall".equals(gameModel.gameComponents[i].getType()) || "wall".equals(gameModel.gameComponents[i].getType())) {
+                            if (!gameModel.gameComponents[i].wallDestroyed()) {
+                                for (int j = 0; j < gameModel.gameComponents[i].getDetailedBorder().length; j++) {
+                                    if (gameModel.gameComponents[i].getDetailedBorder()[j] != null) {
+                                        if (gameModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
                                             xPos = xVPos;
                                             yPos = yVPos;
                                             border.x = xPos - size;
@@ -318,7 +318,7 @@ public class Player implements Actor {
                                     }
                                 }
                             }
-                        } else if ("river".equals(gameModel.actors[i].getType()) || "base".equals(gameModel.actors[i].getType())) {
+                        } else if ("river".equals(gameModel.gameComponents[i].getType()) || "base".equals(gameModel.gameComponents[i].getType())) {
                             xPos = xVPos;
                             yPos = yVPos;
                             border.x = xPos - size;
@@ -327,8 +327,8 @@ public class Player implements Actor {
                             return;
                         }
                         //移动对象，例如敌人坦克
-                        else if ("enemy".equals(gameModel.actors[i].getType()) || "Player".equals(gameModel.actors[i].getType())) {
-                            if (!borderTemp.intersects(gameModel.actors[i].getBorder()) || "enemy".equals(gameModel.actors[i].getType())) {
+                        else if ("enemy".equals(gameModel.gameComponents[i].getType()) || "Player".equals(gameModel.gameComponents[i].getType())) {
+                            if (!borderTemp.intersects(gameModel.gameComponents[i].getBorder()) || "enemy".equals(gameModel.gameComponents[i].getType())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
                                 border.x = xPos - size;
@@ -400,7 +400,7 @@ public class Player implements Actor {
 
         gameModel.outputLine += "" + textureIndex + ";";
 
-        if (InvulnerableTime > 0) {
+        if (invulnerableTime > 0) {
             gameModel.outputLine += "i" + xPos + "," + yPos + ";";
         }
     }
@@ -409,7 +409,7 @@ public class Player implements Actor {
     public void draw(Graphics g) {
         //绘制玩家坦克
         g.drawImage(textures[direction], xPos - size, yPos - size, null);
-        if (InvulnerableTime > 0) {
+        if (invulnerableTime > 0) {
             g.setColor(Color.red);
             g.drawRect(xPos - 12, yPos - 12, 25, 25);
             g.drawRect(xPos - 11, yPos - 11, 23, 23);
@@ -449,7 +449,7 @@ public class Player implements Actor {
     }
 
     public void hurt() {
-        if (InvulnerableTime != 0) {
+        if (invulnerableTime != 0) {
             return;
         }
 
@@ -469,7 +469,7 @@ public class Player implements Actor {
                 status = 1;
                 health = 1;
                 numberOfBullet = 1;
-                InvulnerableTime = 150;
+                invulnerableTime = 150;
                 if ("1P".equals(type)) {
                     xPos = 198;
                     yPos = 498;
@@ -528,7 +528,7 @@ public class Player implements Actor {
 
     public void reset() {
         direction = UP;
-        InvulnerableTime = 150;
+        invulnerableTime = 150;
         if ("1P".equals(type)) {
             xPos = 198;
         } else {
