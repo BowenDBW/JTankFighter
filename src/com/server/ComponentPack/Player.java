@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
@@ -374,7 +375,7 @@ public class Player implements GameComponent {
 
     public void writeToOutputLine() {
         //将变化写入输出行
-        gameModel.outputLine += "n" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
         int textureIndex;
         if ("1P".equals(type)) {
             if (status == 1) {
@@ -398,11 +399,10 @@ public class Player implements GameComponent {
             }
         }
 
-
-        gameModel.outputLine += "" + textureIndex + ";";
+        Instruction.getFromSever().append(textureIndex).append(";");
 
         if (invulnerableTime > 0) {
-            gameModel.outputLine += "i" + xPos + "," + yPos + ";";
+            Instruction.getFromSever().append("i").append(xPos).append(",").append(yPos).append(";");
         }
     }
 

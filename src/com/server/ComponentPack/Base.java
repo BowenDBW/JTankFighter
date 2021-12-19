@@ -1,4 +1,5 @@
 package com.server.ComponentPack;
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -61,8 +62,7 @@ public class Base implements GameComponent {
         baseKilled = true;
 
         //记录变化到输出行
-        gameModel.outputLine += "b" + xPos + "," + yPos + "," + "1;";
-
+        Instruction.getFromSever().append("b").append(xPos).append(",").append(yPos).append(",").append("1;");
     }
 
     @Override
@@ -108,15 +108,15 @@ public class Base implements GameComponent {
 
     public void writeToOutputLine(String type, boolean[] shape, int xPos, int yPos) {
         //记录变化到输出行
-        gameModel.outputLine += type + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append(type).append(xPos).append(",").append(yPos).append(",");
 		for (boolean b : shape) {
 			if (b) {
-                gameModel.outputLine += "1";
+                Instruction.getFromSever().append("1");
             } else {
-                gameModel.outputLine += "0";
+                Instruction.getFromSever().append("0");
             }
 		}
-        gameModel.outputLine += ";";
+        Instruction.getFromSever().append(";");
     }
 
     @Override

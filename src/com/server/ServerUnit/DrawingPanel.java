@@ -12,18 +12,18 @@ public class DrawingPanel extends JPanel {
     private Image offScreenImage;
 
     //这些是指出在serverModel都是真实的东西的参考
-    public String[] messageQueue;
-    public GameComponent[] gameComponents;
-    private boolean gameStarted;
-    private int green, red, blue;
+    public static String[] messageQueue;
+    public static GameComponent[] gameComponents;
+    private static boolean gameStarted;
+    private static int green, red, blue;
 
     public DrawingPanel() {
     }
 
 
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
+    public void setGameStarted(boolean newGameStarted) {
+        gameStarted = newGameStarted;
     }
 
 

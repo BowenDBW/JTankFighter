@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -88,8 +89,8 @@ public class PowerUp implements GameComponent {
         }
 
         //将变化写入输出行
-        gameModel.outputLine += "n" + xPos + "," + yPos + ",";
-        gameModel.outputLine += "" + (46 + function) + ";";
+        Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",")
+                .append(46 + function).append(";");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
 
@@ -75,7 +76,8 @@ public class Bomb implements GameComponent {
     @Override
     public void move() {
         if (Status.isGamePaused()) {
-            gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
+            Instruction.getFromSever().append("o").append(xPos).append(",").append(yPos).append(",")
+                    .append(size).append(";");
             return;
         }
 
@@ -88,7 +90,9 @@ public class Bomb implements GameComponent {
         yPos = yPos + (int) (Math.random() * jumpDistance) - (int) (Math.random() * jumpDistance);
 
         //将变化写入输出行
-        gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
+        Instruction.getFromSever().append("o").append(xPos)
+                .append(",").append(yPos).append(",").append(size).append(";");
+
     }
 
     @Override

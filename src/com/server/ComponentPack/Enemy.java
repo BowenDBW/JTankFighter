@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
@@ -322,7 +323,7 @@ public class Enemy implements GameComponent {
 
     public void writeToOutputLine() {
         //将变化写入输出行
-        gameModel.outputLine += "n" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
         int textureIndex;
         if (flashing && ServerModel.getGameFlow() % 10 > 4) {
             if (type == 1) {
@@ -353,8 +354,7 @@ public class Enemy implements GameComponent {
                 }
             }
         }
-        gameModel.outputLine += "" + textureIndex + ";";
-
+        Instruction.getFromSever().append(textureIndex).append(";");
     }
 
     //如果敌方坦克打出一颗子弹，判断会发生什么

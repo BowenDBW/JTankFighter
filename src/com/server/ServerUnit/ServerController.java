@@ -18,16 +18,16 @@ public class ServerController {
         //操作发送消息按钮的动作
         view.getSendMessage().addActionListener(e -> {
             if (!Status.isGameStarted()) {
-                model.addMessage("还没有和别的玩家联上, 无法发送对话");
+                ServerModel.addMessage("还没有和别的玩家联上, 无法发送对话");
                 return;
             }
 
             if (!"".equals(view.getMessageField().getText())) {
-                model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                ServerModel.addMessage("主机端玩家说：" + view.getMessageField().getText());
                 model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
                 view.getMessageField().setText("");
             } else {
-                model.addMessage("对话内容不能为空");
+                ServerModel.addMessage("对话内容不能为空");
             }
         }
         );
@@ -57,11 +57,11 @@ public class ServerController {
 
         //操作帮助按钮的动作
         view.getHelp().addActionListener(e -> {
-            model.addMessage("-------------------------------坦克大战 1.0-----------------------------------");
-            model.addMessage("帮助: 按 s 键开火,  按键盘的方向键来控制坦克的移动");
-            model.addMessage("如果按键没有反应请 1. 关闭大写功能; 2. 用 tab键切换 ");
-            model.addMessage("到控制界面如果您在使用对话界面.");
-            model.addMessage("--------------------------------------------------------------------------------------");
+            ServerModel.addMessage("-------------------------------坦克大战 1.0-----------------------------------");
+            ServerModel.addMessage("帮助: 按 s 键开火,  按键盘的方向键来控制坦克的移动");
+            ServerModel.addMessage("如果按键没有反应请 1. 关闭大写功能; 2. 用 tab键切换 ");
+            ServerModel.addMessage("到控制界面如果您在使用对话界面.");
+            ServerModel.addMessage("--------------------------------------------------------------------------------------");
         }
         );
 
@@ -74,8 +74,8 @@ public class ServerController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (helpMessageCount > 0) {
-                    model.addMessage("提示：用\"tab\"键可以自由切换于控制界面和对话界面");
-                    model.addMessage("提示：按回车键可以直接发送您的对话");
+                    ServerModel.addMessage("提示：用\"tab\"键可以自由切换于控制界面和对话界面");
+                    ServerModel.addMessage("提示：按回车键可以直接发送您的对话");
                     helpMessageCount--;
                 }
 
@@ -134,7 +134,7 @@ public class ServerController {
 
                                         if (e.getKeyChar() == 'y' && Status.isGameOver() && !Status.isServerVoteYes()) {
                                             Status.setServerVoteYes(true);
-                                            model.addMessage("等待用户端玩家的回应...");
+                                            ServerModel.addMessage("等待用户端玩家的回应...");
                                         }
 
                                         if (e.getKeyChar() == 'n' && Status.isGameOver()) {

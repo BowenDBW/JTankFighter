@@ -1,5 +1,7 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
+import com.server.ServerUnit.ServerCommunication;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
 
@@ -151,7 +153,9 @@ public class Bullet implements GameComponent {
     }
 
     public void writeToOutputLine() {
-        gameModel.outputLine += "t" + xPos + "," + yPos + "," + direction + ";";
+
+        Instruction.getFromSever().append("t").append(xPos).append(",")
+                .append(yPos).append(",").append(direction).append(";");
     }
 
     @Override

@@ -2,23 +2,25 @@ package com.server.ServerUnit;
 //这个类从客户端程序解码指令字符串,然后将字符串转换为真正的指令
 //服务器程序可读
 
+import com.ProcessUnit.Instruction;
+
 /**
  * @author chenhong
  */
 public class FeedbackHandler {
 
-    public static void handleInstruction(ServerModel gameModel, String instruction) {
-        if (instruction.length() == 0) {
+    public static void handleInstruction(ServerModel gameModel) {
+        if (Instruction.getFromSever().length() == 0) {
             return;
         }
 
         int i = 0;
-        while (i < instruction.length()) {
+        while (i < Instruction.getFromSever().length()) {
             StringBuilder perInstruction = new StringBuilder();
 
             //指令是“；”时
-            while (instruction.charAt(i) != ';') {
-                perInstruction.append(instruction.charAt(i));
+            while (Instruction.getFromSever().charAt(i) != ';') {
+                perInstruction.append(Instruction.getFromSever().charAt(i));
                 i++;
             }
 
@@ -54,7 +56,7 @@ public class FeedbackHandler {
 
             //指令是“m”表示服务器玩家信息
             if ("e".equals(perInstruction.substring(0, 1))) {
-                gameModel.addMessage("用户端玩家说：" + perInstruction.substring(1, perInstruction.length()));
+                ServerModel.addMessage("用户端玩家说：" + perInstruction.substring(1, perInstruction.length()));
             }
 
             //指令是“j”表示客户端玩家想在玩一次
@@ -67,10 +69,10 @@ public class FeedbackHandler {
             //指令是“x”表示服务器玩家暂停游戏
             if ("x".equals(perInstruction.substring(0, 1))) {
                 if (Status.isGamePaused()) {
-                    gameModel.addMessage("用户端玩家取消了暂停");
+                    ServerModel.addMessage("用户端玩家取消了暂停");
                     Status.setGamePaused(false);
                 } else {
-                    gameModel.addMessage("用户端玩家暂停了游戏");
+                    ServerModel.addMessage("用户端玩家暂停了游戏");
                     Status.setGamePaused(true);
                 }
             }
