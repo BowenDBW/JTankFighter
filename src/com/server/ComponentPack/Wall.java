@@ -4,7 +4,7 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Wall implements Actor {
+public class Wall implements GameComponent {
     private final int xPos;
     private final int yPos;
     private final Rectangle[] border = new Rectangle[4];

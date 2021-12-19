@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * @author chenhong
  */
-public class Bomb implements Actor {
+public class Bomb implements GameComponent {
 
     private final int xPos;
     private final int yPos;

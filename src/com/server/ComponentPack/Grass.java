@@ -2,14 +2,10 @@ package com.server.ComponentPack;
 
 import java.awt.*;
 
-public class Grass implements Actor {
+public class Grass implements GameComponent {
     private Rectangle border;
     private final int xPos;
     private final int yPos;
-
-    public void setBorder(Rectangle border) {
-        this.border = border;
-    }
 
     public int getxPos() {
         return xPos;

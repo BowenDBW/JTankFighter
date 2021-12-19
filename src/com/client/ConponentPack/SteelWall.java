@@ -2,17 +2,15 @@ package com.client.ConponentPack;
 
 import java.awt.*;
 
-public class SteelWall implements Actor {
-
-    private final Image steelWall = Toolkit.getDefaultToolkit().getImage("image\\54.jpg");
-    private final int xPos;
-    private final int yPos;
+/**
+ * @author 26317
+ */
+public class SteelWall extends Wall implements GameComponent {
 
     public boolean[] shape;
 
     public SteelWall(int xPos, int yPos, int orientation) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        super(xPos, yPos, orientation,Toolkit.getDefaultToolkit().getImage("image\\54.jpg"));
         shape = new boolean[4];
 
         if (orientation == 0) {
@@ -35,41 +33,31 @@ public class SteelWall implements Actor {
 
     @Override
     public void draw(Graphics g) {
-        boolean wallDestroyed = true;
-        for (boolean b : shape) {
-            if (!b) {
-                wallDestroyed = false;
-                break;
-            }
-        }
-        if (wallDestroyed) {
-            return;
-        }
 
-        g.drawImage(steelWall, xPos - 12, yPos - 12, null);
+        g.drawImage(super.getImage(), super.getX() - 12, super.getY() - 12, null);
         g.setColor(new Color(128, 64, 0));
         if (shape[0]) {
-            g.fillRect(xPos - 12, yPos - 12, 13, 13);
+            g.fillRect(super.getX() - 12, super.getY() - 12, 13, 13);
         }
         if (shape[1]) {
-            g.fillRect(xPos, yPos - 12, 13, 13);
+            g.fillRect(super.getX(), super.getY() - 12, 13, 13);
         }
         if (shape[2]) {
-            g.fillRect(xPos - 12, yPos, 13, 13);
+            g.fillRect(super.getX() - 12, super.getY(), 13, 13);
         }
         if (shape[3]) {
-            g.fillRect(xPos, yPos, 13, 13);
+            g.fillRect(super.getX(), super.getY(), 13, 13);
         }
     }
 
     @Override
     public int getX() {
-        return xPos;
+        return 0;
     }
 
     @Override
     public int getY() {
-        return yPos;
+        return 0;
     }
 
     public String getType() {

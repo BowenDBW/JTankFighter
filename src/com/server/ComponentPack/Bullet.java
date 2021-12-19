@@ -4,7 +4,7 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Bullet implements Actor {
+public class Bullet implements GameComponent {
 
     private final Rectangle map = new Rectangle(18, 18, 486, 486);
     private final Rectangle border;
@@ -12,7 +12,7 @@ public class Bullet implements Actor {
     private final int Speed;
     private final int bulletPower;
     private int xPos, yPos;
-    private final Actor owner;
+    private final GameComponent owner;
     private ServerModel gameModel;
     private boolean hitTarget;
 
@@ -24,7 +24,7 @@ public class Bullet implements Actor {
         this.gameModel = gameModel;
     }
 
-    public Bullet(int a, int b, int c, int d, int e, Actor owner, ServerModel gameModel) {
+    public Bullet(int a, int b, int c, int d, int e, GameComponent owner, ServerModel gameModel) {
         this.owner = owner;
         this.gameModel = gameModel;
         xPos = a;
@@ -68,50 +68,50 @@ public class Bullet implements Actor {
             return;
         }
         //检查这颗子弹是否击中其他对象
-        for (int i = 0; i < gameModel.actors.length; i++) {
-            if (gameModel.actors[i] != null) {
-                if (gameModel.actors[i] != this && gameModel.actors[i] != owner) {
-                    if (border.intersects(gameModel.actors[i].getBorder())) {
+        for (int i = 0; i < gameModel.gameComponents.length; i++) {
+            if (gameModel.gameComponents[i] != null) {
+                if (gameModel.gameComponents[i] != this && gameModel.gameComponents[i] != owner) {
+                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
 
-                        if ("steelWall".equals(gameModel.actors[i].getType())) {
-                            SteelWall temp = (SteelWall) gameModel.actors[i];
+                        if ("steelWall".equals(gameModel.gameComponents[i].getType())) {
+                            SteelWall temp = (SteelWall) gameModel.gameComponents[i];
                             if (!temp.isWallDestroyed()) {
                                 temp.damageWall(border, bulletPower);
                                 if (temp.isBulletDestroyed()) {
                                     hitTarget = true;
                                 }
                             }
-                        } else if ("wall".equals(gameModel.actors[i].getType())) {
-                            Wall temp = (Wall) gameModel.actors[i];
+                        } else if ("wall".equals(gameModel.gameComponents[i].getType())) {
+                            Wall temp = (Wall) gameModel.gameComponents[i];
                             if (!temp.isWallDestroyed()) {
                                 temp.damageWall(border, bulletPower, direction);
                                 if (temp.isBulletDestroyed()) {
                                     hitTarget = true;
                                 }
                             }
-                        } else if ("bullet".equals(gameModel.actors[i].getType())) {
-                            Bullet temp = (Bullet) gameModel.actors[i];
+                        } else if ("bullet".equals(gameModel.gameComponents[i].getType())) {
+                            Bullet temp = (Bullet) gameModel.gameComponents[i];
                             if ("Player".equals(temp.owner.getType())) {
                                 hitTarget = true;
-                                gameModel.removeActor(gameModel.actors[i]);
+                                gameModel.removeActor(gameModel.gameComponents[i]);
                                 temp.notifyOwner();
                             }
-                        } else if ("Player".equals(gameModel.actors[i].getType())) {
+                        } else if ("Player".equals(gameModel.gameComponents[i].getType())) {
                             if ("enemy".equals(owner.getType())) {
-                                Player temp = (Player) gameModel.actors[i];
+                                Player temp = (Player) gameModel.gameComponents[i];
                                 temp.hurt();
                             }
                             hitTarget = true;
-                        } else if ("enemy".equals(gameModel.actors[i].getType()) && "Player".equals(owner.getType())) {
-                            Enemy temp = (Enemy) gameModel.actors[i];
+                        } else if ("enemy".equals(gameModel.gameComponents[i].getType()) && "Player".equals(owner.getType())) {
+                            Enemy temp = (Enemy) gameModel.gameComponents[i];
                             Player tempe = (Player) owner;
                             if (temp.getHealth() == 0) {
                                 tempe.scores += (temp.getsType() * 100);
                             }
                             temp.hurt();
                             hitTarget = true;
-                        } else if ("base".equals(gameModel.actors[i].getType())) {
-                            Base temp = (Base) gameModel.actors[i];
+                        } else if ("base".equals(gameModel.gameComponents[i].getType())) {
+                            Base temp = (Base) gameModel.gameComponents[i];
                             temp.doom();
                             hitTarget = true;
                             gameModel.setGameOver(true);

@@ -1,6 +1,6 @@
 package com.server.ServerUnit;
 
-import com.server.ComponentPack.Actor;
+import com.server.ComponentPack.GameComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class DrawingPanel extends JPanel {
 
     //这些是指出在serverModel都是真实的东西的参考
     public String[] messageQueue;
-    public Actor[] actors;
+    public GameComponent[] gameComponents;
     private boolean gameStarted;
     private int green, red, blue;
 
@@ -47,10 +47,10 @@ public class DrawingPanel extends JPanel {
             g.drawRect(10, 10, 501, 501);
 
             //制作坦克等等
-            if (actors != null) {
-                for (Actor actor : actors) {
-                    if (actor != null) {
-                        actor.draw(g);
+            if (gameComponents != null) {
+                for (GameComponent gameComponent : gameComponents) {
+                    if (gameComponent != null) {
+                        gameComponent.draw(g);
                     }
                 }
             }

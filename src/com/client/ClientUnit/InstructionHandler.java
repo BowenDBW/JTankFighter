@@ -115,7 +115,7 @@ public class InstructionHandler {
 
             //指令“b”开头意味着基地已被摧毁
             if ("b".equals(perInstruction.substring(0, 1))) {
-                Actor actor = new NormalObject(260, 498,  "base", 1);
+                GameComponent actor = new NormalObject(260, 498,  "base", 1);
                 ClientModel.setDrawingList(4, actor);
             }
 

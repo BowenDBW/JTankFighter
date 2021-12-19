@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * @author 26317
  */
-public interface Actor {
+public interface GameComponent {
 
     void draw(Graphics g);
 

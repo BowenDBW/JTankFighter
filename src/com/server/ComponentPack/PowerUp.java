@@ -7,9 +7,9 @@ import java.awt.*;
 /**
  * @author chenhong
  */
-public class PowerUp implements Actor {
+public class PowerUp implements GameComponent {
     private int function;
-    private Rectangle border;
+    private final Rectangle border;
     private int displayTime;
     public Image[] textures;
     private ServerModel gameModel;
@@ -18,30 +18,6 @@ public class PowerUp implements Actor {
 
     public int getFunction() {
         return function;
-    }
-
-    public void setFunction(int function) {
-        this.function = function;
-    }
-
-    public void setBorder(Rectangle border) {
-        this.border = border;
-    }
-
-    public int getDisplayTime() {
-        return displayTime;
-    }
-
-    public void setDisplayTime(int displayTime) {
-        this.displayTime = displayTime;
-    }
-
-    public Image[] getTextures() {
-        return textures;
-    }
-
-    public void setTextures(Image[] textures) {
-        this.textures = textures;
     }
 
     public ServerModel getGameModel() {

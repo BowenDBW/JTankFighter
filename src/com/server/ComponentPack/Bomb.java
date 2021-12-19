@@ -4,7 +4,8 @@ import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
 
-public class Bomb implements Actor {
+public class Bomb implements GameComponent {
+
     private final Rectangle border = new Rectangle(0, 0, 0, 0);
     private final String size;
     private int inner, middle, outer, jumpDistance;

@@ -1,6 +1,6 @@
 package com.client.ClientUnit;
 
-import com.client.ConponentPack.Actor;
+import com.client.ConponentPack.GameComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +13,13 @@ public class DrawingPanel extends JPanel {
     private Image offScreenImage;
 
     public String[] messageQueue;
-    public Actor[] drawingList;
+    public GameComponent[] drawingList;
 
     private boolean gameStarted;
     private int green, red, blue;
     private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
-    private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
-    private final Image P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
+    private final Image p1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
+    private final Image p2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
 
 
 
@@ -78,7 +78,7 @@ public class DrawingPanel extends JPanel {
             g.drawString("敌人数 =  " + enemyLeft, 527, 79);
 
             g.setColor(Color.yellow);
-            g.drawImage(P1Image, 520, 380, null);
+            g.drawImage(p1Image, 520, 380, null);
             g.drawString("x", 555, 395);
             g.drawString(p1Life  + "", 565, 396);
             String score = "000000000" + p1Score;
@@ -86,7 +86,7 @@ public class DrawingPanel extends JPanel {
             g.drawString(score.substring(score.length() - 7) + "", 566, 370);
 
             g.setColor(Color.green);
-            g.drawImage(P2Image, 520, 460, null);
+            g.drawImage(p2Image, 520, 460, null);
             g.drawString("x", 555, 475);
             g.drawString(p2Life + "", 565, 476);
             score = "000000000" + p2Score;
@@ -100,7 +100,7 @@ public class DrawingPanel extends JPanel {
 
             //绘制坦克等等
             if (drawingList != null) {
-                for (Actor actor : drawingList) {
+                for (GameComponent actor : drawingList) {
                     if (actor != null) {
                         actor.draw(g);
                     }

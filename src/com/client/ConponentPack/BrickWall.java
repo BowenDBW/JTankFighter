@@ -5,21 +5,10 @@ import java.awt.*;
 /**
  * @author 26317
  */
-public class BrickWall implements Actor {
-
-    private final Image wall = Toolkit.getDefaultToolkit().getImage("image\\71.jpg");
-    private final int xPos;
-    private final int yPos;
-
-    public boolean[] shape;
-
-    public int getyPos() {
-        return yPos;
-    }
+public class BrickWall extends Wall implements GameComponent {
 
     public BrickWall(int xPos, int yPos, int orientation) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        super(xPos, yPos, orientation, Toolkit.getDefaultToolkit().getImage("image\\71.jpg"));
         shape = new boolean[16];
 
         if (orientation == 0) {
@@ -68,66 +57,56 @@ public class BrickWall implements Actor {
         if (wallDestroyed) {
             return;
         }
-        g.drawImage(wall, xPos - 12, yPos - 12, null);
+        g.drawImage(getImage(), super.getX() - 12, super.getY() - 12, null);
         g.setColor(new Color(128, 64, 0));
         if (shape[0]) {
-            g.fillRect(xPos - 12, yPos - 12, 7, 7);
+            g.fillRect(super.getX() - 12, super.getY() - 12, 7, 7);
         }
         if (shape[1]) {
-            g.fillRect(xPos - 6, yPos - 12, 7, 7);
+            g.fillRect(super.getX() - 6, super.getY() - 12, 7, 7);
         }
         if (shape[2]) {
-            g.fillRect(xPos, yPos - 12, 7, 7);
+            g.fillRect(super.getX(), super.getY() - 12, 7, 7);
         }
         if (shape[3]) {
-            g.fillRect(xPos + 6, yPos - 12, 7, 7);
+            g.fillRect(super.getX() + 6, super.getY() - 12, 7, 7);
         }
         if (shape[4]) {
-            g.fillRect(xPos - 12, yPos - 6, 7, 7);
+            g.fillRect(super.getX() - 12, super.getY() - 6, 7, 7);
         }
         if (shape[5]) {
-            g.fillRect(xPos - 6, yPos - 6, 7, 7);
+            g.fillRect(super.getX() - 6, super.getY() - 6, 7, 7);
         }
         if (shape[6]) {
-            g.fillRect(xPos, yPos - 6, 7, 7);
+            g.fillRect(super.getX(), super.getY() - 6, 7, 7);
         }
         if (shape[7]) {
-            g.fillRect(xPos + 6, yPos - 6, 7, 7);
+            g.fillRect(super.getX() + 6, super.getY() - 6, 7, 7);
         }
         if (shape[8]) {
-            g.fillRect(xPos - 12, yPos, 7, 7);
+            g.fillRect(super.getX() - 12, super.getY(), 7, 7);
         }
         if (shape[9]) {
-            g.fillRect(xPos - 6, yPos, 7, 7);
+            g.fillRect(super.getX() - 6, super.getY(), 7, 7);
         }
         if (shape[10]) {
-            g.fillRect(xPos, yPos, 7, 7);
+            g.fillRect(super.getX(), super.getY(), 7, 7);
         }
         if (shape[11]) {
-            g.fillRect(xPos + 6, yPos, 7, 7);
+            g.fillRect(super.getX() + 6, super.getY(), 7, 7);
         }
         if (shape[12]) {
-            g.fillRect(xPos - 12, yPos + 6, 7, 7);
+            g.fillRect(super.getX() - 12, super.getY() + 6, 7, 7);
         }
         if (shape[13]) {
-            g.fillRect(xPos - 6, yPos + 6, 7, 7);
+            g.fillRect(super.getX() - 6, super.getY() + 6, 7, 7);
         }
         if (shape[14]) {
-            g.fillRect(xPos, yPos + 6, 7, 7);
+            g.fillRect(super.getX(), super.getY() + 6, 7, 7);
         }
         if (shape[15]) {
-            g.fillRect(xPos + 6, yPos + 6, 7, 7);
+            g.fillRect(super.getX() + 6, super.getY() + 6, 7, 7);
         }
-    }
-
-    @Override
-    public int getX() {
-        return xPos;
-    }
-
-    @Override
-    public int getY() {
-        return yPos;
     }
 
     public String getType() {

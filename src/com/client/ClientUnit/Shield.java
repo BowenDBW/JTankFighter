@@ -1,10 +1,10 @@
 package com.client.ClientUnit;
 
-import com.client.ConponentPack.Actor;
+import com.client.ConponentPack.GameComponent;
 
 import java.awt.*;
 
-public class Shield implements Actor {
+public class Shield implements GameComponent {
     private final int xPos;
     private final int yPos;
 

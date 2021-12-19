@@ -8,7 +8,7 @@ import java.awt.*;
  * 这个类代表除了墙和钢墙外所有其他对象
  * @author 26317
  */
-public class NormalObject implements Actor {
+public class NormalObject implements GameComponent {
     private final String type;
     private Image image;
     private final int xPos;

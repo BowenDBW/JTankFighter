@@ -1,7 +1,7 @@
 package com.client.ClientUnit;
 
 import com.ProcessUnit.Ticker;
-import com.client.ConponentPack.Actor;
+import com.client.ConponentPack.GameComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +25,7 @@ public class ClientModel implements ActionListener{
     public static Image[] textures;
     //实际的游戏运行在这个线程,而主线程听用户的输入
     private static Ticker t;
-    private static Actor[] drawingList;
+    private static GameComponent[] drawingList;
 
     public static ClientCommunication getClientCommunication() {
         return CLIENT_COMMUNICATION;
@@ -56,15 +56,15 @@ public class ClientModel implements ActionListener{
         return t;
     }
 
-    public static Actor getDrawingList(int k) {
+    public static GameComponent getDrawingList(int k) {
         return drawingList[k];
     }
 
-    public static Actor[] getDrawingList() {
+    public static GameComponent[] getDrawingList() {
         return drawingList;
     }
 
-    public static void setDrawingList(int k, Actor actor) {
+    public static void setDrawingList(int k, GameComponent actor) {
         drawingList[k] = actor;
     }
 
@@ -111,7 +111,7 @@ public class ClientModel implements ActionListener{
             textures[i - 1] = Toolkit.getDefaultToolkit().
                     getImage("image\\" + i + ".jpg");
         }
-        drawingList = new Actor[400];
+        drawingList = new GameComponent[400];
 
         Status.setGameStarted((true));
 
@@ -170,7 +170,7 @@ public class ClientModel implements ActionListener{
     }
 
     //添加一个游戏对象(如坦克、子弹等)图纸清单
-    public static void addActor(Actor actor) {
+    public static void addActor(GameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == null) {
                 drawingList[i] = actor;
@@ -180,7 +180,7 @@ public class ClientModel implements ActionListener{
     }
 
     //删除一个游戏对象从图纸清单
-    public static void removeActor(Actor actor) {
+    public static void removeActor(GameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == actor) {
                 drawingList[i] = null;
