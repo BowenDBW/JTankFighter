@@ -64,57 +64,57 @@ public class Bullet implements GameComponent {
 
         //检查这子弹是否撞击地图边界
         if (!border.intersects(map)) {
-            gameModel.removeActor(this);
+            ServerModel.removeActor(this);
             notifyOwner();
             makeBomb();
             writeToOutputLine();
             return;
         }
         //检查这颗子弹是否击中其他对象
-        for (int i = 0; i < gameModel.gameComponents.length; i++) {
-            if (gameModel.gameComponents[i] != null) {
-                if (gameModel.gameComponents[i] != this && gameModel.gameComponents[i] != owner) {
-                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
+        for (int i = 0; i < ServerModel.gameComponents.length; i++) {
+            if (ServerModel.gameComponents[i] != null) {
+                if (ServerModel.gameComponents[i] != this && ServerModel.gameComponents[i] != owner) {
+                    if (border.intersects(ServerModel.gameComponents[i].getBorder())) {
 
-                        if ("steelWall".equals(gameModel.gameComponents[i].getType())) {
-                            SteelWall temp = (SteelWall) gameModel.gameComponents[i];
+                        if ("steelWall".equals(ServerModel.gameComponents[i].getType())) {
+                            SteelWall temp = (SteelWall) ServerModel.gameComponents[i];
                             if (!temp.isWallDestroyed()) {
                                 temp.damageWall(border, bulletPower);
                                 if (temp.isBulletDestroyed()) {
                                     hitTarget = true;
                                 }
                             }
-                        } else if ("wall".equals(gameModel.gameComponents[i].getType())) {
-                            Wall temp = (Wall) gameModel.gameComponents[i];
+                        } else if ("wall".equals(ServerModel.gameComponents[i].getType())) {
+                            Wall temp = (Wall) ServerModel.gameComponents[i];
                             if (!temp.isWallDestroyed()) {
                                 temp.damageWall(border, bulletPower, direction);
                                 if (temp.isBulletDestroyed()) {
                                     hitTarget = true;
                                 }
                             }
-                        } else if ("bullet".equals(gameModel.gameComponents[i].getType())) {
-                            Bullet temp = (Bullet) gameModel.gameComponents[i];
+                        } else if ("bullet".equals(ServerModel.gameComponents[i].getType())) {
+                            Bullet temp = (Bullet) ServerModel.gameComponents[i];
                             if ("Player".equals(temp.owner.getType())) {
                                 hitTarget = true;
-                                gameModel.removeActor(gameModel.gameComponents[i]);
+                                ServerModel.removeActor(ServerModel.gameComponents[i]);
                                 temp.notifyOwner();
                             }
-                        } else if ("Player".equals(gameModel.gameComponents[i].getType())) {
+                        } else if ("Player".equals(ServerModel.gameComponents[i].getType())) {
                             if ("enemy".equals(owner.getType())) {
-                                Player temp = (Player) gameModel.gameComponents[i];
+                                Player temp = (Player) ServerModel.gameComponents[i];
                                 temp.hurt();
                             }
                             hitTarget = true;
-                        } else if ("enemy".equals(gameModel.gameComponents[i].getType()) && "Player".equals(owner.getType())) {
-                            Enemy temp = (Enemy) gameModel.gameComponents[i];
+                        } else if ("enemy".equals(ServerModel.gameComponents[i].getType()) && "Player".equals(owner.getType())) {
+                            Enemy temp = (Enemy) ServerModel.gameComponents[i];
                             Player tempe = (Player) owner;
                             if (temp.getHealth() == 0) {
                                 tempe.scores += (temp.getsType() * 100);
                             }
                             temp.hurt();
                             hitTarget = true;
-                        } else if ("base".equals(gameModel.gameComponents[i].getType())) {
-                            Base temp = (Base) gameModel.gameComponents[i];
+                        } else if ("base".equals(ServerModel.gameComponents[i].getType())) {
+                            Base temp = (Base) ServerModel.gameComponents[i];
                             temp.doom();
                             hitTarget = true;
                             Status.setGameOver(true);
@@ -126,7 +126,7 @@ public class Bullet implements GameComponent {
 
         //如果子弹打到其他对象,从游戏系统中删除这个子弹对象
         if (hitTarget) {
-            gameModel.removeActor(this);
+            ServerModel.removeActor(this);
             notifyOwner();
             makeBomb();
             writeToOutputLine();
@@ -187,7 +187,7 @@ public class Bullet implements GameComponent {
     }
 
     public void makeBomb() {
-        gameModel.addActor(new Bomb(xPos, yPos, "small", gameModel));
+        ServerModel.addActor(new Bomb(xPos, yPos, "small", gameModel));
     }
 
     //未使用的方法

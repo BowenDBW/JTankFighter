@@ -32,7 +32,7 @@ public class River implements GameComponent {
 
     public River(int a, int b, ServerModel gameModel) {
         this.gameModel = gameModel;
-        river = gameModel.textures[71];
+        river = ServerModel.textures[71];
         xPos = a;
         yPos = b;
         Border = new Rectangle(xPos - 12, yPos - 12, 25, 25);

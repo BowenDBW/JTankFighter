@@ -12,6 +12,8 @@ public class Instruction {
 
     private static StringBuffer FROM_SEVER = new StringBuffer();
 
+    private static String listener;
+
     public static StringBuffer getFromUser() {
 
         return FROM_USER;
@@ -23,10 +25,17 @@ public class Instruction {
     }
 
     public static void setFromSever(StringBuffer stringBuffer) {
+
         FROM_SEVER = stringBuffer;
     }
 
     public static void setFromUser(StringBuffer stringBuffer) {
+
         FROM_USER = stringBuffer;
+    }
+
+    public static String getListener() {
+
+        return listener;
     }
 }

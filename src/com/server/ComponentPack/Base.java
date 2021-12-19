@@ -55,9 +55,9 @@ public class Base implements GameComponent {
     }
 
     public void doom() {
-        base = gameModel.textures[1];
+        base = ServerModel.textures[1];
         if (!baseKilled) {
-            gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
         }
         baseKilled = true;
 
@@ -69,19 +69,19 @@ public class Base implements GameComponent {
     public void move() {
         if (steelWallTime == 600) {
             SteelWall temp = new SteelWall(248, 498, 2, gameModel);
-            gameModel.gameComponents[0] = temp;
+            ServerModel.gameComponents[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
             temp = new SteelWall(273, 498, 3, gameModel);
-            gameModel.gameComponents[1] = temp;
+            ServerModel.gameComponents[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
             temp = new SteelWall(248, 473, 1, gameModel);
-            gameModel.gameComponents[2] = temp;
+            ServerModel.gameComponents[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
             temp = new SteelWall(273, 473, 1, gameModel);
-            gameModel.gameComponents[3] = temp;
+            ServerModel.gameComponents[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }
         if (steelWallTime > 0) {
@@ -89,19 +89,19 @@ public class Base implements GameComponent {
         }
         if (steelWallTime == 1) {
             Wall temp = new Wall(248, 498, 2, gameModel);
-            gameModel.gameComponents[0] = temp;
+            ServerModel.gameComponents[0] = temp;
             writeToOutputLine("w", temp.shape, 248, 498);
 
             temp = new Wall(273, 498, 3, gameModel);
-            gameModel.gameComponents[1] = temp;
+            ServerModel.gameComponents[1] = temp;
             writeToOutputLine("w", temp.shape, 273, 498);
 
             temp = new Wall(248, 473, 1, gameModel);
-            gameModel.gameComponents[2] = temp;
+            ServerModel.gameComponents[2] = temp;
             writeToOutputLine("w", temp.shape, 248, 473);
 
             temp = new Wall(273, 473, 1, gameModel);
-            gameModel.gameComponents[3] = temp;
+            ServerModel.gameComponents[3] = temp;
             writeToOutputLine("w", temp.shape, 273, 473);
         }
     }

@@ -9,14 +9,15 @@ import java.awt.*;
  * @author chenhong
  */ //drawingPanel类属于服务器程序
 public class DrawingPanel extends JPanel {
-    private Image offScreenImage;
 
+    private Image offScreenImage;
     //这些是指出在serverModel都是真实的东西的参考
-    public static String[] messageQueue;
     public static GameComponent[] gameComponents;
     private static boolean gameStarted;
     private static int green, red, blue;
 
+    private static String[] messageQueue;
+    private static int messageIndex;
     public DrawingPanel() {
     }
 
@@ -100,5 +101,59 @@ public class DrawingPanel extends JPanel {
                 }
             }
         }
+    }
+
+    //删除屏幕上最早的信息
+    public static void removeMessage() {
+
+        if (messageIndex == 0) {
+
+            return;
+        }
+
+        messageIndex--;
+        if (messageIndex >= 0) {
+
+            System.arraycopy(messageQueue, 1, messageQueue, 0, messageIndex);
+        }
+        messageQueue[messageIndex] = null;
+
+        //调用视图重绘屏幕如果比赛还没开始
+        if (!Status.isGameStarted()) {
+
+            ServerModel.getView().getMainPanel().repaint();
+        }
+    }
+
+    //在屏幕上显示一行消息
+    public static void addMessage(String message) {
+        if (messageIndex < 8) {
+            messageQueue[messageIndex] = message;
+            messageIndex++;
+        } else {
+            System.arraycopy(messageQueue, 1, messageQueue, 0, 7);
+            messageQueue[7] = message;
+        }
+
+        //调用视图重绘屏幕如果游戏有没有开始
+        if (!Status.isGameStarted()) {
+            ServerModel.getView().getMainPanel().repaint();
+        }
+    }
+
+    public static String[] getMessageQueue() {
+        return messageQueue;
+    }
+
+    public static int getMessageIndex() {
+        return messageIndex;
+    }
+
+    public static void setMessageQueue(String[] messageQueue) {
+        DrawingPanel.messageQueue = messageQueue;
+    }
+
+    public static void setMessageIndex(int messageIndex) {
+        DrawingPanel.messageIndex = messageIndex;
     }
 }

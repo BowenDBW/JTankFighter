@@ -16,6 +16,7 @@ public class Status {
     private static boolean serverVoteYes, serverVoteNo;
     private static boolean clientVoteYes;
     private static boolean pausePressed;
+
     public static boolean isServerCreated() {
         return serverCreated;
     }

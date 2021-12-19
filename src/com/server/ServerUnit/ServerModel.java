@@ -12,8 +12,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
 
+/**
+ * @author 26317
+ */
 public class ServerModel implements ActionListener {
     //游戏变量
     private static int gameFlow;
@@ -21,62 +23,62 @@ public class ServerModel implements ActionListener {
     //视图参考
     private static ServerView view;
     //游戏消息
-    private static String[] messageQueue;
-    private static int messageIndex;
     public String playerTypedMessage = "";
     //实际的游戏在这个线程上运行，而主线程监听用户的输入
-    private final Ticker t;
-    public Image[] textures;
-    public GameComponent[] gameComponents;
-    private Player p1;   //由服务器玩家控制的坦克
-    private Player p2;   //有客户端玩家控制的坦克
+    public static Image[] textures;
+    public static GameComponent[] gameComponents;
+    //由服务器玩家控制的坦克
+    private static Player p1;
+    //有客户端玩家控制的坦克
+    private static Player p2;
 
     public static int getGameFlow() {
         return gameFlow;
     }
 
-
-
-    public Ticker getT() {
-        return t;
-    }
-
-    public Player getP1() {
-        return p1;
-    }
-
-    public Player getP2() {
-        return p2;
-    }
+    private static Ticker t;
 
     public ServerModel(ServerView thisView) {
 
         view = thisView;
-        messageQueue = new String[8];
-        DrawingPanel.messageQueue = messageQueue;
+        DrawingPanel.setMessageQueue(new String[8]);
 
-        addMessage("欢迎来到坦克大战主机端!  请点击\"建立主机\"按钮开始游戏");
+        DrawingPanel.addMessage("欢迎来到坦克大战主机端!  请点击\"建立主机\"按钮开始游戏");
 
         t = new Ticker(1000);
         t.addActionListener(this);
     }
 
+    public static Ticker getT() {
+
+        return t;
+    }
+
+    public static Player getP1() {
+
+        return p1;
+    }
+
+    public static Player getP2() {
+
+        return p2;
+    }
 
     public void createServer() {
 
-        addMessage("正在建立主机(端口9999)");
+        DrawingPanel.addMessage("正在建立主机(端口9999)");
 
         try {
             ServerCommunication.setServerSocket(new ServerSocket(9999));
             Status.setServerCreated(true);
         } catch (Exception e) {
-            addMessage("无法建立主机，请确认端口9999没有被别的程序使用");
+            DrawingPanel.addMessage("无法建立主机，请确认端口9999没有被别的程序使用");
             e.printStackTrace();
             t.stop();
             return;
         }
 
-        addMessage("建立完成，等待玩家连接");
+        DrawingPanel.addMessage("建立完成，等待玩家连接");
 
 
         try {
@@ -88,7 +90,7 @@ public class ServerModel implements ActionListener {
                     ServerCommunication.getClientSocket().getInputStream())));
 
         } catch (Exception e) {
-            addMessage("连接中出现错误，请重新建立主机");
+            DrawingPanel.addMessage("连接中出现错误，请重新建立主机");
             Status.setServerCreated(false);
 
             t.stop();
@@ -108,7 +110,7 @@ public class ServerModel implements ActionListener {
         }
 
         view.getMessageField().setEnabled(true);
-        addMessage("玩家已连接上，开始载入游戏");
+        DrawingPanel.addMessage("玩家已连接上，开始载入游戏");
 
         //一旦客户端连接，然后告诉客户端开始加载游戏
         ServerCommunication.getOut().println("L1;");
@@ -133,7 +135,7 @@ public class ServerModel implements ActionListener {
         DrawingPanel.gameComponents = gameComponents;
         view.getMainPanel().setGameStarted(true);
 
-        addMessage("载入完毕，游戏开始了！");
+        DrawingPanel.addMessage("载入完毕，游戏开始了！");
     }
 
     @Override
@@ -147,10 +149,11 @@ public class ServerModel implements ActionListener {
 
         //游戏逻辑回路，
         try {
-            String input = "";
-            while ((input = ServerCommunication.getIn().readLine()) != null) {
+
+            String line;
+            while ((line = ServerCommunication.getIn().readLine()) != null) {
                 //处理客户反馈消息
-                FeedbackHandler.handleInstruction(this);
+                FeedbackHandler.handleInstruction();
 
                 if (!Status.isGamePaused()) {
                     gameFlow++;
@@ -173,15 +176,15 @@ public class ServerModel implements ActionListener {
                     if (p1.getFrozen() != 1) {
 
                         Instruction.getFromSever().append("a;");
-                    };
-
-                    if ((p1.getFrozen() != 1 || messageIndex == 1) && Status.isServerVoteYes()) {
-
-                        addMessage("等待用户端玩家的回应...");
                     }
-                    if (p1.getFrozen() != 1 || messageIndex == 0) {
 
-                        addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
+                    if ((p1.getFrozen() != 1 || DrawingPanel.getMessageIndex() == 1) && Status.isServerVoteYes()) {
+
+                        DrawingPanel.addMessage("等待用户端玩家的回应...");
+                    }
+                    if (p1.getFrozen() != 1 || DrawingPanel.getMessageIndex() == 0) {
+
+                        DrawingPanel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     }
                     Status.setGameOver(true);
                     p1.setFrozen(1);
@@ -197,7 +200,7 @@ public class ServerModel implements ActionListener {
                         Instruction.getFromSever().append("j;");
                         if (Status.isClientVoteYes()) {
 
-                            addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
+                            DrawingPanel.addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
 
                             //重新启动游戏
                             p1 = new Player("1P", this);
@@ -259,7 +262,7 @@ public class ServerModel implements ActionListener {
 
                 //从消息队列中删除一个消息每10秒，（如果有的话）
                 if (gameFlow % 300 == 0) {
-                    removeMessage();
+                    DrawingPanel.removeMessage();
                 }
 
                 //将玩家、关卡的信息写入输出行
@@ -306,7 +309,7 @@ public class ServerModel implements ActionListener {
             Enemy.setFrozenMoment(0);
             view.getMainPanel().setGameStarted(false);
             t.stop();
-            addMessage("玩家退出了，请重新建立主机");
+            DrawingPanel.addMessage("玩家退出了，请重新建立主机");
 
             //当发生错误在游戏中，摧毁任何东西，包括游戏的变量
             try {
@@ -328,7 +331,7 @@ public class ServerModel implements ActionListener {
     }
 
     //添加游戏对象（如坦克，子弹等..）到游戏系统
-    public void addActor(GameComponent gameComponent) {
+    public static void addActor(GameComponent gameComponent) {
         for (int i = 0; i < gameComponents.length; i++) {
             if (gameComponents[i] == null) {
                 gameComponents[i] = gameComponent;
@@ -338,7 +341,7 @@ public class ServerModel implements ActionListener {
     }
 
     //从游戏系统中移除游戏对象
-    public void removeActor(GameComponent gameComponent) {
+    public static void removeActor(GameComponent gameComponent) {
         for (int i = 0; i < gameComponents.length; i++) {
             if (gameComponents[i] == gameComponent) {
                 gameComponents[i] = null;
@@ -347,40 +350,7 @@ public class ServerModel implements ActionListener {
         }
     }
 
-
-    //在屏幕上显示一行消息
-    public static void addMessage(String message) {
-        if (messageIndex < 8) {
-            messageQueue[messageIndex] = message;
-            messageIndex++;
-        } else {
-            System.arraycopy(messageQueue, 1, messageQueue, 0, 7);
-            messageQueue[7] = message;
-        }
-
-        //调用视图重绘屏幕如果游戏有没有开始
-        if (!Status.isGameStarted()) {
-            view.getMainPanel().repaint();
-        }
+    public static ServerView getView() {
+        return view;
     }
-
-    //删除屏幕上最早的信息
-    public void removeMessage() {
-
-        if (messageIndex == 0) {
-            return;
-        }
-
-        messageIndex--;
-        if (messageIndex >= 0) {
-            System.arraycopy(messageQueue, 1, messageQueue, 0, messageIndex);
-        }
-        messageQueue[messageIndex] = null;
-
-        //调用视图重绘屏幕如果比赛还没开始
-        if (!Status.isGameStarted()) {
-            view.getMainPanel().repaint();
-        }
-    }
-
 }

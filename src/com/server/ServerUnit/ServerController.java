@@ -18,16 +18,16 @@ public class ServerController {
         //操作发送消息按钮的动作
         view.getSendMessage().addActionListener(e -> {
             if (!Status.isGameStarted()) {
-                ServerModel.addMessage("还没有和别的玩家联上, 无法发送对话");
+                DrawingPanel.addMessage("还没有和别的玩家联上, 无法发送对话");
                 return;
             }
 
             if (!"".equals(view.getMessageField().getText())) {
-                ServerModel.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
                 model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
                 view.getMessageField().setText("");
             } else {
-                ServerModel.addMessage("对话内容不能为空");
+                DrawingPanel.addMessage("对话内容不能为空");
             }
         }
         );
@@ -35,7 +35,7 @@ public class ServerController {
         //操作建立主机按钮的动作
         view.getCreateServer().addActionListener(e -> {
             if (!Status.isServerCreated()) {
-                model.getT().start();
+                ServerModel.getT().start();
             }
         }
         );
@@ -46,10 +46,10 @@ public class ServerController {
             if (!Status.isGameOver() && Status.isGameStarted()) {
                 if (!Status.isGamePaused()) {
                     Status.setGamePaused(true);
-                    model.addMessage("主机端玩家暂停了游戏");
+                    DrawingPanel.addMessage("主机端玩家暂停了游戏");
                 } else {
                     Status.setGamePaused(false);
-                    model.addMessage("主机端玩家取消了暂停");
+                    DrawingPanel.addMessage("主机端玩家取消了暂停");
                 }
             }
         }
@@ -57,11 +57,11 @@ public class ServerController {
 
         //操作帮助按钮的动作
         view.getHelp().addActionListener(e -> {
-            ServerModel.addMessage("-------------------------------坦克大战 1.0-----------------------------------");
-            ServerModel.addMessage("帮助: 按 s 键开火,  按键盘的方向键来控制坦克的移动");
-            ServerModel.addMessage("如果按键没有反应请 1. 关闭大写功能; 2. 用 tab键切换 ");
-            ServerModel.addMessage("到控制界面如果您在使用对话界面.");
-            ServerModel.addMessage("--------------------------------------------------------------------------------------");
+                    DrawingPanel.addMessage("-------------------------------坦克大战 1.0-----------------------------------");
+                    DrawingPanel.addMessage("帮助: 按 s 键开火,  按键盘的方向键来控制坦克的移动");
+                    DrawingPanel.addMessage("如果按键没有反应请 1. 关闭大写功能; 2. 用 tab键切换 ");
+                    DrawingPanel.addMessage("到控制界面如果您在使用对话界面.");
+                    DrawingPanel.addMessage("--------------------------------------------------------------------------------------");
         }
         );
 
@@ -74,18 +74,18 @@ public class ServerController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (helpMessageCount > 0) {
-                    ServerModel.addMessage("提示：用\"tab\"键可以自由切换于控制界面和对话界面");
-                    ServerModel.addMessage("提示：按回车键可以直接发送您的对话");
+                    DrawingPanel.addMessage("提示：用\"tab\"键可以自由切换于控制界面和对话界面");
+                    DrawingPanel.addMessage("提示：按回车键可以直接发送您的对话");
                     helpMessageCount--;
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (!"".equals(view.getMessageField().getText())) {
-                        model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                        DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
                         model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
                         view.getMessageField().setText("");
                     } else {
-                        model.addMessage("对话内容不能为空");
+                        DrawingPanel.addMessage("对话内容不能为空");
                     }
                 }
             }
@@ -95,38 +95,38 @@ public class ServerController {
         temp.addKeyListener(new KeyAdapter() {
                                 @Override
                                 public void keyPressed(KeyEvent e) {
-                                    if (model.getP1() != null) {
+                                    if (ServerModel.getP1() != null) {
                                         if (e.getKeyCode() == KeyEvent.VK_UP) {
-                                            model.getP1().setMoveUp(true);
-                                            model.getP1().setMoveDown(false);
-                                            model.getP1().setMoveLeft(false);
-                                            model.getP1().setMoveRight(false);
+                                            ServerModel.getP1().setMoveUp(true);
+                                            ServerModel.getP1().setMoveDown(false);
+                                            ServerModel.getP1().setMoveLeft(false);
+                                            ServerModel.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                                            model.getP1().setMoveDown(true);
-                                            model.getP1().setMoveUp(false);
-                                            model.getP1().setMoveLeft(false);
-                                            model.getP1().setMoveRight(false);
+                                            ServerModel.getP1().setMoveDown(true);
+                                            ServerModel.getP1().setMoveUp(false);
+                                            ServerModel.getP1().setMoveLeft(false);
+                                            ServerModel.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                                            model.getP1().setMoveLeft(true);
-                                            model.getP1().setMoveUp(false);
-                                            model.getP1().setMoveDown(false);
-                                            model.getP1().setMoveRight(false);
+                                            ServerModel.getP1().setMoveLeft(true);
+                                            ServerModel.getP1().setMoveUp(false);
+                                            ServerModel.getP1().setMoveDown(false);
+                                            ServerModel.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                                            model.getP1().setMoveLeft(false);
-                                            model.getP1().setMoveUp(false);
-                                            model.getP1().setMoveDown(false);
-                                            model.getP1().setMoveRight(true);
+                                            ServerModel.getP1().setMoveLeft(false);
+                                            ServerModel.getP1().setMoveUp(false);
+                                            ServerModel.getP1().setMoveDown(false);
+                                            ServerModel.getP1().setMoveRight(true);
                                         }
                                         if (e.getKeyChar() == 's') {
-                                            model.getP1().setFire(true);
+                                            ServerModel.getP1().setFire(true);
                                         }
 
                                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                                             if (!"".equals(view.getMessageField().getText())) {
-                                                model.addMessage("主机端玩家说：" + view.getMessageField().getText());
+                                                DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
                                                 model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
                                                 view.getMessageField().setText("");
                                             }
@@ -134,7 +134,7 @@ public class ServerController {
 
                                         if (e.getKeyChar() == 'y' && Status.isGameOver() && !Status.isServerVoteYes()) {
                                             Status.setServerVoteYes(true);
-                                            ServerModel.addMessage("等待用户端玩家的回应...");
+                                            DrawingPanel.addMessage("等待用户端玩家的回应...");
                                         }
 
                                         if (e.getKeyChar() == 'n' && Status.isGameOver()) {
@@ -145,21 +145,21 @@ public class ServerController {
 
                                 @Override
                                 public void keyReleased(KeyEvent e) {
-                                    if (model.getP1() != null) {
+                                    if (ServerModel.getP1() != null) {
                                         if (e.getKeyCode() == KeyEvent.VK_UP) {
-                                            model.getP1().setMoveUp(false);
+                                            ServerModel.getP1().setMoveUp(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                                            model.getP1().setMoveDown(false);
+                                            ServerModel.getP1().setMoveDown(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                                            model.getP1().setMoveLeft(false);
+                                            ServerModel.getP1().setMoveLeft(false);
                                         }
                                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                                            model.getP1().setMoveRight(false);
+                                            ServerModel.getP1().setMoveRight(false);
                                         }
                                         if (e.getKeyChar() == 's') {
-                                            model.getP1().setFire(false);
+                                            ServerModel.getP1().setFire(false);
                                         }
                                     }
                                 }

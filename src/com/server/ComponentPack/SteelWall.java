@@ -49,7 +49,7 @@ public class SteelWall implements GameComponent {
 
     public SteelWall(int a, int b, ServerModel gameModel) {
         this.gameModel = gameModel;
-        steelWall = gameModel.textures[53];
+        steelWall = ServerModel.textures[53];
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);

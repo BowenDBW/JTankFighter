@@ -83,7 +83,7 @@ public class Bomb implements GameComponent {
 
         animationTime--;
         if (animationTime < 0) {
-            gameModel.removeActor(this);
+            ServerModel.removeActor(this);
             return;
         }
         xPos = xPos + (int) (Math.random() * jumpDistance) - (int) (Math.random() * jumpDistance);
