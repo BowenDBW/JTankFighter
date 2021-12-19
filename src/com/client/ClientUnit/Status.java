@@ -3,7 +3,7 @@ package com.client.ClientUnit;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
+ * @description 这个类主要用来存储各状态变量
  * @date 2021/12/17 21:20
  */
 public class Status {

@@ -1,7 +1,7 @@
 package com.client.ClientUnit;
 
 
-import com.client.ConponentPack.Actor;
+import com.client.ConponentPack.GameComponent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -87,7 +87,7 @@ public class ClientCommunication {
         Status.setGameStarted((true));
 
         Status.setGameStarted(true);
-        DrawingPanel.drawingList = new Actor[400];
+        DrawingPanel.drawingList = new GameComponent[400];
         ClientModel.getView().getMessageField().setEnabled(true);
         DrawingPanel.addMessage("载入完毕，游戏开始了！");
     }

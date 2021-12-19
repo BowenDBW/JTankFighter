@@ -1,6 +1,7 @@
 package com.client.ConponentPack;
 
 import com.client.ClientUnit.ClientModel;
+import com.client.ClientUnit.DrawingPanel;
 
 import java.awt.*;
 
@@ -40,7 +41,7 @@ public class Bomb implements GameComponent {
         g.fillOval(xPos - inner, yPos - inner,
                 2 * inner, 2 * inner);
 
-        ClientModel.removeActor(this);
+        DrawingPanel.removeActor(this);
     }
 
     @Override

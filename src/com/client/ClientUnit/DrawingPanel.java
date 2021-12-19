@@ -1,6 +1,6 @@
 package com.client.ClientUnit;
 
-import com.client.ConponentPack.Actor;
+import com.client.ConponentPack.GameComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class DrawingPanel extends JPanel {
     public static String[] messageQueue;
     private static int messageIndex;
 
-    public static Actor[] drawingList;
+    public static GameComponent[] drawingList;
 
     private int green, red, blue;
     private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
@@ -108,7 +108,7 @@ public class DrawingPanel extends JPanel {
 
             //绘制坦克等等
             if (drawingList != null) {
-                for (Actor actor : drawingList) {
+                for (GameComponent actor : drawingList) {
                     if (actor != null) {
                         actor.draw(g);
                     }
@@ -200,7 +200,7 @@ public class DrawingPanel extends JPanel {
     }
 
     //添加一个游戏对象(如坦克、子弹等)图纸清单
-    public static void addActor(Actor actor) {
+    public static void addActor(GameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == null) {
                 drawingList[i] = actor;
@@ -210,7 +210,7 @@ public class DrawingPanel extends JPanel {
     }
 
     //删除一个游戏对象从图纸清单
-    public static void removeActor(Actor actor) {
+    public static void removeActor(GameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == actor) {
                 drawingList[i] = null;

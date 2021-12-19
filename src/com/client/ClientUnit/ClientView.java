@@ -79,10 +79,10 @@ public class ClientView extends JFrame {
         mainPanel.setBackground(new Color(128, 64, 0));
 
         messageField = new JTextField();
-        messageField.setBounds(0, 519, 560, 22);
+        messageField.setBounds(0, 507, 560, 22);
         messageField.setEnabled(false);
         sendMessage = new JButton("发送");
-        sendMessage.setBounds(570, 518, 62, 24);
+        sendMessage.setBounds(562, 507, 62, 24);
         sendMessage.setFocusable(false);
         mainPanel.add(messageField);
         mainPanel.add(sendMessage);

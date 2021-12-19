@@ -1,6 +1,8 @@
 package com.client.ConponentPack;
 
 import com.client.ClientUnit.ClientModel;
+import com.client.ClientUnit.DrawingPanel;
+import com.client.ClientUnit.Level;
 
 import java.awt.*;
 
@@ -19,7 +21,7 @@ public class NormalObject implements GameComponent {
         this.yPos = yPos;
         this.type = type;
         if (imageIndex != -1) {
-            image = ClientModel.textures[imageIndex];
+            image = Level.textures[imageIndex];
         }
     }
 
@@ -46,7 +48,7 @@ public class NormalObject implements GameComponent {
 
         if (!"river".equals(type) && !"grass".equals(type) && !"base".equals(type)) {
 
-            ClientModel.removeActor(this);
+            DrawingPanel.removeActor(this);
         }
     }
 

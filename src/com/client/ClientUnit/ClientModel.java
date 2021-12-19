@@ -1,8 +1,6 @@
 package com.client.ClientUnit;
 
 import com.ProcessUnit.Ticker;
-import com.client.ConponentPack.Actor;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

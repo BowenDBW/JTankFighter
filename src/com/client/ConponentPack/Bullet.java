@@ -1,6 +1,7 @@
 package com.client.ConponentPack;
 
 import com.client.ClientUnit.ClientModel;
+import com.client.ClientUnit.DrawingPanel;
 
 import java.awt.*;
 
@@ -28,7 +29,7 @@ public class Bullet implements GameComponent {
         if (direction == 2 || direction == 3) {
             g.fillRect(xPos - 4, yPos - 1, 9, 3);
         }
-        ClientModel.removeActor(this);
+        DrawingPanel.removeActor(this);
     }
 
     @Override

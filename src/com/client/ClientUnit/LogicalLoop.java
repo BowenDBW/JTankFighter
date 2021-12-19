@@ -1,6 +1,5 @@
 package com.client.ClientUnit;
 
-import com.sun.security.ntlm.Client;
 
 /**
  * @author chenhong

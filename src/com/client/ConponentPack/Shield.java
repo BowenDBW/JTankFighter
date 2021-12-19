@@ -1,11 +1,10 @@
 package com.client.ConponentPack;
 
-import com.client.ClientUnit.ClientModel;
-import com.client.ConponentPack.Actor;
+import com.client.ClientUnit.DrawingPanel;
 
 import java.awt.*;
 
-public class Shield implements Actor {
+public class Shield implements GameComponent {
     private final int xPos;
     private final int yPos;
 
@@ -19,7 +18,7 @@ public class Shield implements Actor {
         g.setColor(Color.red);
         g.drawRect(xPos - 12, yPos - 12, 25, 25);
         g.drawRect(xPos - 11, yPos - 11, 23, 23);
-        ClientModel.removeActor(this);
+        DrawingPanel.removeActor(this);
     }
 
     @Override
