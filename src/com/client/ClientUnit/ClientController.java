@@ -40,7 +40,7 @@ public class ClientController {
         //handle connectServer按钮操作  点击连接主机的按钮
         view.getConnectServer().addActionListener(e -> {
                     if (Status.isServerConnected()) {
-                        ClientModel.setServerIp(view.getIpField().getText());
+                        ClientCommunication.setServerIP(view.getIpField().getText());
                         ClientModel.getT().start();
                     }
                 }

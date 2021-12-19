@@ -5,11 +5,16 @@ import com.client.ConponentPack.NormalObject;
 import com.client.ConponentPack.SteelWall;
 import com.client.ConponentPack.BrickWall;
 
+import java.awt.*;
+
 /**
  * @author chenhong
  */
 public class Level {
     private static int winningCount;
+
+    //textures
+    public static Image[] textures;
 
     public static int getWinningCount() {
         return winningCount;
@@ -22,15 +27,15 @@ public class Level {
     public static void loadLevel( int levelIndex) {
         //清除所有的东西
         for (int i = 0; i < 400; i++) {
-            ClientModel.drawingList[i] = null;
+            DrawingPanel.drawingList[i] = null;
         }
 
         //加载基地
-        ClientModel.drawingList[0] = new BrickWall(248, 498, 2);
-        ClientModel.drawingList[1] = new BrickWall(273, 498, 3);
-        ClientModel.drawingList[2] = new BrickWall(248, 473, 1);
-        ClientModel.drawingList[3] = new BrickWall(273, 473, 1);
-        ClientModel.drawingList[4] = new NormalObject(260, 498, "base", 0);
+        DrawingPanel.drawingList[0] = new BrickWall(248, 498, 2);
+        DrawingPanel.drawingList[1] = new BrickWall(273, 498, 3);
+        DrawingPanel.drawingList[2] = new BrickWall(248, 473, 1);
+        DrawingPanel.drawingList[3] = new BrickWall(273, 473, 1);
+        DrawingPanel.drawingList[4] = new NormalObject(260, 498, "base", 0);
 
         //加载一个级别
         if (1 + (levelIndex - 1) % 8 == 1) {
@@ -246,47 +251,55 @@ public class Level {
     public static void loadLevel(String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                DrawingPanel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("#0".equals(level[i])) {
-                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                DrawingPanel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("#1".equals(level[i])) {
-                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                DrawingPanel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("#2".equals(level[i])) {
-                ClientModel.addActor(new BrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
+                DrawingPanel.addActor(new BrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("#3".equals(level[i])) {
-                ClientModel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                DrawingPanel.addActor(new BrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("ss".equals(level[i])) {
-                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
             }
             if ("s0".equals(level[i])) {
-                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("s1".equals(level[i])) {
-                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("s2".equals(level[i])) {
-                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("s3".equals(level[i])) {
-                ClientModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
 
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (ClientModel.drawingList[j] == null) {
-                        ClientModel.drawingList[j] = new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25,  "grass", -1);
+                    if (DrawingPanel.drawingList[j] == null) {
+                        DrawingPanel.drawingList[j] = new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25,  "grass", -1);
                         break;
                     }
                 }
             }
             if ("==".equals(level[i])) {
-                ClientModel.addActor(new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, "river", 71));
+                DrawingPanel.addActor(new NormalObject(23 + (i % 20) * 25, 23 + (i / 20) * 25, "river", 71));
             }
+        }
+    }
+
+    public static void loadPictures() {
+        textures = new Image[88];
+        for (int i = 1; i < textures.length + 1; i++) {
+            textures[i - 1] = Toolkit.getDefaultToolkit().
+                    getImage("image\\" + i + ".jpg");
         }
     }
 }

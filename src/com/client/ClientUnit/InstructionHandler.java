@@ -60,12 +60,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < ClientModel.drawingList.length; k++) {
-                    if (ClientModel.drawingList[k] != null) {
-                        if (ClientModel.drawingList[k].getX() == xPos && ClientModel.drawingList[k].getY() == yPos) {
+                for (int k = 0; k < DrawingPanel.drawingList.length; k++) {
+                    if (DrawingPanel.drawingList[k] != null) {
+                        if (DrawingPanel.drawingList[k].getX() == xPos && DrawingPanel.drawingList[k].getY() == yPos) {
                             BrickWall tempBrickWall = new BrickWall(xPos, yPos, 4);
                             tempBrickWall.shape = shape;
-                            ClientModel.drawingList[k] = tempBrickWall;
+                            DrawingPanel.drawingList[k] = tempBrickWall;
                         }
                     }
                 }
@@ -102,12 +102,12 @@ public class InstructionHandler {
                 }
 
                 //执行指令
-                for (int k = 0; k < ClientModel.drawingList.length; k++) {
-                    if (ClientModel.drawingList[k] != null) {
-                        if (ClientModel.drawingList[k].getX() == xPos && ClientModel.drawingList[k].getY() == yPos) {
+                for (int k = 0; k < DrawingPanel.drawingList.length; k++) {
+                    if (DrawingPanel.drawingList[k] != null) {
+                        if (DrawingPanel.drawingList[k].getX() == xPos && DrawingPanel.drawingList[k].getY() == yPos) {
                             SteelWall tempWall = new SteelWall(xPos, yPos, 4);
                             tempWall.shape = shape;
-                            ClientModel.drawingList[k] = tempWall;
+                            DrawingPanel.drawingList[k] = tempWall;
                         }
                     }
                 }
@@ -116,7 +116,7 @@ public class InstructionHandler {
             //指令“b”开头意味着基地已被摧毁
             if ("b".equals(perInstruction.substring(0, 1))) {
                 Actor actor = new NormalObject(260, 498,  "base", 1);
-                ClientModel.drawingList[4] = actor;
+                DrawingPanel.drawingList[4] = actor;
             }
 
             //指令“n”开头显示正常的对象,如坦克、启动符号
@@ -152,7 +152,7 @@ public class InstructionHandler {
                 textureIndex = Integer.parseInt(temp.toString());
 
                 //执行指令
-                ClientModel.addActor(new NormalObject(xPos, yPos,"normal", textureIndex));
+                DrawingPanel.addActor(new NormalObject(xPos, yPos,"normal", textureIndex));
             }
 
 
@@ -189,7 +189,7 @@ public class InstructionHandler {
                 direction = Integer.parseInt(temp.toString());
 
                 //执行指令
-                ClientModel.addActor(new Bullet(xPos, yPos, direction));
+                DrawingPanel.addActor(new Bullet(xPos, yPos, direction));
             }
 
             //指令“o”开头表示一个炸弹
@@ -228,7 +228,7 @@ public class InstructionHandler {
                     size = 0;
                 }
                 //执行指令
-                ClientModel.addActor(new Bomb(xPos, yPos, size));
+                DrawingPanel.addActor(new Bomb(xPos, yPos, size));
             }
 
             //指令“i”开头表明坦克盾牌
@@ -254,7 +254,7 @@ public class InstructionHandler {
                 yPos = Integer.parseInt(temp.toString());
 
                 //执行指令
-                ClientModel.addActor(new Shield(xPos, yPos));
+                DrawingPanel.addActor(new Shield(xPos, yPos));
             }
 
             //指令“p”开头表示水平和玩家信息

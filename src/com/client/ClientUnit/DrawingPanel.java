@@ -15,7 +15,7 @@ public class DrawingPanel extends JPanel {
     public static String[] messageQueue;
     private static int messageIndex;
 
-    public Actor[] drawingList;
+    public static Actor[] drawingList;
 
     private int green, red, blue;
     private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
@@ -196,6 +196,26 @@ public class DrawingPanel extends JPanel {
         //调用视图来重新绘制屏幕如果没有开始游戏
         if (!Status.isGameStarted()) {
             ClientModel.getView().getMainPanel().repaint();
+        }
+    }
+
+    //添加一个游戏对象(如坦克、子弹等)图纸清单
+    public static void addActor(Actor actor) {
+        for (int i = 0; i < drawingList.length; i++) {
+            if (drawingList[i] == null) {
+                drawingList[i] = actor;
+                break;
+            }
+        }
+    }
+
+    //删除一个游戏对象从图纸清单
+    public static void removeActor(Actor actor) {
+        for (int i = 0; i < drawingList.length; i++) {
+            if (drawingList[i] == actor) {
+                drawingList[i] = null;
+                break;
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.client.ClientUnit;
 
+import com.sun.security.ntlm.Client;
+
 /**
  * @author chenhong
  * @version 1.0
@@ -12,7 +14,7 @@ public class LogicalLoop {
         //游戏逻辑循环,客户端程序实际不执行任何逻辑计算,它只接受drawing-instructions
         try {
             String fromServer;
-            while ((fromServer = ClientModel.getClientCommunication().getIn().readLine()) != null) {
+            while ((fromServer = ClientCommunication.getIn().readLine()) != null) {
 
                 int gameFlow = ClientModel.getGameFlow();
                 gameFlow++;
@@ -83,7 +85,7 @@ public class LogicalLoop {
                 }
 
                 //发送反馈指令
-                ClientModel.getClientCommunication().getOut().println(Instruction.getFromUser().toString());
+                ClientCommunication.getOut().println(Instruction.getFromUser().toString());
 
                 //调用视图重新绘制它自己
                 ClientModel.getView().getMainPanel().repaint();
@@ -111,9 +113,9 @@ public class LogicalLoop {
 
             //当有错误发生时,关闭创建的任何事情
             try {
-                ClientModel.getClientCommunication().getOut().close();
-                ClientModel.getClientCommunication().getIn().close();
-                ClientModel.getClientCommunication().getClientSocket().close();
+                ClientCommunication.getOut().close();
+                ClientCommunication.getIn().close();
+                ClientCommunication.getClientSocket().close();
             } catch (Exception exc) {
                 exc.printStackTrace();
             }
