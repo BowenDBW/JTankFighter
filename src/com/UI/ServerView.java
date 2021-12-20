@@ -9,8 +9,10 @@ import java.awt.*;
 
 
 /**
+ * The type Server view.
+ * 这个类表示服务器的图形界面
  * @author chenhong
- */ //这个类表示服务器的图形界面
+ */
 public class ServerView extends JFrame {
 
     private final ServerDrawingPanel mainPanel;
@@ -21,36 +23,75 @@ public class ServerView extends JFrame {
     private final JTextField messageField;
     private final JButton sendMessage;
 
+    /**
+     * Gets main panel.
+     * 获取主面板
+     * @return the main panel
+     */
     public ServerDrawingPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * Gets create server.
+     * 获取按钮
+     * @return the create server
+     */
     public JButton getCreateServer() {
         return createServer;
     }
 
+    /**
+     * Gets exit.
+     * 获取按钮
+     * @return the exit
+     */
     public JButton getExit() {
         return exit;
     }
 
+    /**
+     * Gets pause and resume.
+     * 获取按钮
+     * @return the pause and resume
+     */
     public JButton getPauseAndResume() {
         return pauseAndResume;
     }
 
 
+    /**
+     * Gets help.
+     * 获取帮助
+     * @return the help
+     */
     public JButton getHelp() {
         return help;
     }
 
 
+    /**
+     * Gets message field.
+     * 获取文本框
+     * @return the message field
+     */
     public JTextField getMessageField() {
         return messageField;
     }
 
+    /**
+     * Gets send message.
+     * 获取按钮
+     * @return the send message
+     */
     public JButton getSendMessage() {
         return sendMessage;
     }
 
+    /**
+     * Instantiates a new Server view.
+     * 安排各个组件的布局以及大小， 初始化监听
+     */
     public ServerView() {
 
         super("坦克大战");

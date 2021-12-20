@@ -4,7 +4,9 @@ import com.UI.ClientDrawingPanel;
 
 import java.awt.*;
 
+
 /**
+ * 爆炸效果
  * @author chenhong
  */
 public class ClientBomb implements ClientGameComponent {
@@ -13,6 +15,13 @@ public class ClientBomb implements ClientGameComponent {
     private final int yPos;
     private int inner, middle, outer;
 
+    /**
+     * Instantiates a new Client bomb.
+     *
+     * @param a    the a  x坐标
+     * @param b    the b  y坐标
+     * @param size        大小
+     */
     public ClientBomb(int a, int b, int size) {
         xPos = a;
         yPos = b;
@@ -28,6 +37,10 @@ public class ClientBomb implements ClientGameComponent {
         }
     }
 
+    /**
+     * 绘制爆炸样式
+     * @param g the g 画笔
+     */
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
@@ -43,11 +56,19 @@ public class ClientBomb implements ClientGameComponent {
         ClientDrawingPanel.removeActor(this);
     }
 
+    /**
+     * 获取x坐标
+     * @return x坐标值
+     */
     @Override
     public int getX() {
         return xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return y坐标值
+     */
     @Override
     public int getY() {
         return yPos;

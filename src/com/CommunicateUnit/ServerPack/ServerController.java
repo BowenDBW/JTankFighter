@@ -9,12 +9,22 @@ import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-//这个类处理来自服务器视图的输入
+
+/**
+ * The type Server controller.
+ * 主要设置来自面板的各个按钮的事件监听
+ * @author chenhong
+ */
 public class ServerController {
     private final ServerView view;
     private int helpMessageCount = 1;
     //一个玩家坦克的参考
 
+    /**
+     * Instantiates a new Server controller.
+     * 初始化并且，设置监听
+     * @param thisView the view
+     */
     public ServerController(ServerView thisView) {
         view = thisView;
 

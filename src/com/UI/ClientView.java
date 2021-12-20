@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * The type Client view.
+ * 客户端面板中的各个组件
  * @author chenhong
  */
 public class ClientView extends JFrame {
@@ -21,49 +23,89 @@ public class ClientView extends JFrame {
     private final JTextField ipField;
 
 
+    /**
+     * Gets main panel.
+     * 获取主面板
+     * @return the main panel
+     */
     public ClientDrawingPanel getMainPanel() {
         return mainPanel;
     }
 
 
+    /**
+     * Gets send message.
+     * 设置按钮
+     * @return the send message
+     */
     public JButton getSendMessage() {
         return sendMessage;
     }
 
 
+    /**
+     * Gets connect server.
+     * 获取按钮
+     * @return to connect server
+     */
     public JButton getConnectServer() {
         return connectServer;
     }
 
 
-
+    /**
+     * Gets exit.
+     * 获取按钮
+     * @return the exit
+     */
     public JButton getExit() {
         return exit;
     }
 
 
-
+    /**
+     * Gets pause and resume.
+     * 获取按钮
+     * @return the pause and resume
+     */
     public JButton getPauseAndResume() {
         return pauseAndResume;
     }
 
 
-
+    /**
+     * Gets help.
+     * 获取按钮
+     * @return the help
+     */
     public JButton getHelp() {
         return help;
     }
 
+    /**
+     * Gets message field.
+     * 获取文本框
+     * @return the message field
+     */
     public JTextField getMessageField() {
         return messageField;
     }
 
 
+    /**
+     * Gets ip field.
+     * 获取文本
+     * @return the ip field
+     */
     public JTextField getIpField() {
         return ipField;
     }
 
 
-
+    /**
+     * Instantiates a new Client view.
+     * 面板的属性设置以及布局安排
+     */
     public ClientView() {
         super("坦克大战");
 

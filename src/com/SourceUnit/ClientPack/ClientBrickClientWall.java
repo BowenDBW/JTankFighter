@@ -3,10 +3,19 @@ package com.SourceUnit.ClientPack;
 import java.awt.*;
 
 /**
- * @author 26317
+ * The type Client brick client wall.
+ * 砖墙
+ * @author chenhong
  */
 public class ClientBrickClientWall extends ClientWall implements ClientGameComponent {
 
+    /**
+     * Instantiates a new Client brick client wall.
+     * 构造函数
+     * @param xPos        the x pos
+     * @param yPos        the y pos
+     * @param orientation the orientation
+     */
     public ClientBrickClientWall(int xPos, int yPos, int orientation) {
         super(xPos, yPos, orientation, Toolkit.getDefaultToolkit().getImage("image\\71.jpg"));
         shape = new boolean[16];
@@ -45,6 +54,10 @@ public class ClientBrickClientWall extends ClientWall implements ClientGameCompo
         }
     }
 
+    /**
+     * 绘制出砖墙
+     * @param g the g
+     */
     @Override
     public void draw(Graphics g) {
         boolean wallDestroyed = true;
@@ -109,6 +122,11 @@ public class ClientBrickClientWall extends ClientWall implements ClientGameCompo
         }
     }
 
+    /**
+     * Gets type.
+     * 获取物体的种类
+     * @return the type 返回的是一个字符串，表示物体种类
+     */
     public String getType() {
         return "wall";
     }

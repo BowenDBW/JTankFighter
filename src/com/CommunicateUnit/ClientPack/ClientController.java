@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * 这个类处理来自客户端视图框架的输入
+ *
  * @author chenhong
  */
 public class ClientController {
@@ -18,6 +19,11 @@ public class ClientController {
     private final ClientView view;
     private int helpMessageCount = 1;
 
+    /**
+     * Instantiates a new Client controller.
+     * 构造器，可以初始化view 并且为view中的各个按钮设置监听器
+     * @param thisView the view
+     */
     public ClientController(ClientView thisView) {
         view = thisView;
 

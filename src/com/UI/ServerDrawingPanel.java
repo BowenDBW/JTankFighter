@@ -9,28 +9,41 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * The type Server drawing panel.
+ * drawingPanel类属于服务器程序
  * @author chenhong
- */ //drawingPanel类属于服务器程序
+ */
 public class ServerDrawingPanel extends JPanel {
 
     private Image offScreenImage;
-    //这些是指出在serverModel都是真实的东西的参考
     public static ServerGameComponent[] serverGameComponents;
     private static boolean gameStarted;
     private static int green, red, blue;
 
     private static String[] messageQueue;
     private static int messageIndex;
+
+    /**
+     * Instantiates a new Server drawing panel.
+     * 空构造函数
+     */
     public ServerDrawingPanel() {
     }
 
-
-
+    /**
+     * Sets game started.
+     * 设置状态
+     * @param newGameStarted the new game started
+     */
     public void setGameStarted(boolean newGameStarted) {
         gameStarted = newGameStarted;
     }
 
 
+    /**
+     * 绘制
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics offScreenGraphics;
@@ -42,6 +55,11 @@ public class ServerDrawingPanel extends JPanel {
         g.drawImage(offScreenImage, 0, 0, this);
     }
 
+    /**
+     * My paint.
+     * 绘制各部分
+     * @param g the g
+     */
     public void myPaint(Graphics g) {
         super.paintComponent(g);
 
@@ -106,7 +124,10 @@ public class ServerDrawingPanel extends JPanel {
         }
     }
 
-    //删除屏幕上最早的信息
+    /**
+     * Remove message.
+     * 删除屏幕上最早的信息
+     */
     public static void removeMessage() {
 
         if (messageIndex == 0) {
@@ -128,7 +149,11 @@ public class ServerDrawingPanel extends JPanel {
         }
     }
 
-    //在屏幕上显示一行消息
+    /**
+     * Add message.
+     * 在屏幕上显示一行消息
+     * @param message the message
+     */
     public static void addMessage(String message) {
         if (messageIndex < 8) {
             messageQueue[messageIndex] = message;
@@ -144,14 +169,26 @@ public class ServerDrawingPanel extends JPanel {
         }
     }
 
+    /**
+     * Gets message index.
+     * @return the message index
+     */
     public static int getMessageIndex() {
         return messageIndex;
     }
 
+    /**
+     * Sets message queue.
+     * @param messageQueue the message queue
+     */
     public static void setMessageQueue(String[] messageQueue) {
         ServerDrawingPanel.messageQueue = messageQueue;
     }
 
+    /**
+     * Remove actor.
+     * @param serverGameComponent the server game component
+     */
     public static void removeActor(ServerGameComponent serverGameComponent) {
         for (int i = 0; i < serverGameComponents.length; i++) {
             if (serverGameComponents[i] == serverGameComponent) {
@@ -161,6 +198,10 @@ public class ServerDrawingPanel extends JPanel {
         }
     }
 
+    /**
+     * Add actor.
+     * @param serverGameComponent the server game component
+     */
     public static void addActor(ServerGameComponent serverGameComponent) {
         for (int i = 0; i < serverGameComponents.length; i++) {
             if (serverGameComponents[i] == null) {
@@ -170,10 +211,18 @@ public class ServerDrawingPanel extends JPanel {
         }
     }
 
+    /**
+     * Get game components server game component [].
+     * @return the server game component []
+     */
     public static ServerGameComponent[] getGameComponents() {
         return serverGameComponents;
     }
 
+    /**
+     * Sets game components.
+     * @param serverGameComponents the server game components
+     */
     public static void setGameComponents(ServerGameComponent[] serverGameComponents) {
         ServerDrawingPanel.serverGameComponents = serverGameComponents;
     }

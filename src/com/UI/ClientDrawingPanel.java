@@ -9,15 +9,22 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * @author chenhong
- * 绘图面板类属于客户端程序
+ * The type Client drawing panel.
+ * 主面板
+ * @author chenhong  绘图面板类属于客户端程序
  */
 public class ClientDrawingPanel extends JPanel {
     private Image offScreenImage;
 
+    /**
+     * The Message queue.
+     */
     public static String[] messageQueue;
     private static int messageIndex;
 
+    /**
+     * The Drawing list.
+     */
     public static ClientGameComponent[] drawingList;
 
     private int green, red, blue;
@@ -25,36 +32,69 @@ public class ClientDrawingPanel extends JPanel {
     private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
     private final Image P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
 
+    /**
+     * Sets enemy left.
+     * 设置敌人的剩余量
+     * @param newEnemyLeft the new enemy left
+     */
     public void setEnemyLeft(int newEnemyLeft) {
         enemyLeft = newEnemyLeft;
     }
 
 
+    /**
+     * Sets level index.
+     * 设置关卡
+     * @param newLevelIndex the new level index
+     */
     public void setLevelIndex(int newLevelIndex) {
         levelIndex = newLevelIndex;
     }
 
 
+    /**
+     * Sets p 1 life.
+     * 设置玩家生命值
+     * @param newP1Life the new p 1 life
+     */
     public void setP1Life(int newP1Life) {
         p1Life = newP1Life;
     }
 
 
+    /**
+     * Sets p 2 life.
+     * 设置玩家生命值
+     * @param newP2Life the new p 2 life
+     */
     public void setP2Life(int newP2Life) {
         p2Life = newP2Life;
     }
 
 
+    /**
+     * Sets p 1 score.
+     * 设置玩家分数
+     * @param newP1Score the new p 1 score
+     */
     public void setP1Score(int newP1Score) {
         p1Score = newP1Score;
     }
 
+    /**
+     * Sets p 2 score.
+     * 设置玩家分数
+     * @param newP2Score the new p 2 score
+     */
     public void setP2Score(int newP2Score) {
         p2Score = newP2Score;
     }
 
 
-
+    /**
+     * 绘制各个组件
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
 
@@ -68,6 +108,11 @@ public class ClientDrawingPanel extends JPanel {
         g.drawImage(offScreenImage, 0, 0, this);
     }
 
+    /**
+     * My paint.
+     * 绘制游戏信息，显示在面板上
+     * @param g the g
+     */
     public void myPaint(Graphics g) {
         super.paintComponent(g);
 
@@ -155,7 +200,11 @@ public class ClientDrawingPanel extends JPanel {
         }
     }
 
-    //在屏幕上显示一条消息
+    /**
+     * Add message.
+     * 在屏幕上显示一条消息
+     * @param message the message
+     */
     public static void addMessage(String message) {
         if (messageIndex < 8) {
             messageQueue[messageIndex] = message;
@@ -172,7 +221,10 @@ public class ClientDrawingPanel extends JPanel {
         }
     }
 
-    //删除最早的消息在屏幕上
+    /**
+     * Remove message.
+     * 删除最早的消息在屏幕上
+     */
     public static void removeMessage() {
         if (messageIndex == 0) {
             return;
@@ -191,7 +243,11 @@ public class ClientDrawingPanel extends JPanel {
         }
     }
 
-    //添加一个游戏对象(如坦克、子弹等)图纸清单
+    /**
+     * Add actor.
+     * 添加一个游戏对象(如坦克、子弹等)图纸清单
+     * @param actor the actor
+     */
     public static void addActor(ClientGameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == null) {
@@ -201,7 +257,11 @@ public class ClientDrawingPanel extends JPanel {
         }
     }
 
-    //删除一个游戏对象从图纸清单
+    /**
+     * Remove actor.
+     * 删除一个游戏对象从图纸清单
+     * @param actor the actor
+     */
     public static void removeActor(ClientGameComponent actor) {
         for (int i = 0; i < drawingList.length; i++) {
             if (drawingList[i] == actor) {
