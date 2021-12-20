@@ -3,20 +3,28 @@ package com.SourceUnit.ClientPack;
 import java.awt.*;
 
 /**
- * <p>
- *
- * @author BowenDeng
- * @version 1.0
- * @date 2021/12/19 10:23
- **/
+ * 墙体类
+ * @author chenhong
+ */
 public abstract class ClientWall implements ClientGameComponent {
 
     private final Image wall;
     private final int xPos;
     private final int yPos;
 
+    /**
+     * The Shape.
+     */
     public boolean[] shape;
 
+    /**
+     * Instantiates a new Client wall.
+     * 墙体的构造函数
+     * @param xPos        the x pos
+     * @param yPos        the y pos
+     * @param orientation the orientation
+     * @param wall        the wall
+     */
     public ClientWall(int xPos, int yPos, int orientation, Image wall) {
         this.wall = wall;
         this.xPos = xPos;
@@ -57,20 +65,37 @@ public abstract class ClientWall implements ClientGameComponent {
         }
     }
 
+    /**
+     * 获取x坐标
+     * @return xPos
+     */
     @Override
     public int getX() {
         return xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return yPos
+     */
     @Override
     public int getY() {
         return yPos;
     }
 
+    /**
+     * Gets image.
+     * 获取图片
+     * @return the image
+     */
     public Image getImage() {
         return wall;
     }
 
+    /**
+     * 抽象类，留给子类继承，用于绘制图像
+     * @param g the g
+     */
     @Override
     public abstract void draw(Graphics g) ;
 

@@ -7,7 +7,8 @@ import java.awt.*;
 
 /**
  * 这个类代表除了墙和钢墙外所有其他对象
- * @author 26317
+ *
+ * @author chenhong
  */
 public class ClientNormalObject implements ClientGameComponent {
     private final String type;
@@ -15,6 +16,14 @@ public class ClientNormalObject implements ClientGameComponent {
     private final int xPos;
     private final int yPos;
 
+    /**
+     * Instantiates a new Client normal object.
+     * 构造函数
+     * @param xPos       the x pos
+     * @param yPos       the y pos
+     * @param type       the type
+     * @param imageIndex the image index
+     */
     public ClientNormalObject(int xPos, int yPos, String type, int imageIndex) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -24,6 +33,10 @@ public class ClientNormalObject implements ClientGameComponent {
         }
     }
 
+    /**
+     * 绘制普通物体
+     * @param g the g
+     */
     @Override
     public  void draw(Graphics g) {
         if (image != null) {
@@ -51,16 +64,29 @@ public class ClientNormalObject implements ClientGameComponent {
         }
     }
 
+    /**
+     * 获取x坐标
+     * @return xPos
+     */
     @Override
     public int getX() {
         return xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return yPos
+     */
     @Override
     public int getY() {
         return yPos;
     }
 
+    /**
+     * Gets type.
+     * 获取物体的类型
+     * @return the type
+     */
     public String getType() {
         return type;
     }

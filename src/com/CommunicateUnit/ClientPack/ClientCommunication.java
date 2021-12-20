@@ -14,35 +14,60 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
+ * The type Client communication.
+ *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2021/12/17 21:21
+ * @description 用于通讯
+ * @date 2021 /12/17 21:21
  */
 public class ClientCommunication {
 
     private static Socket clientSocket;
     private static PrintWriter out;
     private static BufferedReader in;
-
     private static String serverIP;
 
+    /**
+     * Gets client socket.
+     * 获取客户端socket
+     * @return the client socket
+     */
     public static Socket getClientSocket() {
         return clientSocket;
     }
 
+    /**
+     * Gets out.
+     * 获取流
+     * @return the out
+     */
     public static PrintWriter getOut() {
         return out;
     }
 
+    /**
+     * Gets in.
+     * 获取流
+     * @return the in
+     */
     public static BufferedReader getIn() {
         return in;
     }
 
+    /**
+     * Sets server ip.
+     * 设置ip
+     * @param serverIP the server ip
+     */
     public static void setServerIP(String serverIP) {
         ClientCommunication.serverIP = serverIP;
     }
 
+    /**
+     * Connect server.
+     * 根据ip来连接对应的主机，并且初始化流和socket
+     */
     public static void connectServer() {
 
         ClientDrawingPanel.addMessage("正在连接主机");
