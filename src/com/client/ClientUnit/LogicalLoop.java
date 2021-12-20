@@ -1,6 +1,8 @@
 package com.client.ClientUnit;
 
 
+import com.ProcessUnit.Instruction;
+
 /**
  * @author chenhong
  * @version 1.0
@@ -85,6 +87,7 @@ public class LogicalLoop {
 
                 //发送反馈指令
                 ClientCommunication.getOut().println(Instruction.getFromUser().toString());
+                Instruction.setFromUser(new StringBuffer());
 
                 //调用视图重新绘制它自己
                 ClientModel.getView().getMainPanel().repaint();

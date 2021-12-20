@@ -1,7 +1,9 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
+import com.server.ServerUnit.Status;
 
 import java.awt.*;
 
@@ -107,13 +109,13 @@ public class Player implements GameComponent {
             xPos = 198;
             yPos = 498;
             //玩家1 的图像
-            System.arraycopy(gameModel.textures, 54, textures, 0, 4);
+            System.arraycopy(ServerModel.textures, 54, textures, 0, 4);
         } else {
             //玩家2 游戏开启时位置
             xPos = 323;
             yPos = 498;
             //玩家2的图像
-            System.arraycopy(gameModel.textures, 72, textures, 0, 4);
+            System.arraycopy(ServerModel.textures, 72, textures, 0, 4);
         }
         standardImage = textures[0];
 
@@ -125,7 +127,7 @@ public class Player implements GameComponent {
 
     @Override
     public void move() {
-        if (gameModel.isGamePaused()) {
+        if (Status.isGamePaused()) {
             writeToOutputLine();
             return;
         }
@@ -179,7 +181,7 @@ public class Player implements GameComponent {
                 e = 1;
             }
             //添加子弹
-            gameModel.addActor(new Bullet(a, b, c, d, e, this, gameModel));
+            ServerModel.addActor(new Bullet(a, b, c, d, e, this, gameModel));
             //coolDownTime是你要等到你可以发射第二颗子弹时间（与魔兽争霸3相同）
             if (status > 2) {
                 coolDownTime = 5;
@@ -254,30 +256,30 @@ public class Player implements GameComponent {
 
 
         //检查下个边界是否与其他对象相交，如玩家控制的坦克，墙等等
-        for (int i = 0; i < gameModel.gameComponents.length; i++) {
-            if (gameModel.gameComponents[i] != null) {
-                if (this != gameModel.gameComponents[i]) {
-                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
-                        if ("powerUp".equals(gameModel.gameComponents[i].getType())) {
+        for (int i = 0; i < ServerModel.gameComponents.length; i++) {
+            if (ServerModel.gameComponents[i] != null) {
+                if (this != ServerModel.gameComponents[i]) {
+                    if (border.intersects(ServerModel.gameComponents[i].getBorder())) {
+                        if ("powerUp".equals(ServerModel.gameComponents[i].getType())) {
                             scores += 50;
-                            PowerUp temp = (PowerUp) gameModel.gameComponents[i];
+                            PowerUp temp = (PowerUp) ServerModel.gameComponents[i];
                             int function = temp.getFunction();
                             if (function == 0) {  //普通星星，增加速度
                                 upgrade();
                             } else if (function == 1) {  //钢墙保护基地
-                                Base tempe = (Base) gameModel.gameComponents[4];
+                                Base tempe = (Base) ServerModel.gameComponents[4];
                                 tempe.setSteelWallTime(600);
                             } else if (function == 2) {   // 杀死所有的敌方坦克
-                                for (int j = 0; j < gameModel.gameComponents.length; j++) {
-                                    if (gameModel.gameComponents[j] != null) {
-                                        if ("enemy".equals(gameModel.gameComponents[j].getType())) {
-                                            Enemy tempe = (Enemy) gameModel.gameComponents[j];
-                                            gameModel.addActor(new Bomb(tempe.getxPos(), tempe.getyPos(), "big", gameModel));
-                                            gameModel.removeActor(gameModel.gameComponents[j]);
+                                for (int j = 0; j < ServerModel.gameComponents.length; j++) {
+                                    if (ServerModel.gameComponents[j] != null) {
+                                        if ("enemy".equals(ServerModel.gameComponents[j].getType())) {
+                                            Enemy tempe = (Enemy) ServerModel.gameComponents[j];
+                                            ServerModel.addActor(new Bomb(tempe.getxPos(), tempe.getyPos(), "big", gameModel));
+                                            ServerModel.removeActor(ServerModel.gameComponents[j]);
                                         }
                                     }
                                 }
-                                Level.setNoOfEnemy(0);;
+                                Level.setNoOfEnemy(0);
                                 Level.setDeathCount(20 - Level.getEnemyLeft());
                             } else if (function == 3) {   //防护盾，刀枪不入
                                 invulnerableTime = 300 + (int) (Math.random() * 400);
@@ -291,23 +293,23 @@ public class Player implements GameComponent {
                                 status = 4;
                                 health = 2;
                                 if ("1P".equals(type)) {
-                                    System.arraycopy(gameModel.textures, 66, textures, 0, 4);
+                                    System.arraycopy(ServerModel.textures, 66, textures, 0, 4);
                                 } else {
-                                    System.arraycopy(gameModel.textures, 84, textures, 0, 4);
+                                    System.arraycopy(ServerModel.textures, 84, textures, 0, 4);
                                 }
                             } else if (function == 6) {  // 增加生命
                                 life++;
                             }
 
-                            gameModel.removeActor(gameModel.gameComponents[i]);
+                            ServerModel.removeActor(ServerModel.gameComponents[i]);
 
                         }
                         //静态对象，如墙壁，河流
-                        else if ("steelWall".equals(gameModel.gameComponents[i].getType()) || "wall".equals(gameModel.gameComponents[i].getType())) {
-                            if (!gameModel.gameComponents[i].wallDestroyed()) {
-                                for (int j = 0; j < gameModel.gameComponents[i].getDetailedBorder().length; j++) {
-                                    if (gameModel.gameComponents[i].getDetailedBorder()[j] != null) {
-                                        if (gameModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
+                        else if ("steelWall".equals(ServerModel.gameComponents[i].getType()) || "wall".equals(ServerModel.gameComponents[i].getType())) {
+                            if (!ServerModel.gameComponents[i].wallDestroyed()) {
+                                for (int j = 0; j < ServerModel.gameComponents[i].getDetailedBorder().length; j++) {
+                                    if (ServerModel.gameComponents[i].getDetailedBorder()[j] != null) {
+                                        if (ServerModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
                                             xPos = xVPos;
                                             yPos = yVPos;
                                             border.x = xPos - size;
@@ -318,7 +320,7 @@ public class Player implements GameComponent {
                                     }
                                 }
                             }
-                        } else if ("river".equals(gameModel.gameComponents[i].getType()) || "base".equals(gameModel.gameComponents[i].getType())) {
+                        } else if ("river".equals(ServerModel.gameComponents[i].getType()) || "base".equals(ServerModel.gameComponents[i].getType())) {
                             xPos = xVPos;
                             yPos = yVPos;
                             border.x = xPos - size;
@@ -327,8 +329,8 @@ public class Player implements GameComponent {
                             return;
                         }
                         //移动对象，例如敌人坦克
-                        else if ("enemy".equals(gameModel.gameComponents[i].getType()) || "Player".equals(gameModel.gameComponents[i].getType())) {
-                            if (!borderTemp.intersects(gameModel.gameComponents[i].getBorder()) || "enemy".equals(gameModel.gameComponents[i].getType())) {
+                        else if ("enemy".equals(ServerModel.gameComponents[i].getType()) || "Player".equals(ServerModel.gameComponents[i].getType())) {
+                            if (!borderTemp.intersects(ServerModel.gameComponents[i].getBorder()) || "enemy".equals(ServerModel.gameComponents[i].getType())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
                                 border.x = xPos - size;
@@ -373,7 +375,7 @@ public class Player implements GameComponent {
 
     public void writeToOutputLine() {
         //将变化写入输出行
-        gameModel.outputLine += "n" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
         int textureIndex;
         if ("1P".equals(type)) {
             if (status == 1) {
@@ -397,11 +399,10 @@ public class Player implements GameComponent {
             }
         }
 
-
-        gameModel.outputLine += "" + textureIndex + ";";
+        Instruction.getFromSever().append(textureIndex).append(";");
 
         if (invulnerableTime > 0) {
-            gameModel.outputLine += "i" + xPos + "," + yPos + ";";
+            Instruction.getFromSever().append("i").append(xPos).append(",").append(yPos).append(";");
         }
     }
 
@@ -456,7 +457,7 @@ public class Player implements GameComponent {
         //如果坦克只有1级的健康状态，被击中，那么玩家坦克失去一个生命，如果玩家坦克是最后一次生命，被击中，则game over
         //只有吃掉超级星星时，玩家才会有2级的生命健康状态
         if (health == 1) {
-            gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
             life--;
             if (life == 0) {
                 xPos = 100000;
@@ -476,23 +477,23 @@ public class Player implements GameComponent {
                     border = new Rectangle(xPos - size, yPos - size, 25, 25);
                     xVPos = xPos;
                     yVPos = yPos;
-                    System.arraycopy(gameModel.textures, 54, textures, 0, 4);
+                    System.arraycopy(ServerModel.textures, 54, textures, 0, 4);
                 } else {
                     xPos = 323;
                     yPos = 498;
                     border = new Rectangle(xPos - size, yPos - size, 25, 25);
                     xVPos = xPos;
                     yVPos = yPos;
-                    System.arraycopy(gameModel.textures, 72, textures, 0, 4);
+                    System.arraycopy(ServerModel.textures, 72, textures, 0, 4);
                 }
             }
         } else {
             health--;
             status = 3;
             if ("1P".equals(type)) {
-                System.arraycopy(gameModel.textures, 62, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 62, textures, 0, 4);
             } else {
-                System.arraycopy(gameModel.textures, 80, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 80, textures, 0, 4);
             }
         }
     }
@@ -502,26 +503,26 @@ public class Player implements GameComponent {
         if ("1P".equals(type)) {
             if (status == 1) {
                 status = 2;
-                System.arraycopy(gameModel.textures, 58, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 58, textures, 0, 4);
             } else if (status == 2) {
                 status = 3;
                 numberOfBullet++;
-                System.arraycopy(gameModel.textures, 62, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 62, textures, 0, 4);
             } else if (status == 3) {
                 status = 4;
-                System.arraycopy(gameModel.textures, 66, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 66, textures, 0, 4);
             }
         } else {
             if (status == 1) {
                 status = 2;
-                System.arraycopy(gameModel.textures, 76, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 76, textures, 0, 4);
             } else if (status == 2) {
                 status = 3;
                 numberOfBullet++;
-                System.arraycopy(gameModel.textures, 80, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 80, textures, 0, 4);
             } else if (status == 3) {
                 status = 4;
-                System.arraycopy(gameModel.textures, 84, textures, 0, 4);
+                System.arraycopy(ServerModel.textures, 84, textures, 0, 4);
             }
         }
     }

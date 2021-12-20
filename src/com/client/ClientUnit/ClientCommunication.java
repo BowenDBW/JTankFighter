@@ -27,28 +27,12 @@ public class ClientCommunication {
         return clientSocket;
     }
 
-    public static void setClientSocket(Socket clientSocket) {
-        ClientCommunication.clientSocket = clientSocket;
-    }
-
     public static PrintWriter getOut() {
         return out;
     }
 
-    public static void setOut(PrintWriter out) {
-        ClientCommunication.out = out;
-    }
-
     public static BufferedReader getIn() {
         return in;
-    }
-
-    public static void setIn(BufferedReader in) {
-        ClientCommunication.in = in;
-    }
-
-    public static String getServerIP() {
-        return serverIP;
     }
 
     public static void setServerIP(String serverIP) {

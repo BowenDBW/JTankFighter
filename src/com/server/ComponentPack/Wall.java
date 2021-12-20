@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -1106,16 +1107,18 @@ public class Wall implements GameComponent {
         }
 
         //write changes to the outputs
-        gameModel.outputLine += "w" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("w").append(xPos).append(",").append(yPos).append(",");
         for (boolean b : shape) {
             if (b) {
-                gameModel.outputLine += "1";
+
+                Instruction.getFromSever().append("1");
             } else {
-                gameModel.outputLine += "0";
+
+                Instruction.getFromSever().append("0");
             }
         }
-        gameModel.outputLine += ";";
 
+        Instruction.getFromSever().append(";");
     }
 //===========================================================================================
 

@@ -1,6 +1,8 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
+import com.server.ServerUnit.Status;
 
 import java.awt.*;
 
@@ -73,21 +75,24 @@ public class Bomb implements GameComponent {
 
     @Override
     public void move() {
-        if (gameModel.isGamePaused()) {
-            gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
+        if (Status.isGamePaused()) {
+            Instruction.getFromSever().append("o").append(xPos).append(",").append(yPos).append(",")
+                    .append(size).append(";");
             return;
         }
 
         animationTime--;
         if (animationTime < 0) {
-            gameModel.removeActor(this);
+            ServerModel.removeActor(this);
             return;
         }
         xPos = xPos + (int) (Math.random() * jumpDistance) - (int) (Math.random() * jumpDistance);
         yPos = yPos + (int) (Math.random() * jumpDistance) - (int) (Math.random() * jumpDistance);
 
         //将变化写入输出行
-        gameModel.outputLine += "o" + xPos + "," + yPos + "," + size + ";";
+        Instruction.getFromSever().append("o").append(xPos)
+                .append(",").append(yPos).append(",").append(size).append(";");
+
     }
 
     @Override

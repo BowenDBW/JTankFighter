@@ -1,7 +1,9 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
+import com.server.ServerUnit.Status;
 
 import java.awt.*;
 
@@ -94,23 +96,23 @@ public class Enemy implements GameComponent {
             firePossibility = 0.95;
             speed = 2;
             textures = new Image[8];
-            System.arraycopy(gameModel.textures, 38, textures, 0, 8);
+            System.arraycopy(ServerModel.textures, 38, textures, 0, 8);
         } else if (type == 2) {
             firePossibility = 0.95;
             speed = 4;
             textures = new Image[8];
-            System.arraycopy(gameModel.textures, 2, textures, 0, 8);
+            System.arraycopy(ServerModel.textures, 2, textures, 0, 8);
         } else if (type == 3) {
             firePossibility = 0.9;
             speed = 2;
             textures = new Image[8];
-            System.arraycopy(gameModel.textures, 10, textures, 0, 8);
+            System.arraycopy(ServerModel.textures, 10, textures, 0, 8);
         } else {
             firePossibility = 0.95;
             health = 3;
             speed = 2;
             textures = new Image[20];
-            System.arraycopy(gameModel.textures, 18, textures, 0, 20);
+            System.arraycopy(ServerModel.textures, 18, textures, 0, 20);
 
         }
 
@@ -118,7 +120,7 @@ public class Enemy implements GameComponent {
 
     @Override
     public void move() {
-        if (gameModel.isGamePaused()) {
+        if (Status.isGamePaused()) {
             writeToOutputLine();
             return;
         }
@@ -184,7 +186,7 @@ public class Enemy implements GameComponent {
                 d = 7;
             }
             //添加子弹
-            gameModel.addActor(new Bullet(a, b, c, d, 1, this, gameModel));
+            ServerModel.addActor(new Bullet(a, b, c, d, 1, this, gameModel));
             coolDownTime = 7;
             if (type == 3) {
                 coolDownTime = 5;
@@ -227,17 +229,17 @@ public class Enemy implements GameComponent {
         }
 
         //检查下一个边界是否与其他对象相交，例如玩家控制的坦克，墙等等
-        for (int i = 0; i < gameModel.gameComponents.length; i++) {
-            if (gameModel.gameComponents[i] != null) {
-                if (this != gameModel.gameComponents[i]) {
-                    if (border.intersects(gameModel.gameComponents[i].getBorder())) {
+        for (int i = 0; i < ServerModel.gameComponents.length; i++) {
+            if (ServerModel.gameComponents[i] != null) {
+                if (this != ServerModel.gameComponents[i]) {
+                    if (border.intersects(ServerModel.gameComponents[i].getBorder())) {
                         //静态对象，例如河流，墙等等
-                        if ("steelWall".equals(gameModel.gameComponents[i].getType()) ||
-                                "wall".equals(gameModel.gameComponents[i].getType())) {
-                            if (!gameModel.gameComponents[i].wallDestroyed()) {
-                                for (int j = 0; j < gameModel.gameComponents[i].getDetailedBorder().length; j++) {
-                                    if (gameModel.gameComponents[i].getDetailedBorder()[j] != null) {
-                                        if (gameModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
+                        if ("steelWall".equals(ServerModel.gameComponents[i].getType()) ||
+                                "wall".equals(ServerModel.gameComponents[i].getType())) {
+                            if (!ServerModel.gameComponents[i].wallDestroyed()) {
+                                for (int j = 0; j < ServerModel.gameComponents[i].getDetailedBorder().length; j++) {
+                                    if (ServerModel.gameComponents[i].getDetailedBorder()[j] != null) {
+                                        if (ServerModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
                                             if (Math.random() > 0.90) {
                                                 direction = (int) (Math.random() * 4);
                                             }
@@ -251,8 +253,8 @@ public class Enemy implements GameComponent {
                                     }
                                 }
                             }
-                        } else if ("river".equals(gameModel.gameComponents[i].getType()) ||
-                                "base".equals(gameModel.gameComponents[i].getType())) {
+                        } else if ("river".equals(ServerModel.gameComponents[i].getType()) ||
+                                "base".equals(ServerModel.gameComponents[i].getType())) {
                             if (Math.random() > 0.90) {
                                 direction = (int) (Math.random() * 4);
                             }
@@ -264,9 +266,9 @@ public class Enemy implements GameComponent {
                             return;
                         }
                         //其他对象，其他的坦克
-                        if ("Player".equals(gameModel.gameComponents[i].getType()) ||
-                                "enemy".equals(gameModel.gameComponents[i].getType())) {
-                            if (!borderTemp.intersects(gameModel.gameComponents[i].getBorder())) {
+                        if ("Player".equals(ServerModel.gameComponents[i].getType()) ||
+                                "enemy".equals(ServerModel.gameComponents[i].getType())) {
+                            if (!borderTemp.intersects(ServerModel.gameComponents[i].getBorder())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
                                 border.x = xPos - size;
@@ -321,7 +323,7 @@ public class Enemy implements GameComponent {
 
     public void writeToOutputLine() {
         //将变化写入输出行
-        gameModel.outputLine += "n" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
         int textureIndex;
         if (flashing && ServerModel.getGameFlow() % 10 > 4) {
             if (type == 1) {
@@ -352,14 +354,13 @@ public class Enemy implements GameComponent {
                 }
             }
         }
-        gameModel.outputLine += "" + textureIndex + ";";
-
+        Instruction.getFromSever().append(textureIndex).append(";");
     }
 
     //如果敌方坦克打出一颗子弹，判断会发生什么
     public void hurt() {
         if (flashing) {
-            gameModel.addActor(new PowerUp(gameModel));
+            ServerModel.addActor(new PowerUp(gameModel));
         }
         flashing = false;
         boolean death = false;
@@ -389,8 +390,8 @@ public class Enemy implements GameComponent {
             int deathCount = Level.getDeathCount();
             deathCount++;
             Level.setDeathCount(deathCount);
-            gameModel.removeActor(this);
-            gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            ServerModel.removeActor(this);
+            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
         }
     }
 

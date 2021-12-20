@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -48,7 +49,7 @@ public class SteelWall implements GameComponent {
 
     public SteelWall(int a, int b, ServerModel gameModel) {
         this.gameModel = gameModel;
-        steelWall = gameModel.textures[53];
+        steelWall = ServerModel.textures[53];
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
@@ -114,16 +115,18 @@ public class SteelWall implements GameComponent {
         }
 
         //将变化写入输出行
-        gameModel.outputLine += "s" + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append("s").append(xPos).append(",").append(yPos).append(",");
         for (boolean b : shape) {
             if (b) {
-                gameModel.outputLine += "1";
+
+                Instruction.getFromSever().append("1");
             } else {
-                gameModel.outputLine += "0";
+
+                Instruction.getFromSever().append("0");
             }
         }
-        gameModel.outputLine += ";";
 
+        Instruction.getFromSever().append(";");
     }
 
     @Override

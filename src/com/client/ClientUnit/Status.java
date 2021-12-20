@@ -13,7 +13,8 @@ public class Status {
     private static boolean gamePaused;
     private static boolean gameOver;
     private static boolean serverVote;
-    private static boolean clientVoteYes, clientVoteNo;
+    private static boolean clientVoteYes;
+    private static boolean clientVoteNo;
     private static boolean pausePressed;
 
     private static boolean moveUp;

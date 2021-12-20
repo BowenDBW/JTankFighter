@@ -1,4 +1,5 @@
 package com.server.ComponentPack;
+import com.ProcessUnit.Instruction;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -54,34 +55,33 @@ public class Base implements GameComponent {
     }
 
     public void doom() {
-        base = gameModel.textures[1];
+        base = ServerModel.textures[1];
         if (!baseKilled) {
-            gameModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
         }
         baseKilled = true;
 
         //记录变化到输出行
-        gameModel.outputLine += "b" + xPos + "," + yPos + "," + "1;";
-
+        Instruction.getFromSever().append("b").append(xPos).append(",").append(yPos).append(",").append("1;");
     }
 
     @Override
     public void move() {
         if (steelWallTime == 600) {
             SteelWall temp = new SteelWall(248, 498, 2, gameModel);
-            gameModel.gameComponents[0] = temp;
+            ServerModel.gameComponents[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
             temp = new SteelWall(273, 498, 3, gameModel);
-            gameModel.gameComponents[1] = temp;
+            ServerModel.gameComponents[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
             temp = new SteelWall(248, 473, 1, gameModel);
-            gameModel.gameComponents[2] = temp;
+            ServerModel.gameComponents[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
             temp = new SteelWall(273, 473, 1, gameModel);
-            gameModel.gameComponents[3] = temp;
+            ServerModel.gameComponents[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }
         if (steelWallTime > 0) {
@@ -89,34 +89,34 @@ public class Base implements GameComponent {
         }
         if (steelWallTime == 1) {
             Wall temp = new Wall(248, 498, 2, gameModel);
-            gameModel.gameComponents[0] = temp;
+            ServerModel.gameComponents[0] = temp;
             writeToOutputLine("w", temp.shape, 248, 498);
 
             temp = new Wall(273, 498, 3, gameModel);
-            gameModel.gameComponents[1] = temp;
+            ServerModel.gameComponents[1] = temp;
             writeToOutputLine("w", temp.shape, 273, 498);
 
             temp = new Wall(248, 473, 1, gameModel);
-            gameModel.gameComponents[2] = temp;
+            ServerModel.gameComponents[2] = temp;
             writeToOutputLine("w", temp.shape, 248, 473);
 
             temp = new Wall(273, 473, 1, gameModel);
-            gameModel.gameComponents[3] = temp;
+            ServerModel.gameComponents[3] = temp;
             writeToOutputLine("w", temp.shape, 273, 473);
         }
     }
 
     public void writeToOutputLine(String type, boolean[] shape, int xPos, int yPos) {
         //记录变化到输出行
-        gameModel.outputLine += type + xPos + "," + yPos + ",";
+        Instruction.getFromSever().append(type).append(xPos).append(",").append(yPos).append(",");
 		for (boolean b : shape) {
 			if (b) {
-                gameModel.outputLine += "1";
+                Instruction.getFromSever().append("1");
             } else {
-                gameModel.outputLine += "0";
+                Instruction.getFromSever().append("0");
             }
 		}
-        gameModel.outputLine += ";";
+        Instruction.getFromSever().append(";");
     }
 
     @Override
