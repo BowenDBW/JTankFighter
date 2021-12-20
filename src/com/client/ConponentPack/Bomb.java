@@ -1,6 +1,5 @@
 package com.client.ConponentPack;
 
-import com.client.ClientUnit.ClientModel;
 import com.client.ClientUnit.DrawingPanel;
 
 import java.awt.*;

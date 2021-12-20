@@ -113,42 +113,42 @@ public class Level {
         int choicemap = 1 + (levelIndex - 1) % 8;
         switch (choicemap){
             case 1: {
-                String[] level = readArray("D:\\LJT\\maps\\level1.txt");
+                String[] level = readArray("maps\\level1.txt");
                 loadLevel(level);
                 break;
             }
             case 2: {
-                String[] level = readArray("D:\\LJT\\maps\\level2.txt");
+                String[] level = readArray("maps\\level2.txt");
                 loadLevel(level);
                 break;
             }
             case 3: {
-                String[] level = readArray("D:\\LJT\\maps\\level3.txt");
+                String[] level = readArray("maps\\level3.txt");
                 loadLevel(level);
                 break;
             }
             case 4: {
-                String[] level = readArray("D:\\LJT\\maps\\level4.txt");
+                String[] level = readArray("maps\\level4.txt");
                 loadLevel(level);
                 break;
             }
             case 5: {
-                String[] level = readArray("D:\\LJT\\maps\\level5.txt");
+                String[] level = readArray("maps\\level5.txt");
                 loadLevel(level);
                 break;
             }
             case 6: {
-                String[] level = readArray("D:\\LJT\\maps\\level6.txt");
+                String[] level = readArray("maps\\level6.txt");
                 loadLevel(level);
                 break;
             }
             case 7: {
-                String[] level = readArray("D:\\LJT\\maps\\level7.txt");
+                String[] level = readArray("maps\\level7.txt");
                 loadLevel(level);
                 break;
             }
             case 8: {
-                String[] level = readArray("D:\\LJT\\maps\\level8.txt");
+                String[] level = readArray("maps\\level8.txt");
                 loadLevel(level);
                 break;
             }
