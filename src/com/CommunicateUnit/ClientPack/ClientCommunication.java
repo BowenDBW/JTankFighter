@@ -1,0 +1,83 @@
+package com.CommunicateUnit.ClientPack;
+
+
+import com.UI.ClientDrawingPanel;
+import com.ProcessUnit.ClientPack.ClientLevel;
+import com.ProcessUnit.ClientPack.ClientModel;
+import com.ProcessUnit.ClientPack.ClientStatus;
+import com.SourceUnit.ClientPack.ClientGameComponent;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+
+/**
+ * @author chenhong
+ * @version 1.0
+ * @description TODO
+ * @date 2021/12/17 21:21
+ */
+public class ClientCommunication {
+
+    private static Socket clientSocket;
+    private static PrintWriter out;
+    private static BufferedReader in;
+
+    private static String serverIP;
+
+    public static Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public static PrintWriter getOut() {
+        return out;
+    }
+
+    public static BufferedReader getIn() {
+        return in;
+    }
+
+    public static void setServerIP(String serverIP) {
+        ClientCommunication.serverIP = serverIP;
+    }
+
+    public static void connectServer() {
+
+        ClientDrawingPanel.addMessage("正在连接主机");
+        serverIP = ClientModel.getView().getIpField().getText();
+        try {
+            //连接主机并初始化流
+            InetAddress address = InetAddress.getByName(serverIP);
+            clientSocket = new Socket(address, 9999);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        } catch (Exception e) {
+            ClientModel.getT().stop();
+            e.printStackTrace();
+            ClientDrawingPanel.addMessage("连接中出现错误， 请确认 1. 输入的IP是否正确,   2. 主机端已存在");
+            return;
+        }
+
+        //主机连接成功
+        ClientStatus.setServerConnected(true);
+
+        ClientDrawingPanel.addMessage("已成功连接到主机，开始载入游戏");
+
+        ClientModel.getView().getIpField().setFocusable(false);
+        ClientModel.getView().getIpField().setEnabled(false);
+
+        //加载游戏 texture
+        ClientLevel.loadPictures();
+
+
+        ClientStatus.setGameStarted((true));
+
+        ClientStatus.setGameStarted(true);
+        ClientDrawingPanel.drawingList = new ClientGameComponent[400];
+        ClientModel.getView().getMessageField().setEnabled(true);
+        ClientDrawingPanel.addMessage("载入完毕，游戏开始了！");
+    }
+
+}

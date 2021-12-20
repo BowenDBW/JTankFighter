@@ -1,12 +1,7 @@
 package com.UI;
 
-import com.client.ClientUnit.ClientView;
-import com.server.ServerUnit.ServerView;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * <p>

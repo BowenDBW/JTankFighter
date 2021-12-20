@@ -1,13 +1,18 @@
 package com.ProcessUnit;
 
 
-import com.ProcessUnit.Instruction;
-import com.client.ClientUnit.*;
-import com.server.ComponentPack.Enemy;
-import com.server.ComponentPack.GameComponent;
-import com.server.ServerUnit.FeedbackHandler;
-import com.server.ServerUnit.ServerCommunication;
-import com.server.ServerUnit.ServerModel;
+import com.ProcessUnit.ClientPack.ClientModel;
+import com.ProcessUnit.ClientPack.ClientStatus;
+import com.CommunicateUnit.ClientPack.ClientCommunication;
+import com.CommunicateUnit.Instruction;
+import com.CommunicateUnit.ServerPack.ServerCommunication;
+import com.ProcessUnit.ServerPack.ServerLevel;
+import com.ProcessUnit.ServerPack.ServerModel;
+import com.ProcessUnit.ServerPack.ServerStatus;
+import com.SourceUnit.ServerPack.ServerEnemy;
+import com.SourceUnit.ServerPack.ServerGameComponent;
+import com.UI.ClientDrawingPanel;
+import com.UI.ServerDrawingPanel;
 
 /**
  * @author chenhong
@@ -27,50 +32,50 @@ public class LogicalLoop {
                 gameFlow++;
                 ClientModel.setGameFlow(gameFlow);
 
-                if (Status.isPausePressed()) {
+                if (ClientStatus.isPausePressed()) {
                     Instruction.getFromUser().append("x;");
-                    Status.setPausePressed(false);
+                    ClientStatus.setPausePressed(false);
                 }
 
-                if (Status.isGameOver()) {
-                    if (Status.isClientVoteNo()) {
+                if (ClientStatus.isGameOver()) {
+                    if (ClientStatus.isClientVoteNo()) {
                         System.exit(0);
                     }
 
-                    if (Status.isClientVoteYes()) {
+                    if (ClientStatus.isClientVoteYes()) {
                         Instruction.getFromUser().append("j;");
-                        if (Status.isServerVote()) {
-                            DrawingPanel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
-                            Status.setGameOver(false);
-                            Status.setClientVoteYes(false);
-                            Status.setServerVote(false);
+                        if (ClientStatus.isServerVote()) {
+                            ClientDrawingPanel.addMessage("主机端玩家决定再玩一次，游戏重新开始了...");
+                            ClientStatus.setGameOver(false);
+                            ClientStatus.setClientVoteYes(false);
+                            ClientStatus.setServerVote(false);
                         }
                     }
                 }
 
                 //指令字符串做出反馈,告诉服务器客户端在做什么
                 Instruction.getFromUser().append("m");
-                if (Status.isMoveUp()) {
+                if (ClientStatus.isMoveUp()) {
                     Instruction.getFromUser().append("1");
                 } else {
                     Instruction.getFromUser().append("0");
                 }
-                if (Status.isMoveDown()) {
+                if (ClientStatus.isMoveDown()) {
                     Instruction.getFromUser().append("1");
                 } else {
                     Instruction.getFromUser().append("0");
                 }
-                if (Status.isMoveLeft()) {
+                if (ClientStatus.isMoveLeft()) {
                     Instruction.getFromUser().append("1");
                 } else {
                     Instruction.getFromUser().append("0");
                 }
-                if (Status.isMoveRight()) {
+                if (ClientStatus.isMoveRight()) {
                     Instruction.getFromUser().append("1");
                 } else {
                     Instruction.getFromUser().append("0");
                 }
-                if (Status.isFire()) {
+                if (ClientStatus.isFire()) {
                     Instruction.getFromUser().append("1");
                 } else {
                     Instruction.getFromUser().append("0");
@@ -82,7 +87,7 @@ public class LogicalLoop {
 
                 //从消息队列中删除一个消息每10秒,(如果有)
                 if (gameFlow % 300 == 0) {
-                    DrawingPanel.removeMessage();
+                    ClientDrawingPanel.removeMessage();
                 }
 
                 //输出玩家坦克信息
@@ -100,22 +105,22 @@ public class LogicalLoop {
 
                 //如果切换到对话模式的玩家,那么停止所有坦克行动
                 if (!ClientModel.getView().getMainPanel().hasFocus()) {
-                    Status.setMoveLeft(false);
-                    Status.setMoveUp(false);
-                    Status.setMoveDown(false);
-                    Status.setMoveRight(false);
-                    Status.setFire(false);
+                    ClientStatus.setMoveLeft(false);
+                    ClientStatus.setMoveUp(false);
+                    ClientStatus.setMoveDown(false);
+                    ClientStatus.setMoveRight(false);
+                    ClientStatus.setFire(false);
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             ClientModel.getT().stop();
             ClientModel.getView().getMessageField().setEnabled(false);
-            Status.setServerConnected(false);
-            Status.setGameStarted(false);
+            ClientStatus.setServerConnected(false);
+            ClientStatus.setGameStarted(false);
 
-            Status.setGameOver(false);
-            DrawingPanel.addMessage("主机端退出了");
+            ClientStatus.setGameOver(false);
+            ClientDrawingPanel.addMessage("主机端退出了");
             ClientModel.getView().getIpField().setFocusable(true);
             ClientModel.getView().getIpField().setEnabled(true);
 
@@ -139,24 +144,24 @@ public class LogicalLoop {
                 //处理客户反馈消息
                 FeedbackHandler.handleInstruction(line);
 
-                if (!com.server.ServerUnit.Status.isGamePaused()) {
+                if (!ServerStatus.isGamePaused()) {
 
                     ServerModel.setGameFlow(ServerModel.getGameFlow() + 1);
                 }
 
-                if (!com.server.ServerUnit.Status.isPausePressed()) {
+                if (!ServerStatus.isPausePressed()) {
 
-                    if (!com.server.ServerUnit.Status.isGamePaused()) {
+                    if (!ServerStatus.isGamePaused()) {
 
                         Instruction.getFromSever().append("x0;");
                     } else {
 
                         Instruction.getFromSever().append("x1;");
                     }
-                    com.server.ServerUnit.Status.setPausePressed(false);
+                    ServerStatus.setPausePressed(false);
                 }
 
-                if (com.server.ServerUnit.Status.isGameOver() ||
+                if (ServerStatus.isGameOver() ||
                         (ServerModel.getP1().getLife() == 0 && ServerModel.getP2().getLife() == 0)) {
 
                     if (ServerModel.getP1().getFrozen() != 1) {
@@ -165,88 +170,88 @@ public class LogicalLoop {
                     }
 
                     boolean isRespond =
-                            (ServerModel.getP1().getFrozen() != 1 || com.server.ServerUnit.DrawingPanel.getMessageIndex() == 1) && com.server.ServerUnit.Status.isServerVoteYes();
+                            (ServerModel.getP1().getFrozen() != 1 || ServerDrawingPanel.getMessageIndex() == 1) && ServerStatus.isServerVoteYes();
 
                     if (isRespond) {
 
-                        com.server.ServerUnit.DrawingPanel.addMessage("等待用户端玩家的回应...");
+                        ServerDrawingPanel.addMessage("等待用户端玩家的回应...");
                     }
-                    if (ServerModel.getP1().getFrozen() != 1 || com.server.ServerUnit.DrawingPanel.getMessageIndex() == 0) {
+                    if (ServerModel.getP1().getFrozen() != 1 || ServerDrawingPanel.getMessageIndex() == 0) {
 
-                        com.server.ServerUnit.DrawingPanel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
+                        ServerDrawingPanel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
                     }
-                    com.server.ServerUnit.Status.setGameOver(true);
+                    ServerStatus.setGameOver(true);
                     ServerModel.getP1().setFrozen(1);
                     ServerModel.getP2().setFrozen(1);
 
-                    if (com.server.ServerUnit.Status.isServerVoteNo() && !com.server.ServerUnit.Status.isServerVoteYes()){
+                    if (ServerStatus.isServerVoteNo() && !ServerStatus.isServerVoteYes()){
 
                         System.exit(0);
                     }
 
-                    if (com.server.ServerUnit.Status.isServerVoteYes()) {
+                    if (ServerStatus.isServerVoteYes()) {
 
                         Instruction.getFromSever().append("j;");
-                        if (com.server.ServerUnit.Status.isClientVoteYes()) {
+                        if (ServerStatus.isClientVoteYes()) {
 
                             ServerModel.restartGame();
                         }
                     }
                 }
 
-                if (com.server.ServerUnit.Level.getDeathCount() == 20 && !com.server.ServerUnit.Status.isGameOver()) {
-                    int winningCount = com.server.ServerUnit.Level.getWinningCount();
+                if (ServerLevel.getDeathCount() == 20 && !ServerStatus.isGameOver()) {
+                    int winningCount = ServerLevel.getWinningCount();
                     winningCount++;
-                    com.server.ServerUnit.Level.setWinningCount(winningCount);
-                    if (com.server.ServerUnit.Level.getWinningCount() == 120) {
+                    ServerLevel.setWinningCount(winningCount);
+                    if (ServerLevel.getWinningCount() == 120) {
                         ServerModel.getP1().setFrozen(1);
                         ServerModel.getP2().setFrozen(1);
                     }
-                    if (com.server.ServerUnit.Level.getWinningCount() == 470) {
+                    if (ServerLevel.getWinningCount() == 470) {
                         if (ServerModel.getP1().getLife() > 0) {
                             ServerModel.getP1().reset();
                         }
                         if (ServerModel.getP2().getLife() > 0) {
                             ServerModel.getP2().reset();
                         }
-                        com.server.ServerUnit.Level.loadLevel();
+                        ServerLevel.loadLevel();
                         //告诉客户端程序加载下一关
                         Instruction.getFromSever().append("L")
-                                .append(1 + (com.server.ServerUnit.Level.getCurrentLevel() - 1) % 8).append(";");
+                                .append(1 + (ServerLevel.getCurrentLevel() - 1) % 8).append(";");
                     }
-                    if (com.server.ServerUnit.Level.getWinningCount() == 500) {
+                    if (ServerLevel.getWinningCount() == 500) {
                         ServerModel.getP1().setFrozen(0);
                         ServerModel.getP2().setFrozen(0);
-                        com.server.ServerUnit.Level.setDeathCount(0);
-                        com.server.ServerUnit.Level.setWinningCount(0);
+                        ServerLevel.setDeathCount(0);
+                        ServerLevel.setWinningCount(0);
                     }
 
                 }
 
                 //大量生产敌人坦克
-                if (!com.server.ServerUnit.Status.isGamePaused()) {
-                    com.server.ServerUnit.Level.spawnEnemy();
+                if (!ServerStatus.isGamePaused()) {
+                    ServerLevel.spawnEnemy();
                 }
 
-                for (GameComponent gameComponent : com.server.ServerUnit.DrawingPanel.gameComponents) {
-                    if (gameComponent != null) {
-                        gameComponent.move();
+                for (ServerGameComponent serverGameComponent : ServerDrawingPanel.serverGameComponents) {
+                    if (serverGameComponent != null) {
+                        serverGameComponent.move();
                     }
                 }
 
                 //从消息队列中删除一个消息每10秒，（如果有的话）
                 ServerModel.setGameFlow(ServerModel.getGameFlow() % 300);
                 if (ServerModel.getGameFlow() == 0) {
-                    com.server.ServerUnit.DrawingPanel.removeMessage();
+                    ServerDrawingPanel.removeMessage();
                 }
 
                 //将玩家、关卡的信息写入输出行
-                Instruction.getFromSever().append("p").append(com.server.ServerUnit.Level.getEnemyLeft())
-                        .append(",").append(com.server.ServerUnit.Level.getCurrentLevel())
+                Instruction.getFromSever().append("p").append(ServerLevel.getEnemyLeft())
+                        .append(",").append(ServerLevel.getCurrentLevel())
                         .append(",").append(ServerModel.getP1().getLife()).append(",").append(ServerModel.getP1().scores)
                         .append(",").append(ServerModel.getP2().getLife()).append(",").append(ServerModel.getP2().scores)
                         .append(";");
-                Instruction.getFromSever().append("g").append(com.server.ServerUnit.Level.getWinningCount())
+                Instruction.getFromSever().append("g").append(ServerLevel.getWinningCount())
                         .append(";");
 
                 //将玩家类型信息写入输出行
@@ -276,18 +281,18 @@ public class LogicalLoop {
 
             ex.printStackTrace();
             ServerModel.getView().getMessageField().setEnabled(false);
-            com.server.ServerUnit.Status.setServerVoteYes(false);
-            com.server.ServerUnit.Status.setServerVoteNo (false);
-            com.server.ServerUnit.Status.setClientVoteYes(false);
-            com.server.ServerUnit.Status.setServerCreated(false);
-            com.server.ServerUnit.Status.setGameStarted(false);
-            com.server.ServerUnit.Status.setGameOver(false);
+            ServerStatus.setServerVoteYes(false);
+            ServerStatus.setServerVoteNo (false);
+            ServerStatus.setClientVoteYes(false);
+            ServerStatus.setServerCreated(false);
+            ServerStatus.setGameStarted(false);
+            ServerStatus.setGameOver(false);
             ServerModel.setGameFlow(0);
-            Enemy.setFrozenTime(0);
-            Enemy.setFrozenMoment(0);
+            ServerEnemy.setFrozenTime(0);
+            ServerEnemy.setFrozenMoment(0);
             ServerModel.getView().getMainPanel().setGameStarted(false);
             ServerModel.getT().stop();
-            com.server.ServerUnit.DrawingPanel.addMessage("玩家退出了，请重新建立主机");
+            ServerDrawingPanel.addMessage("玩家退出了，请重新建立主机");
 
             //当发生错误在游戏中，摧毁任何东西，包括游戏的变量
             try {
@@ -304,7 +309,7 @@ public class LogicalLoop {
             //破坏游戏数据
             ServerModel.setP1(null);
             ServerModel.setP2(null);
-            com.server.ServerUnit.Level.reset();
+            ServerLevel.reset();
         }
     }
 }
