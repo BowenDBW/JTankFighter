@@ -7,7 +7,7 @@ import com.ProcessUnit.ServerPack.ServerModel;
 import java.awt.*;
 
 /**
- * @author chenhong
+ * 子弹加强类
  */
 public class ServerPowerUp implements ServerGameComponent {
     private int function;
@@ -30,6 +30,9 @@ public class ServerPowerUp implements ServerGameComponent {
         return yPos;
     }
 
+    /**
+     * 初始化属性
+     */
     public ServerPowerUp() {
 
         //加载图像
@@ -64,16 +67,27 @@ public class ServerPowerUp implements ServerGameComponent {
         border = new Rectangle(xPos - 12, yPos - 12, 25, 25);
     }
 
+    /**
+     * 获取边界
+     * @return border
+     */
     @Override
     public Rectangle getBorder() {
         return border;
     }
 
+    /**
+     * 获取类型
+     * @return power up
+     */
     @Override
     public String getType() {
         return "powerUp";
     }
 
+    /**
+     * 记录变化
+     */
     @Override
     public void move() {
         displayTime--;
@@ -86,17 +100,28 @@ public class ServerPowerUp implements ServerGameComponent {
                 .append(46 + function).append(";");
     }
 
+    /**
+     * 绘制
+     * @param g draw
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(textures[function], xPos - 12, yPos - 12, null);
     }
 
-    //未使用的方法
+    /**
+     * 未使用方法
+     * @return null
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    /**
+     * 击毁墙处理
+     * @return false
+     */
     @Override
     public boolean wallDestroyed() {
         return false;

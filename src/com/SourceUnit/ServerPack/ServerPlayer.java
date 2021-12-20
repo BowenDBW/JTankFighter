@@ -8,6 +8,9 @@ import com.ProcessUnit.ServerPack.ServerStatus;
 
 import java.awt.*;
 
+/**
+ * 玩家类
+ */
 public class ServerPlayer implements ServerGameComponent {
     private final int UP = 0;
     private final int size = 12;
@@ -33,66 +36,130 @@ public class ServerPlayer implements ServerGameComponent {
     private final Image standardImage;
     public Image[] textures;
 
+    /**
+     * 设置左移
+     * @param moveLeft move left
+     */
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
     }
 
+    /**
+     * 设置右移
+     * @param moveRight move right
+     */
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
     }
 
+    /**
+     * 设置开火
+     * @param fire fire
+     */
     public void setFire(boolean fire) {
         this.fire = fire;
     }
 
+    /**
+     * 获取子弹数量
+     * @return the number
+     */
     public int getNumberOfBullet() {
         return numberOfBullet;
     }
 
+    /**
+     * 设置子弹数量
+     * @param numberOfBullet the number
+     */
     public void setNumberOfBullet(int numberOfBullet) {
         this.numberOfBullet = numberOfBullet;
     }
 
+    /**
+     * 获取x坐标
+     * @return x pos
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * 设置x坐标
+     * @param xPos x pos
+     */
     public void setxPos(int xPos) {
         this.xPos = xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return y pos
+     */
     public int getyPos() {
         return yPos;
     }
 
+    /**
+     * 设置y坐标
+     * @param yPos y pos
+     */
     public void setyPos(int yPos) {
         this.yPos = yPos;
     }
 
+    /**
+     * 设置类型
+     * @param type the type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * 获取生命
+     * @return the life
+     */
     public int getLife() {
         return life;
     }
 
+    /**
+     * 冰冻
+     * @return forzen
+     */
     public int getFrozen() {
         return frozen;
     }
 
+    /**
+     * 设置冰冻
+     * @param frozen frozen
+     */
     public void setFrozen(int frozen) {
         this.frozen = frozen;
     }
 
+    /**
+     * 设置移动
+     * @param moveUp move up
+     */
     public void setMoveUp(boolean moveUp) {
         this.moveUp = moveUp;
     }
 
+    /**
+     * 设置移动
+     * @param moveDown move down
+     */
     public void setMoveDown(boolean moveDown) {
         this.moveDown = moveDown;
     }
 
+    /**
+     * 初始化属性
+     * @param type type
+     */
     public ServerPlayer(String type) {
         this.type = type;
         life = 3;
@@ -124,6 +191,9 @@ public class ServerPlayer implements ServerGameComponent {
 
     }
 
+    /**
+     * 玩家开火处理
+     */
     @Override
     public void move() {
         if (ServerStatus.isGamePaused()) {
@@ -372,6 +442,9 @@ public class ServerPlayer implements ServerGameComponent {
         writeToOutputLine();
     }
 
+    /**
+     * 记录变化
+     */
     public void writeToOutputLine() {
         //将变化写入输出行
         Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
@@ -405,6 +478,10 @@ public class ServerPlayer implements ServerGameComponent {
         }
     }
 
+    /**
+     * 绘制
+     * @param g draw
+     */
     @Override
     public void draw(Graphics g) {
         //绘制玩家坦克
@@ -438,16 +515,27 @@ public class ServerPlayer implements ServerGameComponent {
 
     }
 
+    /**
+     * 获取边界
+     * @return border
+     */
     @Override
     public Rectangle getBorder() {
         return border;
     }
 
+    /**
+     * 获取类型
+     * @return player
+     */
     @Override
     public String getType() {
         return "Player";
     }
 
+    /**
+     * 受伤
+     */
     public void hurt() {
         if (invulnerableTime != 0) {
             return;
@@ -497,6 +585,9 @@ public class ServerPlayer implements ServerGameComponent {
         }
     }
 
+    /**
+     * 道具判断
+     */
     public void upgrade() {
         //当玩家坦克吃掉正常的星星时，他的子弹将会升级
         if ("1P".equals(type)) {
@@ -526,6 +617,9 @@ public class ServerPlayer implements ServerGameComponent {
         }
     }
 
+    /**
+     * 重置
+     */
     public void reset() {
         direction = UP;
         invulnerableTime = 150;
@@ -541,12 +635,19 @@ public class ServerPlayer implements ServerGameComponent {
         border = new Rectangle(xPos - size, yPos - size, 25, 25);
     }
 
-    //未使用的方法
+    /**
+     * 未使用方法
+     * @return null
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    /**
+     * 击毁墙处理
+     * @return false
+     */
     @Override
     public boolean wallDestroyed() {
         return false;

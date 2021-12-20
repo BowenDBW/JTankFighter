@@ -8,7 +8,11 @@ import com.ProcessUnit.ServerPack.ServerStatus;
 
 import java.awt.*;
 
+/**
+ * 敌方类
+ */
 public class ServerEnemy implements ServerGameComponent {
+
     private static int frozenTime;
     private static int frozenMoment;
     private final int size = 12;
@@ -26,55 +30,101 @@ public class ServerEnemy implements ServerGameComponent {
     private final double firePossibility;
     public Image[] textures;
 
-
+    /**
+     * 获取y坐标
+     * @return y pos
+     */
     public int getyPos() {
         return yPos;
     }
 
+    /**
+     * 设置y坐标
+     * @param yPos y pos
+     */
     public void setyPos(int yPos) {
         this.yPos = yPos;
     }
 
-    
+    /**
+     * 获取类型
+     * @return type
+     */
     public int getsType() {
         return type;
     }
 
+    /**
+     * 设置冰冻时间
+     * @param frozenTime frozen time
+     */
     public static void setFrozenTime(int frozenTime) {
         ServerEnemy.frozenTime = frozenTime;
     }
 
+    /**
+     * 设置冰冻时刻
+     * @param frozenMoment frozen moment
+     */
     public static void setFrozenMoment(int frozenMoment) {
         ServerEnemy.frozenMoment = frozenMoment;
     }
 
-
+    /**
+     * 获取子弹数量
+     * @return the number
+     */
     public int getNumberOfBullet() {
         return numberOfBullet;
     }
 
+    /**
+     * 设置子弹数量
+     * @param numberOfBullet the number
+     */
     public void setNumberOfBullet(int numberOfBullet) {
         this.numberOfBullet = numberOfBullet;
     }
 
-
+    /**
+     * 设置类型
+     * @param type the type
+     */
     public void setType(int type) {
         this.type = type;
     }
 
+    /**
+     * 获取健康值
+     * @return health
+     */
     public int getHealth() {
         return health;
     }
 
-
+    /**
+     * 获取x坐标
+     * @return x pos
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * 设置x坐标
+     * @param xPos x pos
+     */
     public void setxPos(int xPos) {
         this.xPos = xPos;
     }
 
+    /**
+     * 属性初始化
+     * @param type type
+     * @param flashing flashing
+     * @param xPos x pos
+     * @param yPos y pos
+     */
     public ServerEnemy(int type, boolean flashing, int xPos, int yPos) {
         this.type = type;
         this.xPos = xPos;
@@ -88,7 +138,6 @@ public class ServerEnemy implements ServerGameComponent {
         xVPos = xPos;
         yVPos = yPos;
         border = new Rectangle(xPos - size, yPos - size, 25, 25);
-
 
         //根据不同类型的敌人设置独特的属性如：容貌,速度,等等
         if (type == 1) {
@@ -114,9 +163,11 @@ public class ServerEnemy implements ServerGameComponent {
             System.arraycopy(ServerModel.textures, 18, textures, 0, 20);
 
         }
-
     }
 
+    /**
+     * 敌方坦克移动处理
+     */
     @Override
     public void move() {
         if (ServerStatus.isGamePaused()) {
@@ -320,6 +371,9 @@ public class ServerEnemy implements ServerGameComponent {
         writeToOutputLine();
     }
 
+    /**
+     * 记录变化
+     */
     public void writeToOutputLine() {
         //将变化写入输出行
         Instruction.getFromSever().append("n").append(xPos).append(",").append(yPos).append(",");
@@ -356,7 +410,9 @@ public class ServerEnemy implements ServerGameComponent {
         Instruction.getFromSever().append(textureIndex).append(";");
     }
 
-    //如果敌方坦克打出一颗子弹，判断会发生什么
+    /**
+     * 敌方坦克射击子弹判断
+     */
     public void hurt() {
         if (flashing) {
             ServerDrawingPanel.addActor(new ServerPowerUp());
@@ -394,11 +450,19 @@ public class ServerEnemy implements ServerGameComponent {
         }
     }
 
+    /**
+     * 获取类型
+     * @return enemy
+     */
     @Override
     public String getType() {
         return "enemy";
     }
 
+    /**
+     * 绘制画面
+     * @param g the draw
+     */
     @Override
     public void draw(Graphics g) {
         if (flashing && ServerModel.getGameFlow() % 10 > 4) {
@@ -408,17 +472,28 @@ public class ServerEnemy implements ServerGameComponent {
         }
     }
 
+    /**
+     * 获取边界
+     * @return border
+     */
     @Override
     public Rectangle getBorder() {
         return border;
     }
 
-    //未使用的方法
+    /**
+     * 未使用方法
+     * @return null
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    /**
+     * 击毁墙处理
+     * @return false
+     */
     @Override
     public boolean wallDestroyed() {
         return false;

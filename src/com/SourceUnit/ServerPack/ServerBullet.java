@@ -6,6 +6,9 @@ import com.ProcessUnit.ServerPack.ServerStatus;
 
 import java.awt.*;
 
+/**
+ * 子弹类
+ */
 public class ServerBullet implements ServerGameComponent {
 
     private final Rectangle map = new Rectangle(18, 18, 486, 486);
@@ -17,6 +20,15 @@ public class ServerBullet implements ServerGameComponent {
     private final ServerGameComponent owner;
     private boolean hitTarget;
 
+    /**
+     * 初始化相关属性
+     * @param a x pos
+     * @param b y pos
+     * @param c direction
+     * @param d speed
+     * @param e bullet power
+     * @param owner owner
+     */
     public ServerBullet(int a, int b, int c, int d, int e, ServerGameComponent owner) {
         this.owner = owner;
         xPos = a;
@@ -32,6 +44,10 @@ public class ServerBullet implements ServerGameComponent {
         bulletPower = e;
     }
 
+    /**
+     * 绘制画面
+     * @param g the draw
+     */
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.lightGray);
@@ -43,13 +59,15 @@ public class ServerBullet implements ServerGameComponent {
         }
     }
 
+    /**
+     * 子弹射击处理
+     */
     @Override
     public void move() {
         if (ServerStatus.isGamePaused()) {
             writeToOutputLine();
             return;
         }
-
 
         //检查这子弹是否撞击地图边界
         if (!border.intersects(map)) {
@@ -141,22 +159,36 @@ public class ServerBullet implements ServerGameComponent {
         writeToOutputLine();
     }
 
+    /**
+     * 记录变化
+     */
     public void writeToOutputLine() {
 
         Instruction.getFromSever().append("t").append(xPos).append(",")
                 .append(yPos).append(",").append(direction).append(";");
     }
 
+    /**
+     * 获取边界
+     * @return border
+     */
     @Override
     public Rectangle getBorder() {
         return border;
     }
 
+    /**
+     * 获取类型
+     * @return bullet
+     */
     @Override
     public String getType() {
         return "bullet";
     }
 
+    /**
+     * 角色判断
+     */
     public void notifyOwner() {
         if (owner != null) {
             if ("Player".equals(owner.getType())) {
@@ -175,16 +207,26 @@ public class ServerBullet implements ServerGameComponent {
         }
     }
 
+    /**
+     * 制造效果
+     */
     public void makeBomb() {
         ServerDrawingPanel.addActor(new ServerBomb(xPos, yPos, "small"));
     }
 
-    //未使用的方法
+    /**
+     * 未使用方法
+     * @return null
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return null;
     }
 
+    /**
+     * 击毁墙处理
+     * @return false
+     */
     @Override
     public boolean wallDestroyed() {
         return false;

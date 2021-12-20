@@ -6,7 +6,7 @@ import com.ProcessUnit.ServerPack.ServerModel;
 import java.awt.*;
 
 /**
- * @author chenhong
+ * 铁墙类
  */
 public class ServerSteelWall implements ServerGameComponent {
     public boolean[] shape = new boolean[4];
@@ -18,26 +18,51 @@ public class ServerSteelWall implements ServerGameComponent {
     private final int yPos;
     private final Rectangle[] border = new Rectangle[4];
 
+    /**
+     * 击毁墙
+     * @return wall destroyed
+     */
     public boolean isWallDestroyed() {
         return wallDestroyed;
     }
 
+    /**
+     * 设置击穿
+     * @param wallDestroyed wallDestroyed
+     */
     public void setWallDestroyed(boolean wallDestroyed) {
         this.wallDestroyed = wallDestroyed;
     }
 
+    /**
+     * 子弹碰撞
+     * @return bulletDestroyed
+     */
     public boolean isBulletDestroyed() {
         return bulletDestroyed;
     }
 
+    /**
+     * 获取x坐标
+     * @return x pos
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return y pos
+     */
     public int getyPos() {
         return yPos;
     }
 
+    /**
+     * 初始化数据
+     * @param a x pos
+     * @param b y pos
+     */
     public ServerSteelWall(int a, int b) {
         steelWall = ServerModel.textures[53];
         xPos = a;
@@ -49,6 +74,12 @@ public class ServerSteelWall implements ServerGameComponent {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
+    /**
+     * 设置方向边界
+     * @param a x pos
+     * @param b y pos
+     * @param orientation orientation
+     */
     public ServerSteelWall(int a, int b, int orientation) {
         xPos = a;
         yPos = b;
@@ -79,7 +110,11 @@ public class ServerSteelWall implements ServerGameComponent {
         }
     }
 
-
+    /**
+     * 击毁墙
+     * @param bullet 子弹
+     * @param bulletPower 子弹加成
+     */
     public void damageWall(Rectangle bullet, int bulletPower) {
         bulletDestroyed = false;
         if (bulletPower == 2) {
@@ -118,6 +153,10 @@ public class ServerSteelWall implements ServerGameComponent {
         Instruction.getFromSever().append(";");
     }
 
+    /**
+     * 击毁判断
+     * @return boolean
+     */
     @Override
     public boolean wallDestroyed() {
         if (wallDestroyed) {
@@ -126,16 +165,28 @@ public class ServerSteelWall implements ServerGameComponent {
         return border[0] == null && border[1] == null && border[2] == null && border[3] == null;
     }
 
+    /**
+     * 获取边界
+     * @return generalBorder
+     */
     @Override
     public Rectangle getBorder() {
         return generalBorder;
     }
 
+    /**
+     * 获取细节边界
+     * @return border
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return border;
     }
 
+    /**
+     * 绘制
+     * @param g draw
+     */
     @Override
     public void draw(Graphics g) {
         if (wallDestroyed) {
@@ -158,12 +209,18 @@ public class ServerSteelWall implements ServerGameComponent {
         }
     }
 
+    /**
+     * 获取类型
+     * @return steelWall
+     */
     @Override
     public String getType() {
         return "steelWall";
     }
 
-    //未使用的方法
+    /**
+     * 未使用方法
+     */
     @Override
     public void move() {
     }

@@ -4,6 +4,9 @@ import com.CommunicateUnit.Instruction;
 
 import java.awt.*;
 
+/**
+ * 砖墙类
+ */
 public class ServerWall implements ServerGameComponent {
     private final int xPos;
     private final int yPos;
@@ -14,26 +17,51 @@ public class ServerWall implements ServerGameComponent {
     private final Image wall = Toolkit.getDefaultToolkit().getImage("image\\71.jpg");
     private final Rectangle generalBorder;
 
+    /**
+     * 获取x坐标
+     * @return x pos
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * 获取y坐标
+     * @return y pos
+     */
     public int getyPos() {
         return yPos;
     }
 
+    /**
+     * 墙击毁
+     * @return wallDestroyed
+     */
     public boolean isWallDestroyed() {
         return wallDestroyed;
     }
 
+    /**
+     * 设置击毁
+     * @param wallDestroyed wallDestroyed
+     */
     public void setWallDestroyed(boolean wallDestroyed) {
         this.wallDestroyed = wallDestroyed;
     }
 
+    /**
+     * 射击击毁
+     * @return bulletDestroyed
+     */
     public boolean isBulletDestroyed() {
         return bulletDestroyed;
     }
 
+    /**
+     * 初始化属性
+     * @param a x pos
+     * @param b y pos
+     */
     public ServerWall(int a, int b) {
         xPos = a;
         yPos = b;
@@ -44,6 +72,12 @@ public class ServerWall implements ServerGameComponent {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
+    /**
+     * 设置方向边界
+     * @param a x pos
+     * @param b y pos
+     * @param orientation orientation
+     */
     public ServerWall(int a, int b, int orientation) {
         xPos = a;
         yPos = b;
@@ -91,6 +125,12 @@ public class ServerWall implements ServerGameComponent {
     }
 
 
+    /**
+     * 击毁墙
+     * @param bullet 子弹
+     * @param bulletPower 加成
+     * @param bulletDirection 射击方向
+     */
     public void damageWall(Rectangle bullet, int bulletPower, int bulletDirection) {
 
         bulletDestroyed = false;
@@ -283,8 +323,6 @@ public class ServerWall implements ServerGameComponent {
             }
         }
 
-
-//*******************************************************************************************		if(border[0] != null ){
         if (border[0] != null) {
             Rectangle a = new Rectangle(border[0].x, border[0].y, 5, 5);
             Rectangle b = new Rectangle(border[0].x + 7, border[0].y, 5, 5);
@@ -486,7 +524,7 @@ public class ServerWall implements ServerGameComponent {
                 }
             }
         }
-        //*******************************************************************************
+
         if (border[1] != null) {
             Rectangle a = new Rectangle(border[1].x, border[1].y, 5, 5);
             Rectangle b = new Rectangle(border[1].x + 7, border[1].y, 5, 5);
@@ -688,7 +726,6 @@ public class ServerWall implements ServerGameComponent {
             }
         }
 
-        //***********************************************************************************
         if (border[2] != null) {
             Rectangle a = new Rectangle(border[2].x, border[2].y, 5, 5);
             Rectangle b = new Rectangle(border[2].x + 7, border[2].y, 5, 5);
@@ -890,7 +927,7 @@ public class ServerWall implements ServerGameComponent {
             }
 
         }
-        //************************************************************************************
+
         if (border[3] != null) {
             Rectangle a = new Rectangle(border[3].x, border[3].y, 5, 5);
             Rectangle b = new Rectangle(border[3].x + 7, border[3].y, 5, 5);
@@ -1106,8 +1143,11 @@ public class ServerWall implements ServerGameComponent {
 
         Instruction.getFromSever().append(";");
     }
-//===========================================================================================
 
+    /**
+     * 击毁墙处理
+     * @return boolean
+     */
     @Override
     public boolean wallDestroyed() {
         if (wallDestroyed) {
@@ -1123,18 +1163,28 @@ public class ServerWall implements ServerGameComponent {
         return wallDestroyed;
     }
 
-
+    /**
+     * 获取边界
+     * @return general border
+     */
     @Override
     public Rectangle getBorder() {
         return generalBorder;
     }
 
+    /**
+     * 获取细致边界
+     * @return border
+     */
     @Override
     public Rectangle[] getDetailedBorder() {
         return border;
     }
 
-
+    /**
+     * 绘制
+     * @param g draw
+     */
     @Override
     public void draw(Graphics g) {
         if (wallDestroyed) {
@@ -1192,13 +1242,18 @@ public class ServerWall implements ServerGameComponent {
         }
     }
 
+    /**
+     * 获取类型
+     * @return wall
+     */
     @Override
     public String getType() {
         return "wall";
     }
 
-
-    //未使用的方法
+    /**
+     * 未使用方法
+     */
     @Override
     public void move() {
     }
