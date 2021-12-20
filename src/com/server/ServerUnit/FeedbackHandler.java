@@ -1,7 +1,6 @@
 package com.server.ServerUnit;
 //这个类从客户端程序解码指令字符串,然后将字符串转换为真正的指令
 //服务器程序可读
-
 import com.ProcessUnit.Instruction;
 
 /**
@@ -9,25 +8,23 @@ import com.ProcessUnit.Instruction;
  */
 public class FeedbackHandler {
 
-    public static void handleInstruction() {
+    public static void handleInstruction(String instruction) {
 
-        if (Instruction.getFromSever().length() == 0) {
+        if (instruction == null) {
 
             return;
         }
 
         int i = 0;
-        while (i < Instruction.getFromSever().length()) {
+        while (i < instruction.length()) {
 
             StringBuilder perInstruction = new StringBuilder();
-
             //指令是“；”时
-            while (Instruction.getFromSever().charAt(i) != ';') {
+            while (instruction.charAt(i) != ';') {
 
-                perInstruction.append(Instruction.getFromSever().charAt(i));
+                perInstruction.append(instruction.charAt(i));
                 i++;
             }
-
             //指令是“m”表明客户端运动信息
             if ("m".equals(perInstruction.substring(0, 1))) {
 

@@ -153,7 +153,7 @@ public class ServerModel implements ActionListener {
             String line;
             while ((line = ServerCommunication.getIn().readLine()) != null) {
                 //处理客户反馈消息
-                FeedbackHandler.handleInstruction();
+                FeedbackHandler.handleInstruction(line);
 
                 if (!Status.isGamePaused()) {
                     gameFlow++;
