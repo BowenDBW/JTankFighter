@@ -1,6 +1,7 @@
 package com.server.ComponentPack;
 
 import com.ProcessUnit.Instruction;
+import com.server.ServerUnit.DrawingPanel;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -13,20 +14,12 @@ public class PowerUp implements GameComponent {
     private final Rectangle border;
     private int displayTime;
     public Image[] textures;
-    private ServerModel gameModel;
+
     private final int xPos;
     private final int yPos;
 
     public int getFunction() {
         return function;
-    }
-
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     public int getxPos() {
@@ -37,8 +30,8 @@ public class PowerUp implements GameComponent {
         return yPos;
     }
 
-    public PowerUp(ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public PowerUp() {
+
         //加载图像
         textures = new Image[7];
         System.arraycopy(ServerModel.textures, 46, textures, 0, 7);
@@ -85,7 +78,7 @@ public class PowerUp implements GameComponent {
     public void move() {
         displayTime--;
         if (displayTime == 0) {
-            ServerModel.removeActor(this);
+            DrawingPanel.removeActor(this);
         }
 
         //将变化写入输出行

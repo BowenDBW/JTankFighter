@@ -1,6 +1,7 @@
 package com.server.ServerUnit;
 
 import com.ProcessUnit.Instruction;
+import com.ProcessUnit.LogicalLoop;
 import com.ProcessUnit.Ticker;
 import com.server.ComponentPack.GameComponent;
 import com.server.ComponentPack.Enemy;
@@ -23,10 +24,9 @@ public class ServerModel implements ActionListener {
     //视图参考
     private static ServerView view;
     //游戏消息
-    public String playerTypedMessage = "";
+    private static String playerTypedMessage = "";
     //实际的游戏在这个线程上运行，而主线程监听用户的输入
     public static Image[] textures;
-    public static GameComponent[] gameComponents;
     //由服务器玩家控制的坦克
     private static Player p1;
     //有客户端玩家控制的坦克
@@ -64,7 +64,15 @@ public class ServerModel implements ActionListener {
         return p2;
     }
 
-    public void createServer() {
+    public static void loadImage(){
+
+        textures = new Image[88];
+        for (int i = 1; i < textures.length + 1; i++) {
+            textures[i - 1] = Toolkit.getDefaultToolkit().getImage("image\\" + i + ".jpg");
+        }
+    }
+
+    public static void createServer() {
 
         DrawingPanel.addMessage("正在建立主机(端口9999)");
 
@@ -85,11 +93,13 @@ public class ServerModel implements ActionListener {
             ServerCommunication.setClientSocket(ServerCommunication.getServerSocket().accept());
 
 
-            ServerCommunication.setOut(new PrintWriter(ServerCommunication.getClientSocket().getOutputStream(), true));
-            ServerCommunication.setIn(new BufferedReader(new InputStreamReader(
-                    ServerCommunication.getClientSocket().getInputStream())));
+            ServerCommunication.setOut(
+                    new PrintWriter(ServerCommunication.getClientSocket().getOutputStream(), true));
+            ServerCommunication.setIn(new BufferedReader(
+                    new InputStreamReader(ServerCommunication.getClientSocket().getInputStream())));
 
         } catch (Exception e) {
+
             DrawingPanel.addMessage("连接中出现错误，请重新建立主机");
             Status.setServerCreated(false);
 
@@ -97,10 +107,12 @@ public class ServerModel implements ActionListener {
 
             //当发生错误，摧毁一切已创建的
             try {
+
                 ServerCommunication.getServerSocket().close();
                 ServerCommunication.getClientSocket().close();
                 ServerCommunication.getOut().close();
                 ServerCommunication.getIn().close();
+
             } catch (Exception ex) {
 
                 ex.printStackTrace();
@@ -109,6 +121,11 @@ public class ServerModel implements ActionListener {
             return;
         }
 
+        initGame();
+    }
+
+    public static void initGame(){
+
         view.getMessageField().setEnabled(true);
         DrawingPanel.addMessage("玩家已连接上，开始载入游戏");
 
@@ -116,30 +133,47 @@ public class ServerModel implements ActionListener {
         ServerCommunication.getOut().println("L1;");
 
         //加载游戏
-        textures = new Image[88];
-        for (int i = 1; i < textures.length + 1; i++) {
-            textures[i - 1] = Toolkit.getDefaultToolkit().getImage("image\\" + i + ".jpg");
-        }
-
+        loadImage();
 
         //设置第一关
-        gameComponents = new GameComponent[400];
-        Level.loadLevel(this);
+        DrawingPanel.setGameComponents(new GameComponent[400]);
+        Level.loadLevel();
 
-        p1 = new Player("1P", this);
-        addActor(p1);
-        p2 = new Player("2P", this);
-        addActor(p2);
+        p1 = new Player("1P");
+        DrawingPanel.addActor(p1);
+        p2 = new Player("2P");
+        DrawingPanel.addActor(p2);
 
         Status.setGameStarted(true);
-        DrawingPanel.gameComponents = gameComponents;
         view.getMainPanel().setGameStarted(true);
 
         DrawingPanel.addMessage("载入完毕，游戏开始了！");
     }
 
+    public static void restartGame() {
+
+        DrawingPanel.addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
+
+        //重新启动游戏
+        p1 = new Player("1P");
+        p2 = new Player("2P");
+        Level.reset();
+        Level.loadLevel();
+        Status.setGameOver(false);
+        Status.setServerVoteYes(false);
+        Status.setClientVoteYes(false);
+        Status.setServerVoteNo(false);
+        Enemy.setFrozenMoment(0);
+        Enemy.setFrozenTime(0);
+        gameFlow = 0;
+
+        //告诉客户端程序重新启动游戏
+        Instruction.getFromSever().append("L1;");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+
         createServer();
 
         //如果程序未能创建服务器，则什么也不做
@@ -148,209 +182,36 @@ public class ServerModel implements ActionListener {
         }
 
         //游戏逻辑回路，
-        try {
-
-            String line;
-            while ((line = ServerCommunication.getIn().readLine()) != null) {
-                //处理客户反馈消息
-                FeedbackHandler.handleInstruction(line);
-
-                if (!Status.isGamePaused()) {
-                    gameFlow++;
-                }
-
-                if (!Status.isPausePressed()) {
-
-                    if (!Status.isGamePaused()) {
-
-                        Instruction.getFromSever().append("x0;");
-                    } else {
-
-                        Instruction.getFromSever().append("x1;");
-                    }
-                    Status.setPausePressed(false);
-                }
-
-                if (Status.isGameOver() || (p1.getLife() == 0 && p2.getLife() == 0)) {
-
-                    if (p1.getFrozen() != 1) {
-
-                        Instruction.getFromSever().append("a;");
-                    }
-
-                    if ((p1.getFrozen() != 1 || DrawingPanel.getMessageIndex() == 1) && Status.isServerVoteYes()) {
-
-                        DrawingPanel.addMessage("等待用户端玩家的回应...");
-                    }
-                    if (p1.getFrozen() != 1 || DrawingPanel.getMessageIndex() == 0) {
-
-                        DrawingPanel.addMessage("GAME OVER ! 　想再玩一次吗 ( y / n ) ?");
-                    }
-                    Status.setGameOver(true);
-                    p1.setFrozen(1);
-                    p2.setFrozen(1);
-
-                    if (Status.isServerVoteNo() && !Status.isServerVoteYes()){
-
-                        System.exit(0);
-                    }
-
-                    if (Status.isServerVoteYes()) {
-
-                        Instruction.getFromSever().append("j;");
-                        if (Status.isClientVoteYes()) {
-
-                            DrawingPanel.addMessage("用户端玩家决定再玩一次，游戏重新开始了...");
-
-                            //重新启动游戏
-                            p1 = new Player("1P", this);
-                            p2 = new Player("2P", this);
-                            Level.reset();
-                            Level.loadLevel(this);
-                            Status.setGameOver(false);
-                            Status.setServerVoteYes(false);
-                            Status.setClientVoteYes(false);
-                            Status.setServerVoteNo(false);
-                            Enemy.setFrozenMoment(0);
-                            Enemy.setFrozenTime(0);
-                            gameFlow = 0;
-
-                            //告诉客户端程序重新启动游戏
-                            Instruction.getFromSever().append("L1;");
-                        }
-                    }
-                }
-
-                if (Level.getDeathCount() == 20 && !Status.isGameOver()) {
-                    int winningCount = Level.getWinningCount();
-                    winningCount++;
-                    Level.setWinningCount(winningCount);
-                    if (Level.getWinningCount() == 120) {
-                        p1.setFrozen(1);
-                        p2.setFrozen(1);
-                    }
-                    if (Level.getWinningCount() == 470) {
-                        if (p1.getLife() > 0) {
-                            p1.reset();
-                        }
-                        if (p2.getLife() > 0) {
-                            p2.reset();
-                        }
-                        Level.loadLevel(this);
-                        //告诉客户端程序加载下一关
-                        Instruction.getFromSever().append("L").append(1 + (Level.getCurrentLevel() - 1) % 8).append(";");
-                    }
-                    if (Level.getWinningCount() == 500) {
-                        p1.setFrozen(0);
-                        p2.setFrozen(0);
-                        Level.setDeathCount(0);
-                        Level.setWinningCount(0);
-                    }
-
-                }
-
-                //大量生产敌人坦克
-                if (!Status.isGamePaused()) {
-                    Level.spawnEnemy(this);
-                }
-
-                for (GameComponent gameComponent : gameComponents) {
-                    if (gameComponent != null) {
-                        gameComponent.move();
-                    }
-                }
-
-                //从消息队列中删除一个消息每10秒，（如果有的话）
-                if (gameFlow % 300 == 0) {
-                    DrawingPanel.removeMessage();
-                }
-
-                //将玩家、关卡的信息写入输出行
-                Instruction.getFromSever().append("p").append(Level.getEnemyLeft()).append(",").append(Level.getCurrentLevel())
-                        .append(",").append(p1.getLife()).append(",").append(p1.scores).append(",").append(p2.getLife())
-                        .append(",").append(p2.scores).append(";");
-                Instruction.getFromSever().append("g").append(Level.getWinningCount()).append(";");
-
-                //将玩家类型信息写入输出行
-                if (!"".equals(playerTypedMessage)) {
-                    Instruction.getFromSever().append(playerTypedMessage);
-                    playerTypedMessage = "";
-                }
-
-                //将最后的指令字符串发送到客户端程序
-                ServerCommunication.getOut().println(Instruction.getFromSever());
-                Instruction.setFromSever(new StringBuffer());
-                //调用视图重绘本身
-                view.getMainPanel().repaint();
-
-                //如果玩家切换到对话框模式，则停止所有坦克动作
-                if (!view.getMainPanel().hasFocus()) {
-                    p1.setMoveLeft(false);
-                    p1.setMoveUp(false);
-                    p1.setMoveDown(false);
-                    p1.setMoveRight(false);
-                    p1.setFire(false);
-                }
-
-                Thread.sleep(30);
-            }
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-            view.getMessageField().setEnabled(false);
-            Status.setServerVoteYes(false);
-            Status.setServerVoteNo (false);
-            Status.setClientVoteYes(false);
-            Status.setServerCreated(false);
-            Status.setGameStarted(false);
-            Status.setGameOver(false);
-            gameFlow = 0;
-            Enemy.setFrozenTime(0);
-            Enemy.setFrozenMoment(0);
-            view.getMainPanel().setGameStarted(false);
-            t.stop();
-            DrawingPanel.addMessage("玩家退出了，请重新建立主机");
-
-            //当发生错误在游戏中，摧毁任何东西，包括游戏的变量
-            try {
-
-                ServerCommunication.getOut().close();
-                ServerCommunication.getIn().close();
-                ServerCommunication.getClientSocket().close();
-                ServerCommunication.getServerSocket().close();
-            } catch (Exception exc) {
-
-                exc.printStackTrace();
-            }
-
-            //破坏游戏数据
-            p1 = null;
-            p2 = null;
-            Level.reset();
-        }
-    }
-
-    //添加游戏对象（如坦克，子弹等..）到游戏系统
-    public static void addActor(GameComponent gameComponent) {
-        for (int i = 0; i < gameComponents.length; i++) {
-            if (gameComponents[i] == null) {
-                gameComponents[i] = gameComponent;
-                break;
-            }
-        }
-    }
-
-    //从游戏系统中移除游戏对象
-    public static void removeActor(GameComponent gameComponent) {
-        for (int i = 0; i < gameComponents.length; i++) {
-            if (gameComponents[i] == gameComponent) {
-                gameComponents[i] = null;
-                break;
-            }
-        }
+        LogicalLoop.serverLogic();
     }
 
     public static ServerView getView() {
         return view;
     }
+
+    public static String getPlayerTypedMessage() {
+        return playerTypedMessage;
+    }
+
+    public static void setGameFlow(int gameFlow) {
+        ServerModel.gameFlow = gameFlow;
+    }
+
+    public static void setPlayerTypedMessage(String playerTypedMessage) {
+        ServerModel.playerTypedMessage = playerTypedMessage;
+    }
+
+    public static void setP1(Player p1) {
+        ServerModel.p1 = p1;
+    }
+
+    public static void setP2(Player p2) {
+        ServerModel.p2 = p2;
+    }
+
+    public static void setT(Ticker t) {
+        ServerModel.t = t;
+    }
+
+
 }

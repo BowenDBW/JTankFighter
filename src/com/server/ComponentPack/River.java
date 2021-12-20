@@ -9,18 +9,9 @@ import java.awt.*;
  */
 public class River implements GameComponent {
     private final Image river;
-    private ServerModel gameModel;
     private final int xPos;
     private final int yPos;
     private final Rectangle Border;
-
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
-    }
 
     public int getxPos() {
         return xPos;
@@ -30,8 +21,7 @@ public class River implements GameComponent {
         return yPos;
     }
 
-    public River(int a, int b, ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public River(int a, int b) {
         river = ServerModel.textures[71];
         xPos = a;
         yPos = b;

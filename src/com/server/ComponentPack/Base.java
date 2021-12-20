@@ -1,5 +1,6 @@
 package com.server.ComponentPack;
 import com.ProcessUnit.Instruction;
+import com.server.ServerUnit.DrawingPanel;
 import com.server.ServerUnit.ServerModel;
 
 import java.awt.*;
@@ -9,7 +10,6 @@ public class Base implements GameComponent {
     private final Rectangle border;
     private Image base = Toolkit.getDefaultToolkit().getImage("image\\1.jpg");
     private int xPos, yPos;
-    private ServerModel gameModel;
     private int steelWallTime;
     private boolean baseKilled;
 
@@ -27,14 +27,6 @@ public class Base implements GameComponent {
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
-    }
-
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     public void setSteelWallTime(int steelWallTime) {
@@ -57,7 +49,7 @@ public class Base implements GameComponent {
     public void doom() {
         base = ServerModel.textures[1];
         if (!baseKilled) {
-            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            DrawingPanel.addActor(new Bomb(xPos, yPos, "big"));
         }
         baseKilled = true;
 
@@ -68,40 +60,40 @@ public class Base implements GameComponent {
     @Override
     public void move() {
         if (steelWallTime == 600) {
-            SteelWall temp = new SteelWall(248, 498, 2, gameModel);
-            ServerModel.gameComponents[0] = temp;
+            SteelWall temp = new SteelWall(248, 498, 2);
+            DrawingPanel.gameComponents[0] = temp;
             writeToOutputLine("s", temp.shape, 248, 498);
 
-            temp = new SteelWall(273, 498, 3, gameModel);
-            ServerModel.gameComponents[1] = temp;
+            temp = new SteelWall(273, 498, 3);
+            DrawingPanel.gameComponents[1] = temp;
             writeToOutputLine("s", temp.shape, 273, 498);
 
-            temp = new SteelWall(248, 473, 1, gameModel);
-            ServerModel.gameComponents[2] = temp;
+            temp = new SteelWall(248, 473, 1);
+            DrawingPanel.gameComponents[2] = temp;
             writeToOutputLine("s", temp.shape, 248, 473);
 
-            temp = new SteelWall(273, 473, 1, gameModel);
-            ServerModel.gameComponents[3] = temp;
+            temp = new SteelWall(273, 473, 1);
+            DrawingPanel.gameComponents[3] = temp;
             writeToOutputLine("s", temp.shape, 273, 473);
         }
         if (steelWallTime > 0) {
             steelWallTime--;
         }
         if (steelWallTime == 1) {
-            Wall temp = new Wall(248, 498, 2, gameModel);
-            ServerModel.gameComponents[0] = temp;
+            Wall temp = new Wall(248, 498, 2);
+            DrawingPanel.gameComponents[0] = temp;
             writeToOutputLine("w", temp.shape, 248, 498);
 
-            temp = new Wall(273, 498, 3, gameModel);
-            ServerModel.gameComponents[1] = temp;
+            temp = new Wall(273, 498, 3);
+            DrawingPanel.gameComponents[1] = temp;
             writeToOutputLine("w", temp.shape, 273, 498);
 
-            temp = new Wall(248, 473, 1, gameModel);
-            ServerModel.gameComponents[2] = temp;
+            temp = new Wall(248, 473, 1);
+            DrawingPanel.gameComponents[2] = temp;
             writeToOutputLine("w", temp.shape, 248, 473);
 
-            temp = new Wall(273, 473, 1, gameModel);
-            ServerModel.gameComponents[3] = temp;
+            temp = new Wall(273, 473, 1);
+            DrawingPanel.gameComponents[3] = temp;
             writeToOutputLine("w", temp.shape, 273, 473);
         }
     }

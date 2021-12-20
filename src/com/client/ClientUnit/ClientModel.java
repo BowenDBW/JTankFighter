@@ -1,5 +1,6 @@
 package com.client.ClientUnit;
 
+import com.ProcessUnit.LogicalLoop;
 import com.ProcessUnit.Ticker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,8 @@ public class ClientModel implements ActionListener{
     }
 
 
+
+
     public ClientModel(ClientView thisView) {
         view = thisView;
         DrawingPanel.messageQueue = new String[8];
@@ -52,6 +55,6 @@ public class ClientModel implements ActionListener{
         if (Status.isServerConnected()) {
             return;
         }
-        LogicalLoop.logic();
+        LogicalLoop.clientLogic();
     }
 }

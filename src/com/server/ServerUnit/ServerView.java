@@ -107,6 +107,6 @@ public class ServerView extends JFrame {
         ServerModel model = new ServerModel(this);
 
         //设置服务器控制器
-        new ServerController(this, model);
+        new ServerController(this);
     }
 }

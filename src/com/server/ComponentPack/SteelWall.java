@@ -12,7 +12,6 @@ public class SteelWall implements GameComponent {
     public boolean[] shape = new boolean[4];
     private boolean wallDestroyed;
     private boolean bulletDestroyed;
-    private ServerModel gameModel;
     private Image steelWall = Toolkit.getDefaultToolkit().getImage("image\\54.jpg");
     private final Rectangle generalBorder;
     private final int xPos;
@@ -31,14 +30,6 @@ public class SteelWall implements GameComponent {
         return bulletDestroyed;
     }
 
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
-    }
-
     public int getxPos() {
         return xPos;
     }
@@ -47,8 +38,7 @@ public class SteelWall implements GameComponent {
         return yPos;
     }
 
-    public SteelWall(int a, int b, ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public SteelWall(int a, int b) {
         steelWall = ServerModel.textures[53];
         xPos = a;
         yPos = b;
@@ -59,8 +49,7 @@ public class SteelWall implements GameComponent {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
-    public SteelWall(int a, int b, int orientation, ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public SteelWall(int a, int b, int orientation) {
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);

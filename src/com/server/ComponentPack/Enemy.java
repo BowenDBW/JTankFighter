@@ -1,6 +1,7 @@
 package com.server.ComponentPack;
 
 import com.ProcessUnit.Instruction;
+import com.server.ServerUnit.DrawingPanel;
 import com.server.ServerUnit.Level;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
@@ -24,7 +25,6 @@ public class Enemy implements GameComponent {
     private boolean flashing;
     private final double firePossibility;
     public Image[] textures;
-    private final ServerModel gameModel;
 
 
     public int getyPos() {
@@ -75,12 +75,11 @@ public class Enemy implements GameComponent {
         this.xPos = xPos;
     }
 
-    public Enemy(int type, boolean flashing, int xPos, int yPos, ServerModel gameModel) {
+    public Enemy(int type, boolean flashing, int xPos, int yPos) {
         this.type = type;
         this.xPos = xPos;
         this.yPos = yPos;
         this.flashing = flashing;
-        this.gameModel = gameModel;
 
         //设置全部敌人的共同属性
         interval = (int) (Math.random() * 200);
@@ -186,7 +185,7 @@ public class Enemy implements GameComponent {
                 d = 7;
             }
             //添加子弹
-            ServerModel.addActor(new Bullet(a, b, c, d, 1, this, gameModel));
+            DrawingPanel.addActor(new Bullet(a, b, c, d, 1, this));
             coolDownTime = 7;
             if (type == 3) {
                 coolDownTime = 5;
@@ -229,17 +228,17 @@ public class Enemy implements GameComponent {
         }
 
         //检查下一个边界是否与其他对象相交，例如玩家控制的坦克，墙等等
-        for (int i = 0; i < ServerModel.gameComponents.length; i++) {
-            if (ServerModel.gameComponents[i] != null) {
-                if (this != ServerModel.gameComponents[i]) {
-                    if (border.intersects(ServerModel.gameComponents[i].getBorder())) {
+        for (int i = 0; i < DrawingPanel.gameComponents.length; i++) {
+            if (DrawingPanel.gameComponents[i] != null) {
+                if (this != DrawingPanel.gameComponents[i]) {
+                    if (border.intersects(DrawingPanel.gameComponents[i].getBorder())) {
                         //静态对象，例如河流，墙等等
-                        if ("steelWall".equals(ServerModel.gameComponents[i].getType()) ||
-                                "wall".equals(ServerModel.gameComponents[i].getType())) {
-                            if (!ServerModel.gameComponents[i].wallDestroyed()) {
-                                for (int j = 0; j < ServerModel.gameComponents[i].getDetailedBorder().length; j++) {
-                                    if (ServerModel.gameComponents[i].getDetailedBorder()[j] != null) {
-                                        if (ServerModel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
+                        if ("steelWall".equals(DrawingPanel.gameComponents[i].getType()) ||
+                                "wall".equals(DrawingPanel.gameComponents[i].getType())) {
+                            if (!DrawingPanel.gameComponents[i].wallDestroyed()) {
+                                for (int j = 0; j < DrawingPanel.gameComponents[i].getDetailedBorder().length; j++) {
+                                    if (DrawingPanel.gameComponents[i].getDetailedBorder()[j] != null) {
+                                        if (DrawingPanel.gameComponents[i].getDetailedBorder()[j].intersects(border)) {
                                             if (Math.random() > 0.90) {
                                                 direction = (int) (Math.random() * 4);
                                             }
@@ -253,8 +252,8 @@ public class Enemy implements GameComponent {
                                     }
                                 }
                             }
-                        } else if ("river".equals(ServerModel.gameComponents[i].getType()) ||
-                                "base".equals(ServerModel.gameComponents[i].getType())) {
+                        } else if ("river".equals(DrawingPanel.gameComponents[i].getType()) ||
+                                "base".equals(DrawingPanel.gameComponents[i].getType())) {
                             if (Math.random() > 0.90) {
                                 direction = (int) (Math.random() * 4);
                             }
@@ -266,9 +265,9 @@ public class Enemy implements GameComponent {
                             return;
                         }
                         //其他对象，其他的坦克
-                        if ("Player".equals(ServerModel.gameComponents[i].getType()) ||
-                                "enemy".equals(ServerModel.gameComponents[i].getType())) {
-                            if (!borderTemp.intersects(ServerModel.gameComponents[i].getBorder())) {
+                        if ("Player".equals(DrawingPanel.gameComponents[i].getType()) ||
+                                "enemy".equals(DrawingPanel.gameComponents[i].getType())) {
+                            if (!borderTemp.intersects(DrawingPanel.gameComponents[i].getBorder())) {
                                 xPos = xPosTemp;
                                 yPos = yPosTemp;
                                 border.x = xPos - size;
@@ -360,7 +359,7 @@ public class Enemy implements GameComponent {
     //如果敌方坦克打出一颗子弹，判断会发生什么
     public void hurt() {
         if (flashing) {
-            ServerModel.addActor(new PowerUp(gameModel));
+            DrawingPanel.addActor(new PowerUp());
         }
         flashing = false;
         boolean death = false;
@@ -390,8 +389,8 @@ public class Enemy implements GameComponent {
             int deathCount = Level.getDeathCount();
             deathCount++;
             Level.setDeathCount(deathCount);
-            ServerModel.removeActor(this);
-            ServerModel.addActor(new Bomb(xPos, yPos, "big", gameModel));
+            DrawingPanel.removeActor(this);
+            DrawingPanel.addActor(new Bomb(xPos, yPos, "big"));
         }
     }
 

@@ -50,7 +50,7 @@ public class Level {
         Level.winningCount = winningCount;
     }
 
-    public static void loadLevel(ServerModel gameModel) {
+    public static void loadLevel() {
         //增加关卡数量
         currentLevel++;
 
@@ -64,18 +64,18 @@ public class Level {
 
         //从上个关卡清除所有东西
         for (int i = 0; i < 400; i++) {
-            ServerModel.gameComponents[i] = null;
+            DrawingPanel.gameComponents[i] = null;
         }
 
         //启动时各关卡共享
         enemyLeft = 20;
 
         //加载基地，每个关卡都一样
-        ServerModel.gameComponents[0] = new Wall(248, 498, 2, gameModel);
-        ServerModel.gameComponents[1] = new Wall(273, 498, 3, gameModel);
-        ServerModel.gameComponents[2] = new Wall(248, 473, 1, gameModel);
-        ServerModel.gameComponents[3] = new Wall(273, 473, 1, gameModel);
-        ServerModel.gameComponents[4] = new Base();
+        DrawingPanel.gameComponents[0] = new Wall(248, 498);
+        DrawingPanel.gameComponents[1] = new Wall(273, 498, 3);
+        DrawingPanel.gameComponents[2] = new Wall(248, 473, 1);
+        DrawingPanel.gameComponents[3] = new Wall(273, 473, 1);
+        DrawingPanel.gameComponents[4] = new Base();
 
         //加载一个关卡
         if (1 + (currentLevel - 1) % 8 == 1) {
@@ -102,7 +102,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 2) {
@@ -129,7 +129,7 @@ public class Level {
                     "__", "$$", "$$", "$$", "$$", "$$", "##", "__", "__", "__", "__", "__", "__", "##", "==", "==", "==", "==", "==", "__",
                     "__", "$$", "$$", "$$", "$$", "$$", "##", "__", "__", "__", "__", "__", "__", "##", "==", "==", "==", "==", "==", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 3) {
@@ -156,7 +156,7 @@ public class Level {
                     "__", "__", "__", "##", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "##", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 4) {
@@ -183,7 +183,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 5) {
@@ -210,7 +210,7 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "==", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "==", "__",
                     "__", "__", "__", "__", "__", "__", "==", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "==", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 6) {
@@ -238,7 +238,7 @@ public class Level {
                     "__", "__", "__", "$$", "__", "__", "__", "__", "__", "__", "__", "__", "$$", "$$", "$$", "$$", "__", "__", "__", "__"
 
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 7) {
@@ -265,7 +265,7 @@ public class Level {
                     "__", "__", "__", "__", "##", "##", "##", "__", "__", "__", "__", "__", "__", "__", "__", "==", "==", "==", "__", "__",
                     "__", "__", "__", "__", "##", "##", "##", "__", "__", "__", "__", "__", "__", "__", "__", "==", "==", "==", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
         if (1 + (currentLevel - 1) % 8 == 8) {
@@ -292,64 +292,64 @@ public class Level {
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__",
                     "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__"
             };
-            loadLevel(gameModel, level);
+            loadLevel(level);
         }
 
-        ServerModel.addActor(ServerModel.getP1());
-        ServerModel.addActor(ServerModel.getP2());
+        DrawingPanel.addActor(ServerModel.getP1());
+        DrawingPanel.addActor(ServerModel.getP2());
     }
 
-    public static void loadLevel(ServerModel gameModel, String[] level) {
+    public static void loadLevel(String[] level) {
         for (int i = 0; i < level.length; i++) {
             if ("##".equals(level[i])) {
-                ServerModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
+                DrawingPanel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25));
             }
             if ("#0".equals(level[i])) {
-                ServerModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
+                DrawingPanel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("#1".equals(level[i])) {
-                ServerModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
+                DrawingPanel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("#2".equals(level[i])) {
-                ServerModel.addActor(new Wall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2, gameModel));
+                DrawingPanel.addActor(new Wall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("#3".equals(level[i])) {
-                ServerModel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
+                DrawingPanel.addActor(new Wall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("ss".equals(level[i])) {
-                ServerModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25));
             }
             if ("s0".equals(level[i])) {
-                ServerModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0, gameModel));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
             }
             if ("s1".equals(level[i])) {
-                ServerModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1, gameModel));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
             }
             if ("s2".equals(level[i])) {
-                ServerModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2, gameModel));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
             }
             if ("s3".equals(level[i])) {
-                ServerModel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3, gameModel));
+                DrawingPanel.addActor(new SteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
             }
             if ("$$".equals(level[i])) {
                 for (int j = 399; j >= 0; j--) {
-                    if (ServerModel.gameComponents[j] == null) {
-                        ServerModel.gameComponents[j] = new Grass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
+                    if (DrawingPanel.gameComponents[j] == null) {
+                        DrawingPanel.gameComponents[j] = new Grass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
                         break;
                     }
                 }
             }
             if ("==".equals(level[i])) {
-                ServerModel.addActor(new River(23 + (i % 20) * 25, 23 + (i / 20) * 25, gameModel));
+                DrawingPanel.addActor(new River(23 + (i % 20) * 25, 23 + (i / 20) * 25));
             }
         }
     }
 
-    public static void spawnEnemy(ServerModel gameModel) {
+    public static void spawnEnemy() {
         if (NoOfEnemy < maxNoEnemy && enemyLeft > 0 && (ServerModel.getGameFlow() % enemySpawnTime == 0)) {
             int xPos = 23 + (20 - enemyLeft) % 3 * 238;
             boolean flashing = (enemyLeft % 3 == 0);
-            ServerModel.addActor(new Enemy(enemySequence[20 - enemyLeft], flashing, xPos, 23, gameModel));
+            DrawingPanel.addActor(new Enemy(enemySequence[20 - enemyLeft], flashing, xPos, 23));
             enemyLeft--;
             NoOfEnemy++;
         }

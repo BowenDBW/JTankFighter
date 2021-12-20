@@ -141,10 +141,6 @@ public class DrawingPanel extends JPanel {
         }
     }
 
-    public static String[] getMessageQueue() {
-        return messageQueue;
-    }
-
     public static int getMessageIndex() {
         return messageIndex;
     }
@@ -153,7 +149,29 @@ public class DrawingPanel extends JPanel {
         DrawingPanel.messageQueue = messageQueue;
     }
 
-    public static void setMessageIndex(int messageIndex) {
-        DrawingPanel.messageIndex = messageIndex;
+    public static void removeActor(GameComponent gameComponent) {
+        for (int i = 0; i < gameComponents.length; i++) {
+            if (gameComponents[i] == gameComponent) {
+                gameComponents[i] = null;
+                break;
+            }
+        }
+    }
+
+    public static void addActor(GameComponent gameComponent) {
+        for (int i = 0; i < gameComponents.length; i++) {
+            if (gameComponents[i] == null) {
+                gameComponents[i] = gameComponent;
+                break;
+            }
+        }
+    }
+
+    public static GameComponent[] getGameComponents() {
+        return gameComponents;
+    }
+
+    public static void setGameComponents(GameComponent[] gameComponents) {
+        DrawingPanel.gameComponents = gameComponents;
     }
 }

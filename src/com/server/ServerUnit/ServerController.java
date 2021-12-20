@@ -7,13 +7,11 @@ import java.awt.event.KeyEvent;
 //这个类处理来自服务器视图的输入
 public class ServerController {
     private final ServerView view;
-    private final ServerModel model;
     private int helpMessageCount = 1;
     //一个玩家坦克的参考
 
-    public ServerController(ServerView thisView, ServerModel thisModel) {
+    public ServerController(ServerView thisView) {
         view = thisView;
-        model = thisModel;
 
         //操作发送消息按钮的动作
         view.getSendMessage().addActionListener(e -> {
@@ -23,10 +21,13 @@ public class ServerController {
             }
 
             if (!"".equals(view.getMessageField().getText())) {
+
                 DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
-                model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+                ServerModel.setPlayerTypedMessage(
+                        ServerModel.getPlayerTypedMessage() + "m" + view.getMessageField().getText() + ";");
                 view.getMessageField().setText("");
             } else {
+
                 DrawingPanel.addMessage("对话内容不能为空");
             }
         }
@@ -80,11 +81,17 @@ public class ServerController {
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
                     if (!"".equals(view.getMessageField().getText())) {
+
                         DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
-                        model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+
+                        ServerModel.setPlayerTypedMessage(ServerModel.getPlayerTypedMessage()
+                                + "m" + view.getMessageField().getText() + ";");
+
                         view.getMessageField().setText("");
                     } else {
+
                         DrawingPanel.addMessage("对话内容不能为空");
                     }
                 }
@@ -126,13 +133,18 @@ public class ServerController {
 
                                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                                             if (!"".equals(view.getMessageField().getText())) {
+
                                                 DrawingPanel.addMessage("主机端玩家说：" + view.getMessageField().getText());
-                                                model.playerTypedMessage += "m" + view.getMessageField().getText() + ";";
+
+                                                ServerModel.setPlayerTypedMessage(ServerModel.getPlayerTypedMessage() +
+                                                        "m" + view.getMessageField().getText() + ";");
+
                                                 view.getMessageField().setText("");
                                             }
                                         }
 
                                         if (e.getKeyChar() == 'y' && Status.isGameOver() && !Status.isServerVoteYes()) {
+
                                             Status.setServerVoteYes(true);
                                             DrawingPanel.addMessage("等待用户端玩家的回应...");
                                         }

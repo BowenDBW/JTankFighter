@@ -1,6 +1,7 @@
 package com.server.ComponentPack;
 
 import com.ProcessUnit.Instruction;
+import com.server.ServerUnit.DrawingPanel;
 import com.server.ServerUnit.ServerModel;
 import com.server.ServerUnit.Status;
 
@@ -11,19 +12,8 @@ public class Bomb implements GameComponent {
     private final Rectangle border = new Rectangle(0, 0, 0, 0);
     private final String size;
     private int inner, middle, outer, jumpDistance;
-    private ServerModel gameModel;
     private int xPos, yPos;
     private int animationTime;
-
-
-
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
-    }
 
     public int getxPos() {
         return xPos;
@@ -42,9 +32,8 @@ public class Bomb implements GameComponent {
     }
 
 
-    public Bomb(int a, int b, String size, ServerModel gameModel) {
+    public Bomb(int a, int b, String size) {
         this.size = size;
-        this.gameModel = gameModel;
         if ("big".equals(size)) {
             inner = 6;
             middle = 9;
@@ -83,7 +72,7 @@ public class Bomb implements GameComponent {
 
         animationTime--;
         if (animationTime < 0) {
-            ServerModel.removeActor(this);
+            DrawingPanel.removeActor(this);
             return;
         }
         xPos = xPos + (int) (Math.random() * jumpDistance) - (int) (Math.random() * jumpDistance);

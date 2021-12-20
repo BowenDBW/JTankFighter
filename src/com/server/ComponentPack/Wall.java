@@ -12,7 +12,6 @@ public class Wall implements GameComponent {
     public boolean[] shape = new boolean[16];
     private boolean wallDestroyed;
     private boolean bulletDestroyed;
-    private ServerModel gameModel;
     private final Image wall = Toolkit.getDefaultToolkit().getImage("image\\71.jpg");
     private final Rectangle generalBorder;
 
@@ -36,18 +35,7 @@ public class Wall implements GameComponent {
         return bulletDestroyed;
     }
 
-
-    public ServerModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(ServerModel gameModel) {
-        this.gameModel = gameModel;
-    }
-
-
-    public Wall(int a, int b, ServerModel gameModel) {
-        this.gameModel = gameModel;
+    public Wall(int a, int b) {
         xPos = a;
         yPos = b;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
@@ -57,10 +45,9 @@ public class Wall implements GameComponent {
         border[3] = new Rectangle(xPos + 1, yPos + 1, 11, 11);
     }
 
-    public Wall(int a, int b, int orientation, ServerModel gameModel) {
+    public Wall(int a, int b, int orientation) {
         xPos = a;
         yPos = b;
-        this.gameModel = gameModel;
         generalBorder = new Rectangle(xPos - 12, yPos - 12, 25, 25);
         if (orientation == 0) {
             border[0] = new Rectangle(xPos - 11, yPos - 11, 11, 11);
