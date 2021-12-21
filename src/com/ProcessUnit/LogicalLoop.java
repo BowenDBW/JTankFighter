@@ -20,6 +20,8 @@ import com.UI.ServerDrawingPanel;
  * @description TODO
  * @date 2021/12/17 21:48
  */
+
+@SuppressWarnings("all")
 public class LogicalLoop {
 
     public static void clientLogic() {
@@ -161,18 +163,20 @@ public class LogicalLoop {
                     ServerStatus.setPausePressed(false);
                 }
 
-                if (ServerStatus.isGameOver() ||
-                        (ServerModel.getP1().getLife() == 0 && ServerModel.getP2().getLife() == 0)) {
+                boolean isRespond = ServerStatus.isGameOver() ||
+                        (ServerModel.getP1().getLife() == 0 && ServerModel.getP2().getLife() == 0);
+
+                if (isRespond) {
 
                     if (ServerModel.getP1().getFrozen() != 1) {
 
                         Instruction.getFromSever().append("a;");
                     }
 
-                    boolean isRespond =
+                    boolean isNotRespond =
                             (ServerModel.getP1().getFrozen() != 1 || ServerDrawingPanel.getMessageIndex() == 1) && ServerStatus.isServerVoteYes();
 
-                    if (isRespond) {
+                    if (isNotRespond) {
 
                         ServerDrawingPanel.addMessage("等待用户端玩家的回应...");
                     }

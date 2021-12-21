@@ -23,7 +23,7 @@ public class FeedbackHandler {
 
             StringBuilder perInstruction = new StringBuilder();
             //指令是“；”时
-            while (instruction.charAt(i) != ';') {
+            while (instruction.charAt(i) != CommandTable.COMMAND_SPLIT.charAt(0)) {
 
                 perInstruction.append(instruction.charAt(i));
                 i++;
