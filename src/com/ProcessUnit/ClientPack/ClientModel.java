@@ -13,11 +13,14 @@ import java.awt.event.ActionListener;
  * @author 26317
  */
 public class ClientModel implements ActionListener{
-    //游戏变量
+    /** 游戏变量
+     */
     private static int gameFlow;
     private static ClientView view;
     public static String playerTypedMessage = "";
-    //实际的游戏运行在这个线程,而主线程听用户的输入
+    /**
+     *   实际的游戏运行在这个线程,而主线程听用户的输入
+     */
     private static Ticker t;
 
     public static void setGameFlow(int gameFlow) {

@@ -1,9 +1,8 @@
-package com.UI;//	坦克大战连线版用户端
+package com.UI;
+//坦克大战连线版用户端
 
 import com.CommunicateUnit.ClientPack.ClientController;
 import com.ProcessUnit.ClientPack.ClientModel;
-import com.UI.ClientDrawingPanel;
-
 import javax.swing.*;
 import java.awt.*;
 

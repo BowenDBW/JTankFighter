@@ -19,7 +19,7 @@ public class Launcher {
             = GraphicsEnvironment.getLocalGraphicsEnvironment().
             getDefaultScreenDevice().getDisplayMode().getHeight();
 
-    public static void menuUI() {
+    public static void menuUi() {
 
         JFrame jf = new JFrame();
         jf.setLayout(new GridLayout(3, 1, 10, 10));
@@ -41,6 +41,6 @@ public class Launcher {
 
     public static void main(String[] args) {
 
-        Launcher.menuUI();
+        Launcher.menuUi();
     }
 }

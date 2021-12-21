@@ -26,7 +26,7 @@ public class ClientCommunication {
     private static Socket clientSocket;
     private static PrintWriter out;
     private static BufferedReader in;
-    private static String serverIP;
+    private static String serverIp;
 
     /**
      * Gets client socket.
@@ -58,10 +58,10 @@ public class ClientCommunication {
     /**
      * Sets server ip.
      * 设置ip
-     * @param serverIP the server ip
+     * @param serverIp the server ip
      */
-    public static void setServerIP(String serverIP) {
-        ClientCommunication.serverIP = serverIP;
+    public static void setServerIp(String serverIp) {
+        ClientCommunication.serverIp = serverIp;
     }
 
     /**
@@ -71,10 +71,10 @@ public class ClientCommunication {
     public static void connectServer() {
 
         ClientDrawingPanel.addMessage("正在连接主机");
-        serverIP = ClientModel.getView().getIpField().getText();
+        serverIp = ClientModel.getView().getIpField().getText();
         try {
             //连接主机并初始化流
-            InetAddress address = InetAddress.getByName(serverIP);
+            InetAddress address = InetAddress.getByName(serverIp);
             clientSocket = new Socket(address, 9999);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

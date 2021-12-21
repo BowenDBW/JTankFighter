@@ -24,7 +24,7 @@ public class ServerEnemy implements ServerGameComponent {
     private int direction;
     private int interval;
     private int health;
-    private int xPos, yPos, xVPos, yVPos;
+    private int xPos, yPos, xvpos, yvpos;
     private final Rectangle border;
     private boolean flashing;
     private final double firePossibility;
@@ -135,8 +135,8 @@ public class ServerEnemy implements ServerGameComponent {
         interval = (int) (Math.random() * 200);
         direction = (int) (Math.random() * 4);
         numberOfBullet = 1;
-        xVPos = xPos;
-        yVPos = yPos;
+        xvpos = xPos;
+        yvpos = yPos;
         border = new Rectangle(xPos - size, yPos - size, 25, 25);
 
         //根据不同类型的敌人设置独特的属性如：容貌,速度,等等
@@ -191,8 +191,8 @@ public class ServerEnemy implements ServerGameComponent {
             int newDirection = (int) (Math.random() * 4);
             if (direction != newDirection) {
                 if (direction / 2 != newDirection / 2) {
-                    xPos = xVPos;
-                    yPos = yVPos;
+                    xPos = xvpos;
+                    yPos = yvpos;
                     border.x = xPos - size;
                     border.y = yPos - size;
                 }
@@ -207,21 +207,21 @@ public class ServerEnemy implements ServerGameComponent {
         if (coolDownTime > 0) {
             coolDownTime--;
         }
-        int DOWN = 1;
-        int UP = 0;
-        int LEFT = 2;
+        int down = 1;
+        int up = 0;
+        int left = 2;
         if (Math.random() > firePossibility && coolDownTime == 0 && numberOfBullet > 0) {
             //获得子弹方向
             int c = direction;
             //获得子弹位置
             int a, b;
-            if (direction == UP) {
+            if (direction == up) {
                 a = xPos;
                 b = yPos - size;
-            } else if (direction == DOWN) {
+            } else if (direction == down) {
                 a = xPos;
                 b = yPos + size;
-            } else if (direction == LEFT) {
+            } else if (direction == left) {
                 a = xPos - size;
                 b = yPos;
             } else {
@@ -251,11 +251,11 @@ public class ServerEnemy implements ServerGameComponent {
         Rectangle borderTemp = new Rectangle(xPosTemp - size, yPosTemp - size, 25, 25);
 
         //定义地方坦克的下一个边界，假设它有效的根据方向来进行移动
-        if (direction == UP) {
+        if (direction == up) {
             yPos -= speed;
-        } else if (direction == DOWN) {
+        } else if (direction == down) {
             yPos += speed;
-        } else if (direction == LEFT) {
+        } else if (direction == left) {
             xPos -= speed;
         } else {
             xPos += speed;
@@ -270,8 +270,8 @@ public class ServerEnemy implements ServerGameComponent {
         if (!border.intersects(map)) {
             direction = (int) (Math.random() * 4);
             interval = (int) (Math.random() * 250);
-            xPos = xVPos;
-            yPos = yVPos;
+            xPos = xvpos;
+            yPos = yvpos;
             border.x = xPos - size;
             border.y = yPos - size;
             writeToOutputLine();
@@ -293,8 +293,8 @@ public class ServerEnemy implements ServerGameComponent {
                                             if (Math.random() > 0.90) {
                                                 direction = (int) (Math.random() * 4);
                                             }
-                                            xPos = xVPos;
-                                            yPos = yVPos;
+                                            xPos = xvpos;
+                                            yPos = yvpos;
                                             border.x = xPos - size;
                                             border.y = yPos - size;
                                             writeToOutputLine();
@@ -308,8 +308,8 @@ public class ServerEnemy implements ServerGameComponent {
                             if (Math.random() > 0.90) {
                                 direction = (int) (Math.random() * 4);
                             }
-                            xPos = xVPos;
-                            yPos = yVPos;
+                            xPos = xvpos;
+                            yPos = yvpos;
                             border.x = xPos - size;
                             border.y = yPos - size;
                             writeToOutputLine();
@@ -326,8 +326,8 @@ public class ServerEnemy implements ServerGameComponent {
                                 int newDirection = (int) (Math.random() * 4);
                                 if (direction != newDirection) {
                                     if (direction / 2 != newDirection / 2) {
-                                        xPos = xVPos;
-                                        yPos = yVPos;
+                                        xPos = xvpos;
+                                        yPos = yvpos;
                                         border.x = xPos - size;
                                         border.y = yPos - size;
                                     }
@@ -352,10 +352,11 @@ public class ServerEnemy implements ServerGameComponent {
         if (b > 18) {
             b = 25;
         }
-        if ((b < 19 && b > 6) || xPos < 17 || xPos > 492) {
+        boolean flag = (b < 19 && b > 6) || xPos < 17 || xPos > 492;
+        if (flag) {
             b = 13;
         }
-        xVPos = a * 25 + b + 10;
+        xvpos = a * 25 + b + 10;
         int c = (yPos - 10) / 25;
         int d = (yPos - 10) % 25;
         if (d < 7) {
@@ -364,10 +365,11 @@ public class ServerEnemy implements ServerGameComponent {
         if (d > 18) {
             d = 25;
         }
-        if ((d < 19 && d > 6) || yPos < 17 || yPos > 492) {
+        boolean flag1 = (d < 19 && d > 6) || yPos < 17 || yPos > 492;
+        if (flag1) {
             d = 13;
         }
-        yVPos = c * 25 + d + 10;
+        yvpos = c * 25 + d + 10;
         writeToOutputLine();
     }
 

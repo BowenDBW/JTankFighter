@@ -2,6 +2,9 @@ package com.SourceUnit.ServerPack;
 
 import java.awt.*;
 
+/**
+ * @author chenhong
+ */
 public interface ServerGameComponent {
 
 	/**

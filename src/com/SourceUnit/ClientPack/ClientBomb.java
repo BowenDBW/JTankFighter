@@ -44,14 +44,11 @@ public class ClientBomb implements ClientGameComponent {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
-        g.fillOval(xPos - outer, yPos - outer,
-                2 * outer, 2 * outer);
+        g.fillOval(xPos - outer, yPos - outer, 2 * outer, 2 * outer);
         g.setColor(Color.orange);
-        g.fillOval(xPos - middle, yPos - middle,
-                2 * middle, 2 * middle);
+        g.fillOval(xPos - middle, yPos - middle, 2 * middle, 2 * middle);
         g.setColor(Color.yellow);
-        g.fillOval(xPos - inner, yPos - inner,
-                2 * inner, 2 * inner);
+        g.fillOval(xPos - inner, yPos - inner, 2 * inner, 2 * inner);
 
         ClientDrawingPanel.removeActor(this);
     }

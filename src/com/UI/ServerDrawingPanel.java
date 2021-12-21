@@ -42,7 +42,7 @@ public class ServerDrawingPanel extends JPanel {
 
     /**
      * 绘制
-     * @param g
+     * @param g 画笔
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -209,14 +209,6 @@ public class ServerDrawingPanel extends JPanel {
                 break;
             }
         }
-    }
-
-    /**
-     * Get game components server game component [].
-     * @return the server game component []
-     */
-    public static ServerGameComponent[] getGameComponents() {
-        return serverGameComponents;
     }
 
     /**

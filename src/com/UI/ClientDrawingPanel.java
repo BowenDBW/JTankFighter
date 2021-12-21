@@ -93,7 +93,7 @@ public class ClientDrawingPanel extends JPanel {
 
     /**
      * 绘制各个组件
-     * @param g
+     * @param g 画笔
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -117,31 +117,8 @@ public class ClientDrawingPanel extends JPanel {
         super.paintComponent(g);
 
         if (ClientStatus.isGameStarted()) {
-            //画游戏信息
-            g.setColor(new Color(81, 111, 230));
-            g.drawString("第  " + levelIndex + "  关", 527, 39);
-            g.drawString("敌人数 =  " + enemyLeft, 527, 79);
 
-            g.setColor(Color.yellow);
-            g.drawImage(P1Image, 520, 380, null);
-            g.drawString("x", 555, 395);
-            g.drawString(p1Life  + "", 565, 396);
-            String score = "000000000" + p1Score;
-            g.drawString("P1" + " 得分:" + "", 515, 370);
-            g.drawString(score.substring(score.length() - 7) + "", 566, 370);
-
-            g.setColor(Color.green);
-            g.drawImage(P2Image, 520, 460, null);
-            g.drawString("x", 555, 475);
-            g.drawString(p2Life + "", 565, 476);
-            score = "000000000" + p2Score;
-            g.drawString("P2" + " 得分:" + "", 515, 450);
-            g.drawString(score.substring(score.length() - 7) + "", 566, 450);
-
-
-            //绘制背景
-            g.setColor(Color.blue);
-            g.drawRect(10, 10, 501, 501);
+            paintImformation(g);
 
             //绘制坦克等等
             if (drawingList != null) {
@@ -198,6 +175,37 @@ public class ClientDrawingPanel extends JPanel {
                 }
             }
         }
+    }
+
+    /**
+     * 绘制不同玩家得分情况以及关卡信息以及背景
+     * @param g 画笔
+     */
+    private void paintImformation(Graphics g) {
+        g.setColor(new Color(81, 111, 230));
+        g.drawString("第  " + levelIndex + "  关", 527, 39);
+        g.drawString("敌人数 =  " + enemyLeft, 527, 79);
+
+        g.setColor(Color.yellow);
+        g.drawImage(P1Image, 520, 380, null);
+        g.drawString("x", 555, 395);
+        g.drawString(p1Life  + "", 565, 396);
+        String score = "000000000" + p1Score;
+        g.drawString("P1" + " 得分:" + "", 515, 370);
+        g.drawString(score.substring(score.length() - 7) + "", 566, 370);
+
+        g.setColor(Color.green);
+        g.drawImage(P2Image, 520, 460, null);
+        g.drawString("x", 555, 475);
+        g.drawString(p2Life + "", 565, 476);
+        score = "000000000" + p2Score;
+        g.drawString("P2" + " 得分:" + "", 515, 450);
+        g.drawString(score.substring(score.length() - 7) + "", 566, 450);
+
+
+        //绘制背景
+        g.setColor(Color.blue);
+        g.drawRect(10, 10, 501, 501);
     }
 
     /**

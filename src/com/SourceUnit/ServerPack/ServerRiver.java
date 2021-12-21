@@ -6,6 +6,7 @@ import java.awt.*;
 
 /**
  * 河道类
+ * @author chenhong
  */
 public class ServerRiver implements ServerGameComponent {
     private final Image river;

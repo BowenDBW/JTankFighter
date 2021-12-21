@@ -10,6 +10,7 @@ import java.awt.*;
 
 /**
  * 玩家类
+ * @author chenhong
  */
 public class ServerPlayer implements ServerGameComponent {
     private final int UP = 0;
@@ -31,7 +32,7 @@ public class ServerPlayer implements ServerGameComponent {
     private int coolDownTime;
     private int status;
     private int health;
-    private int xPos, yPos, xVPos, yVPos;
+    private int xPos, yPos, xvpos, yvpos;
     private Rectangle border;
     private final Image standardImage;
     public Image[] textures;
@@ -185,8 +186,8 @@ public class ServerPlayer implements ServerGameComponent {
         }
         standardImage = textures[0];
 
-        xVPos = xPos;
-        yVPos = yPos;
+        xvpos = xPos;
+        yvpos = yPos;
         border = new Rectangle(xPos - size, yPos - size, 25, 25);
 
     }
@@ -214,8 +215,8 @@ public class ServerPlayer implements ServerGameComponent {
         }
 
         //如果玩家点击“开火”键，并且满足条件，则创建一个子弹目标（即发射子弹）
-        int DOWN = 1;
-        int LEFT = 2;
+        int down = 1;
+        int left = 2;
         if (fire && coolDownTime == 0 && numberOfBullet > 0) {
             //子弹方向
             int c = direction;
@@ -224,10 +225,10 @@ public class ServerPlayer implements ServerGameComponent {
             if (direction == UP) {
                 a = xPos;
                 b = yPos - size;
-            } else if (direction == DOWN) {
+            } else if (direction == down) {
                 a = xPos;
                 b = yPos + size;
-            } else if (direction == LEFT) {
+            } else if (direction == left) {
                 a = xPos - size;
                 b = yPos;
             } else {
@@ -271,31 +272,31 @@ public class ServerPlayer implements ServerGameComponent {
 
         //根据玩家坦克的移动定义玩家坦克的下一个边界，假设它的下一个移动是有效的；
         boolean notMoving = false;
-        int RIGHT = 3;
+        int right = 3;
         if (moveUp) {
-            if (direction != UP && direction != DOWN) {
-                xPos = xVPos;
+            if (direction != UP && direction != down) {
+                xPos = xvpos;
             }
             yPos -= speed;
             direction = UP;
         } else if (moveDown) {
-            if (direction != UP && direction != DOWN) {
-                xPos = xVPos;
+            if (direction != UP) {
+                xPos = xvpos;
             }
             yPos += speed;
-            direction = DOWN;
+            direction = UP;
         } else if (moveLeft) {
-            if (direction != LEFT && direction != RIGHT) {
-                yPos = yVPos;
+            if (direction != left && direction != right) {
+                yPos = yvpos;
             }
             xPos -= speed;
-            direction = LEFT;
+            direction = left;
         } else if (moveRight) {
-            if (direction != LEFT && direction != RIGHT) {
-                yPos = yVPos;
+            if (direction != left && direction != right) {
+                yPos = yvpos;
             }
             xPos += speed;
-            direction = RIGHT;
+            direction = right;
         } else {
             notMoving = true;
         }
@@ -315,8 +316,8 @@ public class ServerPlayer implements ServerGameComponent {
 
         //检查下一个边界是否与地图边界相交，如果不移动到任何地方
         if (!border.intersects(map)) {
-            xPos = xVPos;
-            yPos = yVPos;
+            xPos = xvpos;
+            yPos = yvpos;
             border.x = xPos - size;
             border.y = yPos - size;
             writeToOutputLine();
@@ -333,12 +334,15 @@ public class ServerPlayer implements ServerGameComponent {
                             scores += 50;
                             ServerPowerUp temp = (ServerPowerUp) ServerDrawingPanel.serverGameComponents[i];
                             int function = temp.getFunction();
-                            if (function == 0) {  //普通星星，增加速度
+                            if (function == 0) {
+                                //普通星星，增加速度
                                 upgrade();
-                            } else if (function == 1) {  //钢墙保护基地
+                            } else if (function == 1) {
+                                //钢墙保护基地
                                 ServerBase tempe = (ServerBase) ServerDrawingPanel.serverGameComponents[4];
                                 tempe.setSteelWallTime(600);
-                            } else if (function == 2) {   // 杀死所有的敌方坦克
+                            } else if (function == 2) {
+                                // 杀死所有的敌方坦克
                                 for (int j = 0; j < ServerDrawingPanel.serverGameComponents.length; j++) {
                                     if (ServerDrawingPanel.serverGameComponents[j] != null) {
                                         if ("enemy".equals(ServerDrawingPanel.serverGameComponents[j].getType())) {
@@ -350,12 +354,15 @@ public class ServerPlayer implements ServerGameComponent {
                                 }
                                 ServerLevel.setNoOfEnemy(0);
                                 ServerLevel.setDeathCount(20 - ServerLevel.getEnemyLeft());
-                            } else if (function == 3) {   //防护盾，刀枪不入
+                            } else if (function == 3) {
+                                //防护盾，刀枪不入
                                 invulnerableTime = 300 + (int) (Math.random() * 400);
-                            } else if (function == 4) {  //冻结所有敌人
+                            } else if (function == 4) {
+                                //冻结所有敌人
                                 ServerEnemy.setFrozenTime(300 + (int) (Math.random() * 400));
                                 ServerEnemy.setFrozenMoment(ServerModel.getGameFlow());
-                            } else if (function == 5) { //超级星星
+                            } else if (function == 5) {
+                                //超级星星
                                 if (status < 3) {
                                     numberOfBullet++;
                                 }
@@ -366,7 +373,8 @@ public class ServerPlayer implements ServerGameComponent {
                                 } else {
                                     System.arraycopy(ServerModel.textures, 84, textures, 0, 4);
                                 }
-                            } else if (function == 6) {  // 增加生命
+                            } else if (function == 6) {
+                                // 增加生命
                                 life++;
                             }
 
@@ -379,8 +387,8 @@ public class ServerPlayer implements ServerGameComponent {
                                 for (int j = 0; j < ServerDrawingPanel.serverGameComponents[i].getDetailedBorder().length; j++) {
                                     if (ServerDrawingPanel.serverGameComponents[i].getDetailedBorder()[j] != null) {
                                         if (ServerDrawingPanel.serverGameComponents[i].getDetailedBorder()[j].intersects(border)) {
-                                            xPos = xVPos;
-                                            yPos = yVPos;
+                                            xPos = xvpos;
+                                            yPos = yvpos;
                                             border.x = xPos - size;
                                             border.y = yPos - size;
                                             writeToOutputLine();
@@ -390,8 +398,8 @@ public class ServerPlayer implements ServerGameComponent {
                                 }
                             }
                         } else if ("river".equals(ServerDrawingPanel.serverGameComponents[i].getType()) || "base".equals(ServerDrawingPanel.serverGameComponents[i].getType())) {
-                            xPos = xVPos;
-                            yPos = yVPos;
+                            xPos = xvpos;
+                            yPos = yvpos;
                             border.x = xPos - size;
                             border.y = yPos - size;
                             writeToOutputLine();
@@ -422,10 +430,11 @@ public class ServerPlayer implements ServerGameComponent {
         if (b > 18) {
             b = 25;
         }
-        if ((b < 19 && b > 6) || xPos < 17 || xPos > 492) {
+        boolean flag2 = (b < 19 && b > 6) || xPos < 17 || xPos > 492;
+        if (flag2) {
             b = 13;
         }
-        xVPos = a * 25 + b + 10;
+        xvpos = a * 25 + b + 10;
         int c = (yPos - 10) / 25;
         int d = (yPos - 10) % 25;
         if (d < 7) {
@@ -434,10 +443,11 @@ public class ServerPlayer implements ServerGameComponent {
         if (d > 18) {
             d = 25;
         }
-        if ((d < 19 && d > 6) || yPos < 17 || yPos > 492) {
+        boolean flag3 = (d < 19 && d > 6) || yPos < 17 || yPos > 492;
+        if (flag3) {
             d = 13;
         }
-        yVPos = c * 25 + d + 10;
+        yvpos = c * 25 + d + 10;
 
         writeToOutputLine();
     }
@@ -498,18 +508,18 @@ public class ServerPlayer implements ServerGameComponent {
             g.drawImage(standardImage, 520, 380, null);
             g.drawString("x", 555, 395);
             g.drawString(life + "", 565, 396);
-            String SCORE = "000000000" + scores;
+            String score = "000000000" + scores;
             g.drawString(type + " 得分:" + "", 515, 370);
-            g.drawString(SCORE.substring(SCORE.length() - 7) + "", 566, 370);
+            g.drawString(score.substring(score.length() - 7) + "", 566, 370);
         }
         if ("2P".equals(type)) {
             g.setColor(Color.green);
             g.drawImage(standardImage, 520, 460, null);
             g.drawString("x", 555, 475);
             g.drawString(life + "", 565, 476);
-            String SCORE = "000000000" + scores;
+            String score = "000000000" + scores;
             g.drawString(type + " 得分:" + "", 515, 450);
-            g.drawString(SCORE.substring(SCORE.length() - 7) + "", 566, 450);
+            g.drawString(score.substring(score.length() - 7) + "", 566, 450);
         }
 
 
@@ -548,10 +558,10 @@ public class ServerPlayer implements ServerGameComponent {
             life--;
             if (life == 0) {
                 xPos = 100000;
-                yPos = 100000;           //this will make the player never come back to the main screen, thus looks like "dead"
+                yPos = 100000;
                 border = new Rectangle(xPos - size, yPos - size, 25, 25);
-                xVPos = xPos;
-                yVPos = yPos;
+                xvpos = xPos;
+                yvpos = yPos;
             } else {
                 direction = UP;
                 status = 1;
@@ -562,15 +572,15 @@ public class ServerPlayer implements ServerGameComponent {
                     xPos = 198;
                     yPos = 498;
                     border = new Rectangle(xPos - size, yPos - size, 25, 25);
-                    xVPos = xPos;
-                    yVPos = yPos;
+                    xvpos = xPos;
+                    yvpos = yPos;
                     System.arraycopy(ServerModel.textures, 54, textures, 0, 4);
                 } else {
                     xPos = 323;
                     yPos = 498;
                     border = new Rectangle(xPos - size, yPos - size, 25, 25);
-                    xVPos = xPos;
-                    yVPos = yPos;
+                    xvpos = xPos;
+                    yvpos = yPos;
                     System.arraycopy(ServerModel.textures, 72, textures, 0, 4);
                 }
             }
@@ -630,8 +640,8 @@ public class ServerPlayer implements ServerGameComponent {
         }
         yPos = 498;
 
-        xVPos = xPos;
-        yVPos = yPos;
+        xvpos = xPos;
+        yvpos = yPos;
         border = new Rectangle(xPos - size, yPos - size, 25, 25);
     }
 

@@ -2,7 +2,6 @@ package com.UI;
 
 import com.CommunicateUnit.ServerPack.ServerController;
 import com.ProcessUnit.ServerPack.ServerModel;
-import com.UI.ServerDrawingPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * 爆炸效果
+ * @author chenhong
  */
 public class ServerBomb implements ServerGameComponent {
 
