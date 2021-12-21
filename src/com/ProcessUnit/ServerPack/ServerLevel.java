@@ -201,6 +201,11 @@ public class ServerLevel extends Level {
         }
     }
 
+    /**
+     * <p>
+     *
+     * </p>
+     */
     public static void spawnEnemy() {
         if (NoOfEnemy < maxNoEnemy && enemyLeft > 0 && (ServerModel.getGameFlow() % enemySpawnTime == 0)) {
             int xPos = 23 + (20 - enemyLeft) % 3 * 238;
@@ -211,6 +216,15 @@ public class ServerLevel extends Level {
         }
     }
 
+    /**
+     * <p>
+     *     reset all the value when the game restart
+     * </p>
+     *
+     * <p>
+     *     用于重新初始化所有数据当一局游戏重开时
+     * </p>
+     */
     public static void reset() {
         currentLevel = 0;
         enemySpawnTime = 150;
