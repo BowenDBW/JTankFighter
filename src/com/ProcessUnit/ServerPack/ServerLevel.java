@@ -1,19 +1,15 @@
 package com.ProcessUnit.ServerPack;
 
+import com.ProcessUnit.level.Level;
 import com.SourceUnit.ServerPack.*;
 import com.UI.ServerDrawingPanel;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author chenhong
  */
 
-public class ServerLevel {
+public class ServerLevel extends Level {
     private static int currentLevel = 0;
     private static int enemySpawnTime = 150;
     private static int enemyLeft = 20;
@@ -22,7 +18,9 @@ public class ServerLevel {
     private static int NoOfEnemy = 0;
     public static int[] enemySequence;
 
-    //制作获胜场景所需的变量
+    /**
+     *  制作获胜场景所需的变量
+     */
     private static int winningCount;
 
     public static int getCurrentLevel() {
@@ -57,80 +55,13 @@ public class ServerLevel {
         ServerLevel.winningCount = winningCount;
     }
 
-    public static String[] readArray(String choice){
-
-        //声明字符输入流
-        FileReader reader = null;
-        //声明字符输入缓冲流
-        BufferedReader readerBuf = null;
-        //声明二维数组
-        String[] array = null;
-
-        try {
-            //指定读取路径
-            reader = new FileReader(choice);
-            //通过BufferedReader包装字符输入流
-            readerBuf = new BufferedReader(reader);
-            //存放读取的文件的数据
-            List<String> strList = new ArrayList<>();
-            //存放一行的数据
-            String lineStr;
-            //逐行读取文件
-            while((lineStr = readerBuf.readLine()) != null) {
-                //读取的行添加到list中
-                strList.add(lineStr);
-            }
-            //获取文件行
-            int lineNum = strList.size();
-            //获取数组列
-            String s =  strList.get(0);
-
-            int columnNum = s.split(",").length;
-            //根据文件行数创建对应的数组
-            int num= lineNum * columnNum;
-            array = new String[num];
-
-            int j = 0;
-            //循环遍历集合，将集合中的数据放入数组中
-            for (String value : strList) {
-                // 将读取的str按照","分割，用字符串数组来接收
-                String[] strings = value.split(",");
-
-                for (String str : strings) {
-                    array[j] = str;
-                    j++;
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            //关闭字符输入流
-            try {
-                if(reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //关闭字符输入缓冲流
-            try {
-                if(readerBuf != null) {
-                    readerBuf.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return array;
-    }
-
     public static void loadLevel() {
         //增加关卡数量
         currentLevel++;
 
         //每次加载一个新的关卡将增加难度
-        if (enemySpawnTime > 30) {
+        int a1 = 30;
+        if (enemySpawnTime > a1) {
             enemySpawnTime -= 10;
         }
         if (maxNoEnemy < 10 && (currentLevel % 2 == 0)) {
@@ -153,8 +84,8 @@ public class ServerLevel {
         ServerDrawingPanel.serverGameComponents[4] = new ServerBase();
 
         //加载一个关卡
-        int choicelevel = 1 + (currentLevel - 1) % 8;
-        switch (choicelevel) {
+        int choiceLevel = 1 + (currentLevel - 1) % 8;
+        switch (choiceLevel) {
             case 1:{
                 enemySequence = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2};
                 String[] level = readArray("maps\\level1.txt");
@@ -256,7 +187,8 @@ public class ServerLevel {
                 default:break;
             }
             if ("grass".equals(level[i])) {
-                for (int j = 399; j >= 0; j--) {
+                int a = 399;
+                for (int j = a; j >= 0; j--) {
                     if (ServerDrawingPanel.serverGameComponents[j] == null) {
                         ServerDrawingPanel.serverGameComponents[j] = new ServerGrass(23 + (i % 20) * 25, 23 + (i / 20) * 25);
                         break;

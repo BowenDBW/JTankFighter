@@ -29,7 +29,7 @@ public class ClientDrawingPanel extends JPanel {
 
     private int green, red, blue;
     private int p1Life, p2Life, p1Score, p2Score, enemyLeft, levelIndex;
-    private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");;
+    private final Image P1Image = Toolkit.getDefaultToolkit().getImage("image\\" + 55 + ".jpg");
     private final Image P2Image = Toolkit.getDefaultToolkit().getImage("image\\" + 73 + ".jpg");
 
     /**
