@@ -7,7 +7,7 @@ import java.awt.*;
  * 砖墙
  * @author chenhong
  */
-public class ClientBrickClientWall extends ClientWall implements ClientGameComponent {
+public class ClientBrickWall extends ClientWall implements ClientGameComponent {
 
     /**
      * Instantiates a new Client brick client wall.
@@ -16,7 +16,7 @@ public class ClientBrickClientWall extends ClientWall implements ClientGameCompo
      * @param yPos        the y pos
      * @param orientation the orientation
      */
-    public ClientBrickClientWall(int xPos, int yPos, int orientation) {
+    public ClientBrickWall(int xPos, int yPos, int orientation) {
         super(xPos, yPos, orientation, Toolkit.getDefaultToolkit().getImage("image\\71.jpg"));
         shape = new boolean[16];
 

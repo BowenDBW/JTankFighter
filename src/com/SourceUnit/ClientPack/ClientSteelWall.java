@@ -7,7 +7,7 @@ import java.awt.*;
  * 铁墙
  * @author chenhong
  */
-public class ClientSteelClientWall extends ClientWall implements ClientGameComponent {
+public class ClientSteelWall extends ClientWall implements ClientGameComponent {
 
     /**
      * The Shape.
@@ -21,7 +21,7 @@ public class ClientSteelClientWall extends ClientWall implements ClientGameCompo
      * @param yPos        the y pos
      * @param orientation the orientation
      */
-    public ClientSteelClientWall(int xPos, int yPos, int orientation) {
+    public ClientSteelWall(int xPos, int yPos, int orientation) {
         super(xPos, yPos, orientation,Toolkit.getDefaultToolkit().getImage("image\\54.jpg"));
         shape = new boolean[4];
 

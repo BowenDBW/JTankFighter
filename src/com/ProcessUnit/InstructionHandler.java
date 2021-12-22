@@ -34,7 +34,7 @@ public class InstructionHandler {
             }
 
             //指令“w”开头意味着一些事情改变了在墙上的对象
-            if (CommandTable.TURN_UP.equals(perInstruction.substring(0, 1))) {
+            if (CommandTable.BASE_LOCK.equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 boolean[] shape = new boolean[16];
@@ -68,7 +68,7 @@ public class InstructionHandler {
                 for (int k = 0; k < ClientDrawingPanel.drawingList.length; k++) {
                     if (ClientDrawingPanel.drawingList[k] != null) {
                         if (ClientDrawingPanel.drawingList[k].getX() == xPos && ClientDrawingPanel.drawingList[k].getY() == yPos) {
-                            ClientBrickClientWall tempClientBrickWall = new ClientBrickClientWall(xPos, yPos, 4);
+                            ClientBrickWall tempClientBrickWall = new ClientBrickWall(xPos, yPos, 4);
                             tempClientBrickWall.shape = shape;
                             ClientDrawingPanel.drawingList[k] = tempClientBrickWall;
                         }
@@ -77,7 +77,7 @@ public class InstructionHandler {
             }
 
             //指令“s”开头意味着一些事情改变了一个铁墙对象
-            if (CommandTable.BASE_SHIELD.equals(perInstruction.substring(0, 1))) {
+            if (CommandTable.BASE_UNLOCK.equals(perInstruction.substring(0, 1))) {
                 int xPos;
                 int yPos;
                 boolean[] shape = new boolean[4];
@@ -110,7 +110,7 @@ public class InstructionHandler {
                 for (int k = 0; k < ClientDrawingPanel.drawingList.length; k++) {
                     if (ClientDrawingPanel.drawingList[k] != null) {
                         if (ClientDrawingPanel.drawingList[k].getX() == xPos && ClientDrawingPanel.drawingList[k].getY() == yPos) {
-                            ClientSteelClientWall tempWall = new ClientSteelClientWall(xPos, yPos, 4);
+                            ClientSteelWall tempWall = new ClientSteelWall(xPos, yPos, 4);
                             tempWall.shape = shape;
                             ClientDrawingPanel.drawingList[k] = tempWall;
                         }

@@ -1,8 +1,8 @@
 package com.CommunicateUnit.ServerPack;
 
-import com.UI.ServerDrawingPanel;
 import com.ProcessUnit.ServerPack.ServerModel;
 import com.ProcessUnit.ServerPack.ServerStatus;
+import com.UI.ServerDrawingPanel;
 import com.UI.ServerView;
 
 import javax.swing.*;
@@ -142,7 +142,8 @@ public class ServerController {
                                             ServerModel.getP1().setMoveDown(false);
                                             ServerModel.getP1().setMoveRight(true);
                                         }
-                                        if (e.getKeyChar() == 's') {
+                                        char shot = 's';
+                                        if (e.getKeyChar() == shot) {
                                             ServerModel.getP1().setFire(true);
                                         }
 
@@ -157,14 +158,14 @@ public class ServerController {
                                                 view.getMessageField().setText("");
                                             }
                                         }
-
-                                        if (e.getKeyChar() == 'y' && ServerStatus.isGameOver() && !ServerStatus.isServerVoteYes()) {
+                                        char yes = 'y';
+                                        if (e.getKeyChar() == yes && ServerStatus.isGameOver() && !ServerStatus.isServerVoteYes()) {
 
                                             ServerStatus.setServerVoteYes(true);
                                             ServerDrawingPanel.addMessage("等待用户端玩家的回应...");
                                         }
-
-                                        if (e.getKeyChar() == 'n' && ServerStatus.isGameOver()) {
+                                        char no = 'n';
+                                        if (e.getKeyChar() == no && ServerStatus.isGameOver()) {
                                             ServerStatus.setServerVoteNo(true);
                                         }
                                     }
@@ -185,7 +186,8 @@ public class ServerController {
                                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                                             ServerModel.getP1().setMoveRight(false);
                                         }
-                                        if (e.getKeyChar() == 's') {
+                                        char shot = 's';
+                                        if (e.getKeyChar() == shot) {
                                             ServerModel.getP1().setFire(false);
                                         }
                                     }

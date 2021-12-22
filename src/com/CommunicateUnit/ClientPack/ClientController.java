@@ -1,8 +1,9 @@
 package com.CommunicateUnit.ClientPack;
 
-import com.UI.ClientDrawingPanel;
 import com.ProcessUnit.ClientPack.ClientModel;
 import com.ProcessUnit.ClientPack.ClientStatus;
+import com.ProcessUnit.CommandTable;
+import com.UI.ClientDrawingPanel;
 import com.UI.ClientView;
 
 import javax.swing.*;
@@ -51,7 +52,7 @@ public class ClientController {
         //handle connectServer按钮操作  点击连接主机的按钮
         view.getConnectServer().addActionListener(e -> {
                     if (ClientStatus.isServerConnected()) {
-                        ClientCommunication.setServerIP(view.getIpField().getText());
+                        ClientCommunication.setServerIp(view.getIpField().getText());
                         ClientModel.getT().start();
                     }
                 }
@@ -140,7 +141,7 @@ public class ClientController {
                             ClientStatus.setMoveRight(true);
                         }
 
-                        if (e.getKeyChar() == 's') {
+                        if (e.getKeyChar() == CommandTable.BASE_UNLOCK.charAt(0)) {
                             ClientStatus.setFire(true);
                         }
 
@@ -154,13 +155,15 @@ public class ClientController {
                             }
                         }
 
-                        if (e.getKeyChar() == 'y' && ClientStatus.isGameOver()
+                        if (e.getKeyChar() == CommandTable.VOTE_YES.charAt(0)
+                                && ClientStatus.isGameOver()
                                 && !ClientStatus.isClientVoteYes()) {
                             ClientStatus.setClientVoteYes(true);
                             ClientDrawingPanel.addMessage("等待主机端玩家回应...");
                         }
 
-                        if (e.getKeyChar() == 'n' && ClientStatus.isGameOver()) {
+                        if (e.getKeyChar() == CommandTable.VOTE_NO.charAt(0)
+                                && ClientStatus.isGameOver()) {
                             ClientStatus.setClientVoteNo(true);
                         }
                     }
@@ -179,7 +182,7 @@ public class ClientController {
                         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                             ClientStatus.setMoveRight(false);
                         }
-                        if (e.getKeyChar() == 's') {
+                        if (e.getKeyChar() == CommandTable.BASE_UNLOCK.charAt(0)) {
                             ClientStatus.setFire(false);
                         }
                     }

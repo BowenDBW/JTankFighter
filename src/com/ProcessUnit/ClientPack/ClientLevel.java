@@ -2,9 +2,9 @@ package com.ProcessUnit.ClientPack;//服务器端的level类
 //因为只有一层对象,所以在这个类是一个静态变量
 
 import com.ProcessUnit.level.Level;
-import com.SourceUnit.ClientPack.ClientBrickClientWall;
+import com.SourceUnit.ClientPack.ClientBrickWall;
 import com.SourceUnit.ClientPack.ClientNormalObject;
-import com.SourceUnit.ClientPack.ClientSteelClientWall;
+import com.SourceUnit.ClientPack.ClientSteelWall;
 import com.UI.ClientDrawingPanel;
 
 import java.awt.*;
@@ -33,10 +33,10 @@ public class ClientLevel extends Level {
         }
 
         //加载基地
-        ClientDrawingPanel.drawingList[0] = new ClientBrickClientWall(248, 498, 2);
-        ClientDrawingPanel.drawingList[1] = new ClientBrickClientWall(273, 498, 3);
-        ClientDrawingPanel.drawingList[2] = new ClientBrickClientWall(248, 473, 1);
-        ClientDrawingPanel.drawingList[3] = new ClientBrickClientWall(273, 473, 1);
+        ClientDrawingPanel.drawingList[0] = new ClientBrickWall(248, 498, 2);
+        ClientDrawingPanel.drawingList[1] = new ClientBrickWall(273, 498, 3);
+        ClientDrawingPanel.drawingList[2] = new ClientBrickWall(248, 473, 1);
+        ClientDrawingPanel.drawingList[3] = new ClientBrickWall(273, 473, 1);
         ClientDrawingPanel.drawingList[4] = new ClientNormalObject(260, 498, "base", 0);
 
         //加载一个级别
@@ -91,43 +91,43 @@ public class ClientLevel extends Level {
             String type = level[i];
             switch (type){
                 case "wall":{
-                    ClientDrawingPanel.addActor(new ClientBrickClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                    ClientDrawingPanel.addActor(new ClientBrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
                     break;
                 }
                 case "wall0":{
-                    ClientDrawingPanel.addActor(new ClientBrickClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                    ClientDrawingPanel.addActor(new ClientBrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
                     break;
                 }
                 case "wall1":{
-                    ClientDrawingPanel.addActor(new ClientBrickClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                    ClientDrawingPanel.addActor(new ClientBrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
                     break;
                 }
                 case "wall2":{
-                    ClientDrawingPanel.addActor(new ClientBrickClientWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
+                    ClientDrawingPanel.addActor(new ClientBrickWall(23 + (i % 19) * 25, 23 + (i / 20) * 25, 2));
                     break;
                 }
                 case "wall3":{
-                    ClientDrawingPanel.addActor(new ClientBrickClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                    ClientDrawingPanel.addActor(new ClientBrickWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
                     break;
                 }
                 case "steel":{
-                    ClientDrawingPanel.addActor(new ClientSteelClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
+                    ClientDrawingPanel.addActor(new ClientSteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 4));
                     break;
                 }
                 case "steel0":{
-                    ClientDrawingPanel.addActor(new ClientSteelClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
+                    ClientDrawingPanel.addActor(new ClientSteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 0));
                     break;
                 }
                 case "steel1":{
-                    ClientDrawingPanel.addActor(new ClientSteelClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
+                    ClientDrawingPanel.addActor(new ClientSteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 1));
                     break;
                 }
                 case "steel2":{
-                    ClientDrawingPanel.addActor(new ClientSteelClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
+                    ClientDrawingPanel.addActor(new ClientSteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 2));
                     break;
                 }
                 case "steel3":{
-                    ClientDrawingPanel.addActor(new ClientSteelClientWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
+                    ClientDrawingPanel.addActor(new ClientSteelWall(23 + (i % 20) * 25, 23 + (i / 20) * 25, 3));
                     break;
                 }
                 default:break;
